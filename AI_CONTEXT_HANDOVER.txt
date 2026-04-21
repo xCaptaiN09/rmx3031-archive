@@ -1,0 +1,46 @@
+# AI Context Handover: RMX3031 Community Archive (V2)
+
+## Current State of the Project
+The user has successfully migrated their Android custom ROM and file hosting site from a simple HTML/CSS template to a modern, dynamic React/Vite-based application with a "Bento" design. The site serves files for the Realme X7 Max (RMX3031) device family.
+
+### 1. The New Main Website (`new-site-project/`)
+- **Framework:** React 18, Vite, Tailwind CSS, Shadcn UI, GSAP animations.
+- **Data Source:** The entire site is powered dynamically by a single JSON file located at `public/index.json`.
+- **Key Sections:**
+  - **BentoBrowser:** 3x3 grid highlighting "Custom ROMs", "Kernels", and "Recoveries". Cards have 3D tilt effects. Clicking "Browse Files" dispatches an event to auto-scroll and activate the correct tab in the Full Archive section.
+  - **TransmissionFeed (Featured ROMs):** Displays the 8 most recent ROMs using interactive flip cards. Auto-sorts newest-to-oldest based on the `date` field.
+  - **FileBrowserSection (Full Archive):** A comprehensive tabbed interface using Shadcn UI Accordions. It dynamically creates a tab for every key in `public/index.json` (e.g., ROMs, Kernels, OTA, Modules). Auto-sorts all entries newest-to-oldest.
+- **Hosting:** Deployed via Cloudflare Pages.
+
+### 2. The Admin Panel (`public/admin.html`)
+- **Location:** Hosted alongside the React app as a static asset (`new-site-project/public/admin.html`).
+- **Function:** It acts as a headless CMS, interacting directly with the GitHub API to update `public/index.json`. When it commits a change to GitHub, Cloudflare automatically rebuilds the main site.
+- **UI/Theme:** After several attempts to build a matching "Bento" admin panel caused severe browser rendering/tab-switching bugs, the admin panel was fully reverted back to the user's **Original Legacy Codebase (Dark/Orange theme)**.
+- **Current Admin Code Status (V2.8):** 
+  - It is the exact battle-tested HTML/JS from the user's old site.
+  - It works perfectly, with fully functional tabs ("Add Entry", "Manage Tabs", "Browse Entries").
+  - It has been successfully modified to point to the new repository (`rmx3031-archive`) and the new data path (`public/index.json`).
+  - It no longer attempts to modify `index.html` (since tabs are now dynamic in React).
+
+### 3. Repository & Deployment
+- **GitHub Repo:** `https://github.com/xCaptaiN09/rmx3031-archive`
+- **Branch:** `main`
+- **Cloudflare Build Settings:** 
+  - Framework: `Vite` (or None)
+  - Command: `npm run build`
+  - Output: `dist`
+- **Authentication:** The project is configured to use the user's SSH key (`~/.ssh/id_ed25519`) for pushing to GitHub.
+
+---
+
+## Technical Details to Remember
+1. **Sorting:** The React frontend automatically handles sorting dates (newest first). The admin panel just appends/modifies the JSON array.
+2. **Duplicate URLs:** The legacy admin panel successfully detects duplicate Archive.org URLs.
+3. **URL Modes:** The admin panel supports both automatic URL construction (Item ID + Filename) and manual URL pasting.
+4. **Vite Build:** Vite copies `public/admin.html` and `public/index.json` directly into the `dist` folder during the build process, making them accessible at the root URL.
+
+---
+
+## Immediate Next Steps / Known Quirks
+- The user was experiencing heavy browser caching issues where the old, broken "Green/Bento" admin panels were still showing up instead of the reverted "Orange/Legacy" panel. Advise the user to clear cache or use Incognito mode if they report UI bugs.
+- If the user wants to add new features to the admin panel, **do not break the existing tab-switching logic**. The legacy codebase relies on simple `display: none / block` and class toggles, which is proven to work on their environment.
