@@ -145,7 +145,7 @@ export default function TransmissionFeed() {
               lineHeight: 1.15,
             }}
           >
-            Live Transmission Feed
+            Latest Releases
           </h2>
           <p className="mt-3 max-w-md text-base leading-relaxed text-offwhite/50">
             Popular custom ROMs ready for download. Tap any card to view
