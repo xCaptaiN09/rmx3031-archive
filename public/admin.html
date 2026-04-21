@@ -92,14 +92,14 @@
 
   /* URL section */
   .url-section { display: flex; flex-direction: column; gap: 8px; }
-  .url-mode-row { display: flex; gap: 6px; align-items: center; }
+  .url-mode-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
   .url-auto-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .url-preview {
     background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
     padding: 10px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px;
     color: var(--accent); word-break: break-all; min-height: 38px; line-height: 1.5;
   }
-  .mode-btn {
+  .mode-btn { flex: 1; min-width: 120px; text-align: center;
     padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px;
     background: transparent; color: var(--muted); font-family: 'JetBrains Mono', monospace;
     font-size: 10px; cursor: pointer; transition: all 0.2s; white-space: nowrap; letter-spacing: 0.5px;
