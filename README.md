@@ -51,18 +51,5 @@ ia upload item-id filename.zip --metadata="creator:xCaptaiN09"
 
 To run the project locally for testing:
 
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-```
-
----
-
 **Maintained by [xCaptaiN09](https://github.com/xCaptaiN09)**  
 *For the Realme X7 Max Community.*
