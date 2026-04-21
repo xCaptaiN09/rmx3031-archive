@@ -76,7 +76,7 @@ export default function HeroSection() {
             Browse Files
           </a>
           <a
-            href="https://github.com/xCaptaiN09/RMX3031-Community-Files"
+            href="https://github.com/xCaptaiN09/rmx3031-archive"
             target="_blank"
             className="rounded-xl border border-offwhite/30 bg-transparent px-7 py-3 text-sm font-semibold text-offwhite transition-colors duration-200 hover:bg-offwhite/10"
           >
