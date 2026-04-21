@@ -105,3 +105,13 @@
     transform: rotateX(180deg);
   }
 }
+
+@layer components {
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #8fbc8f transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar { height: 4px; width: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #8fbc8f60; border-radius: 999px; }
+}

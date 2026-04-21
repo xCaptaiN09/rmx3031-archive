@@ -13,9 +13,9 @@ const categoryNames: Record<string, string> = {
   roms: 'ROMs',
   kernels: 'Kernels',
   modules: 'Modules',
-  ota: 'X7 MAX OTA',
-  ota_cn: 'GT Neo OTA',
-  ota_cnf: 'GT Neo Flash OTA',
+  ota: 'X7 MAX',
+  ota_cn: 'GT Neo',
+  ota_cnf: 'GT Neo Flash',
   firmware: 'Firmware',
   sptool: 'SP Tool FW',
   recovery: 'Recovery',
@@ -126,9 +126,7 @@ export default function FileBrowserSection() {
                           </div>
 
                           <div className="mt-4 flex w-full items-center gap-2 sm:mt-0 sm:w-auto">
-                            <AccordionTrigger className="flex h-10 w-10 items-center justify-center rounded-xl bg-sage/10 text-sage hover:bg-sage/20 hover:no-underline">
-                              {/* Icon is handled by AccordionTrigger */}
-                            </AccordionTrigger>
+                            <AccordionTrigger className="flex h-10 w-10 items-center justify-center rounded-xl bg-sage/10 text-sage hover:bg-sage/20 hover:no-underline" />
                             <button
                               onClick={() => window.open(file.url, '_blank')}
                               className="flex h-10 flex-1 items-center justify-center gap-2 rounded-xl bg-forest px-6 text-xs font-semibold text-offwhite transition-colors hover:bg-sage hover:text-forest sm:flex-none"
