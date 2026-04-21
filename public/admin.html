@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RMX3031 Admin V2.4 HYPER</title>
+<title>RMX3031 Admin V2.5 BUGFIX</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600;800&family=Archivo+Black&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -23,7 +23,9 @@
   .nav-btn { flex: 1; padding: 15px; border-radius: 14px; border: 1px solid transparent; background: transparent; color: var(--muted); font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 12px; transition: 0.2s; }
   .nav-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
 
-  .panel { display: none; } /* Default hidden */
+  /* FIX: Ensure hidden panels stay hidden */
+  .panel { display: none !important; visibility: hidden; }
+  .panel.active { display: block !important; visibility: visible; }
 
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 30px; padding: 30px; margin-bottom: 20px; }
   .card-title { font-size: 10px; font-family: 'JetBrains Mono'; color: var(--accent); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
@@ -39,7 +41,6 @@
   .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
   .btn-danger { background: rgba(252, 165, 165, 0.1); color: var(--red); border: 1px solid var(--red); }
 
-  /* Sub Tabs for Browse */
   .sub-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
   .sub-tab { flex-shrink: 0; padding: 8px 16px; border-radius: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-size: 11px; cursor: pointer; font-weight: 700; text-transform: uppercase; }
   .sub-tab.active { background: var(--text); color: var(--bg); }
@@ -54,23 +55,22 @@
 
 <div id="toast">Synced!</div>
 
-<!-- Loading -->
 <div id="loader" style="position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:10001; display:none; flex-direction:column; align-items:center; justify-content:center;">
-  <div style="font-family:'Archivo Black'; color:var(--accent); font-size:24px">PUSHING...</div>
+  <div style="font-family:'Archivo Black'; color:var(--accent); font-size:24px">SYNCING DATA...</div>
 </div>
 
 <div class="container">
   <header>
     <h1>RMX3031 <span>Admin</span></h1>
     <div style="text-align:right">
-      <div id="verTag" style="font-family:'JetBrains Mono'; font-size:10px; color:var(--accent)">HYPER STABLE V2.4</div>
-      <button onclick="location.reload()" style="background:transparent; border:none; color:var(--red); font-size:9px; cursor:pointer; text-decoration:underline">Force Reload Page</button>
+      <div id="verTag" style="font-family:'JetBrains Mono'; font-size:10px; color:var(--accent)">BUGFIX V2.5</div>
+      <button onclick="location.reload()" style="background:transparent; border:none; color:var(--red); font-size:9px; cursor:pointer; text-decoration:underline">Force Reload</button>
     </div>
   </header>
 
   <!-- Connection -->
   <div class="card" id="card-config">
-    <div class="card-title">Database Connection</div>
+    <div class="card-title">Cloud Connection</div>
     <div style="display:grid; grid-template-columns: 1fr 1fr auto; gap:10px">
       <input type="password" id="ghToken" placeholder="GitHub Token" />
       <input type="text" id="ghRepo" placeholder="Repo Name" />
@@ -86,7 +86,7 @@
   </div>
 
   <!-- Add Panel -->
-  <div id="panel-add" class="panel" style="display:block"> <!-- Visible by default -->
+  <div id="panel-add" class="panel active">
     <div class="card">
       <div class="card-title" id="form-header">Add New Entry</div>
       <div class="form-grid">
@@ -96,12 +96,11 @@
         <div class="form-group"><label>File Size</label><input type="text" id="f-size" oninput="updatePreview()" /></div>
         <div class="form-group"><label>Date</label><input type="date" id="f-date" oninput="updatePreview()" /></div>
         <div class="form-group full" id="f-android-box"><label>Android</label><input type="text" id="f-android" oninput="updatePreview()" /></div>
-        <div class="form-group full"><label>Archive.org URL</label><input type="text" id="f-url" oninput="updatePreview()" /></div>
+        <div class="form-group full"><label>URL (Archive.org Link)</label><input type="text" id="f-url" oninput="updatePreview()" /></div>
         <div class="form-group full"><label>Changelog</label><textarea id="f-changelog" oninput="updatePreview()" style="height:100px"></textarea></div>
       </div>
       <button class="btn btn-primary" style="width:100%; margin-top:20px" id="btn-publish" onclick="submitToGitHub()">Publish Changes</button>
       <button class="btn btn-secondary" style="width:100%; margin-top:10px; display:none" id="btn-cancel" onclick="resetForm()">Cancel Edit</button>
-      <pre id="json-pre" style="margin-top:20px; font-size:10px; color:#555; background:#000; padding:15px; border-radius:10px; overflow:auto">{}</pre>
     </div>
   </div>
 
@@ -110,31 +109,28 @@
     <div class="card">
       <div class="card-title">Browse Archive</div>
       <div class="sub-tabs" id="sub-tabs-list"></div>
-      <div id="entry-list-container">Connect to see files.</div>
+      <div id="entry-list-container">Connect to GitHub to see files.</div>
     </div>
   </div>
 
   <!-- Tab Manager Panel -->
   <div id="panel-tabs" class="panel">
     <div class="card">
-      <div class="card-title">Manage Categories</div>
-      <div id="tabs-manager-container">Connect to see categories.</div>
+      <div class="card-title">Category Management</div>
+      <div id="tabs-manager-container">Connect to GitHub to see categories.</div>
       <div style="margin-top:20px; display:flex; gap:10px">
-        <input type="text" id="new-tab-name" placeholder="New category..." style="flex:1" />
+        <input type="text" id="new-tab-name" placeholder="Category Name" style="flex:1" />
         <button class="btn btn-primary" onclick="createCategory()">Create</button>
       </div>
     </div>
   </div>
-
 </div>
 
-<!-- Delete Modal -->
 <div class="modal-overlay" id="del-modal">
   <div class="modal">
-    <h2 style="color:var(--red)">CONFIRM DELETION</h2>
+    <h2 style="color:var(--red)">CONFIRM DELETE</h2>
     <p id="del-msg" style="margin:20px 0; font-size:14px"></p>
-    <p style="font-size:10px; color:var(--red); margin-bottom:5px">Type DELETE to confirm:</p>
-    <input type="text" id="del-confirm-input" style="text-align:center" oninput="checkDelKey()" />
+    <input type="text" id="del-confirm-input" placeholder="Type DELETE" style="text-align:center" oninput="checkDelKey()" />
     <div style="display:flex; gap:10px; margin-top:30px">
       <button class="btn btn-secondary" style="flex:1" onclick="closeDelModal()">Cancel</button>
       <button class="btn btn-danger" id="del-final-btn" style="flex:1" disabled onclick="confirmDeletion()">Delete</button>
@@ -143,53 +139,38 @@
 </div>
 
 <script>
-  // --- NAVIGATION (TOP PRIORITY) ---
+  let db = null, sha = null, editing = null, activeCat = null, delTask = null;
+
   function jumpTo(target) {
-    console.log("Jumping to panel:", target);
-    
-    // 1. Array of all panel names
-    const names = ['add', 'browse', 'tabs'];
-    
-    // 2. Loop and force styles
-    names.forEach(name => {
+    const panels = ['add', 'browse', 'tabs'];
+    panels.forEach(name => {
       const p = document.getElementById('panel-' + name);
       const b = document.getElementById('btn-' + name);
-      
       if(name === target) {
-        p.style.display = 'block';
+        p.classList.add('active');
         b.classList.add('active');
       } else {
-        p.style.display = 'none';
+        p.classList.remove('active');
         b.classList.remove('active');
       }
     });
-
     if(target === 'browse') refreshEntryList();
     if(target === 'tabs') refreshTabManager();
   }
-
-  // --- DATA ---
-  let db = null, sha = null, editing = null, activeCat = null, delTask = null;
 
   async function initConnection() {
     const t = document.getElementById('ghToken').value.trim();
     const r = document.getElementById('ghRepo').value.trim().replace('https://github.com/','').replace('github.com/','').split('/').filter(p=>p).pop();
     if(!t || !r) return alert('Token/Repo required');
-
     try {
       const res = await fetch(`https://api.github.com/repos/xCaptaiN09/${r}/contents/public/index.json`, { headers: {'Authorization': `token ${t}`} });
-      if(!res.ok) throw new Error('Could not find public/index.json');
-      const file = await res.json();
-      sha = file.sha;
+      if(!res.ok) throw new Error('Repo not found');
+      const file = await res.json(); sha = file.sha;
       const bytes = new Uint8Array(atob(file.content.replace(/\n/g, '')).split('').map(c => c.charCodeAt(0)));
       db = JSON.parse(new TextDecoder().decode(bytes));
-      
       localStorage.setItem('v2_token', t); localStorage.setItem('v2_repo', r);
       document.getElementById('card-config').style.display = 'none';
-      document.getElementById('statusText').innerText = 'CONNECTED: ' + r.toUpperCase();
-      
-      initFields();
-      showToast('DATA LOADED');
+      initFields(); showToast('CONNECTED');
     } catch(e) { alert(e.message); }
   }
 
@@ -197,7 +178,6 @@
     if(!db) return;
     const cats = Object.keys(db).filter(k => Array.isArray(db[k]));
     document.getElementById('f-cat').innerHTML = cats.map(c => `<option value="${c}">${c.toUpperCase()}</option>`).join('');
-    
     if(!activeCat) activeCat = cats[0];
     updatePreview();
   }
@@ -206,24 +186,18 @@
     if(!db) return;
     const cat = document.getElementById('f-cat').value;
     document.getElementById('f-android-box').style.display = (cat==='roms'?'block':'none');
-    
+  }
+
+  async function submitToGitHub() {
+    const cat = document.getElementById('f-cat').value;
     const entry = {
       name: document.getElementById('f-name').value, version: document.getElementById('f-ver').value,
       size: document.getElementById('f-size').value, date: document.getElementById('f-date').value || new Date().toISOString().split('T')[0],
       url: document.getElementById('f-url').value, changelog: document.getElementById('f-changelog').value
     };
     if(cat === 'roms') entry.android = document.getElementById('f-android').value || "16";
-    document.getElementById('json-pre').innerText = JSON.stringify(entry, null, 2);
-  }
-
-  async function submitToGitHub() {
-    const cat = document.getElementById('f-cat').value;
-    const entry = JSON.parse(document.getElementById('json-pre').innerText);
-    if(!entry.name || !entry.url) return alert('Name and URL required');
-
-    if(editing) db[editing.tab][editing.idx] = entry;
-    else db[cat].unshift(entry);
-
+    if(!entry.name || !entry.url) return alert('Missing info');
+    if(editing) db[editing.tab][editing.idx] = entry; else db[cat].unshift(entry);
     await sync(`Update: ${entry.name}`);
     resetForm(); initFields();
   }
@@ -237,32 +211,23 @@
         method: 'PUT', headers: {'Authorization': `token ${t}`, 'Content-Type': 'application/json'},
         body: JSON.stringify({ message: msg, content: btoa(String.fromCharCode(...bytes)), sha: sha })
       });
-      const resData = await res.json(); sha = resData.content.sha;
-      showToast('GITHUB SYNCED');
-    } catch(e) { alert(e.message); }
-    finally { document.getElementById('loader').style.display = 'none'; }
+      if(!res.ok) throw new Error('Commit failed');
+      const resData = await res.json(); sha = resData.content.sha; showToast('SYNCED');
+    } catch(e) { alert(e.message); } finally { document.getElementById('loader').style.display = 'none'; }
   }
 
-  // --- Panels Rendering ---
   function refreshEntryList() {
     const list = document.getElementById('entry-list-container');
     if(!db) return;
     const cats = Object.keys(db).filter(k => Array.isArray(db[k]));
-    
-    document.getElementById('sub-tabs-list').innerHTML = cats.map(c => 
-      `<button class="sub-tab ${c===activeCat?'active':''}" onclick="setCat('${c}')">${c}</button>`
-    ).join('');
-
-    const items = db[activeCat];
-    if(!items || items.length === 0) return list.innerHTML = 'No files found.';
-
+    document.getElementById('sub-tabs-list').innerHTML = cats.map(c => `<button class="sub-tab ${c===activeCat?'active':''}" onclick="setCat('${c}')">${c}</button>`).join('');
+    const items = db[activeCat] || [];
+    if(items.length === 0) return list.innerHTML = 'No files.';
     list.innerHTML = items.map((e, i) => `
       <div class="entry-item">
         <div><b>${e.name}</b><div style="font-size:10px; color:var(--muted)">${e.date} • ${e.version}</div></div>
-        <div style="display:flex; gap:10px">
-          <button class="btn btn-secondary" style="padding:8px 12px; font-size:10px" onclick="beginEdit('${activeCat}', ${i})">Edit</button>
-          <button class="btn btn-danger" style="padding:8px 12px; font-size:10px" onclick="openDelModal('entry', '${activeCat}', ${i})">Delete</button>
-        </div>
+        <div style="display:flex; gap:10px"><button class="btn btn-secondary" style="padding:6px 12px; font-size:10px" onclick="beginEdit('${activeCat}', ${i})">Edit</button>
+        <button class="btn btn-danger" style="padding:6px 12px; font-size:10px" onclick="openDelModal('entry', '${activeCat}', ${i})">Delete</button></div>
       </div>`).join('');
   }
 
@@ -287,7 +252,7 @@
     document.getElementById('f-url').value = e.url;
     document.getElementById('form-header').innerText = 'EDITING: ' + e.name;
     document.getElementById('btn-cancel').style.display = 'block';
-    document.getElementById('btn-publish').innerText = 'Save Changes';
+    document.getElementById('btn-publish').innerText = 'Save';
     jumpTo('add');
   }
 
@@ -297,23 +262,18 @@
     document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
     document.getElementById('form-header').innerText = 'ADD NEW ENTRY';
     document.getElementById('btn-cancel').style.display = 'none';
-    document.getElementById('btn-publish').innerText = 'Publish Changes';
-    updatePreview();
+    document.getElementById('btn-publish').innerText = 'Publish';
   }
 
   async function createCategory() {
     const n = document.getElementById('new-tab-name').value.trim().toLowerCase().replace(/ /g, '_');
-    if(!n || db[n]) return alert('Invalid Key');
-    db[n] = [];
-    await sync('Created tab: ' + n);
-    document.getElementById('new-tab-name').value = ''; initFields(); refreshTabManager();
+    if(!n || db[n]) return alert('Invalid');
+    db[n] = []; await sync('New Tab'); document.getElementById('new-tab-name').value = ''; initFields(); refreshTabManager();
   }
 
-  // --- Deletion ---
   function openDelModal(type, tab, idx) {
     delTask = {type, tab, idx};
-    const name = (type==='tab') ? tab.toUpperCase() : db[tab][idx].name;
-    document.getElementById('del-msg').innerText = `Deleting ${type}: "${name}". THIS IS PERMANENT.`;
+    document.getElementById('del-msg').innerText = `Delete ${type}: ${type==='tab' ? tab : db[tab][idx].name}?`;
     document.getElementById('del-confirm-input').value = ''; document.getElementById('del-final-btn').disabled = true;
     document.getElementById('del-modal').style.display = 'flex';
   }
@@ -321,20 +281,16 @@
   function checkDelKey() { document.getElementById('del-final-btn').disabled = (document.getElementById('del-confirm-input').value !== 'DELETE'); }
   async function confirmDeletion() {
     if(delTask.type==='tab') delete db[delTask.tab]; else db[delTask.tab].splice(delTask.idx, 1);
-    await sync('Synced Deletion'); closeDelModal(); initFields(); jumpTo(delTask.type==='tab' ? 'tabs' : 'browse');
+    await sync('Deleted'); closeDelModal(); initFields(); jumpTo(delTask.type==='tab' ? 'tabs' : 'browse');
   }
 
-  function showToast(m) {
-    const t = document.getElementById('toast'); t.innerText = m; t.classList.add('show');
-    setTimeout(()=>t.classList.remove('show'), 3000);
-  }
+  function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 3000); }
 
-  // Init
-  const stT = localStorage.getItem('v2_token'), stR = localStorage.getItem('v2_repo');
-  if(stT) document.getElementById('ghToken').value = stT;
-  if(stR) document.getElementById('ghRepo').value = stR;
-  if(stT && stR) initConnection();
-
+  window.onload = () => {
+    const sT = localStorage.getItem('v2_token'), sR = localStorage.getItem('v2_repo');
+    if(sT) document.getElementById('ghToken').value = sT; if(sR) document.getElementById('ghRepo').value = sR;
+    if(sT && sR) initConnection();
+  };
 </script>
 </body>
 </html>
