@@ -1,47 +1,57 @@
-import { Download, RefreshCw } from 'lucide-react'
-import { useRef, useCallback } from 'react'
-import gsap from 'gsap'
-import { useData } from '../hooks/use-data'
+import { Download, RefreshCw } from "lucide-react";
+import { useRef, useCallback } from "react";
+import gsap from "gsap";
+import { useData } from "../hooks/use-data";
 
 interface RomFile {
-  name: string
-  version: string
-  android: string
-  size: string
-  url: string
-  date: string
-  changelog: string
-  color: string
+  name: string;
+  version: string;
+  android: string;
+  size: string;
+  url: string;
+  date: string;
+  changelog: string;
+  color: string;
 }
 
-const colors = ['#8fbc8f', '#c8b89a', '#7dd3fc', '#fca5a5', '#d8b4fe', '#fbbf24'];
+const colors = [
+  "#8fbc8f",
+  "#c8b89a",
+  "#7dd3fc",
+  "#fca5a5",
+  "#d8b4fe",
+  "#fbbf24",
+];
 
 function RomCard({ rom }: { rom: RomFile }) {
-  const innerRef = useRef<HTMLDivElement>(null)
+  const innerRef = useRef<HTMLDivElement>(null);
 
   const toggleCard = useCallback(() => {
-    if (!innerRef.current) return
-    const isFlipped = innerRef.current.dataset.flipped === 'true'
+    if (!innerRef.current) return;
+    const isFlipped = innerRef.current.dataset.flipped === "true";
 
     if (isFlipped) {
       gsap.to(innerRef.current, {
         rotationX: 0,
         duration: 1,
-        ease: 'elastic.out(1, 0.5)',
-      })
-      innerRef.current.dataset.flipped = 'false'
+        ease: "elastic.out(1, 0.5)",
+      });
+      innerRef.current.dataset.flipped = "false";
     } else {
       gsap.to(innerRef.current, {
         rotationX: 180,
         duration: 1,
-        ease: 'elastic.out(1, 0.5)',
-      })
-      innerRef.current.dataset.flipped = 'true'
+        ease: "elastic.out(1, 0.5)",
+      });
+      innerRef.current.dataset.flipped = "true";
     }
-  }, [])
+  }, []);
 
   return (
-    <div className="flip-card-wrapper h-72 sm:h-80 cursor-pointer" onClick={toggleCard}>
+    <div
+      className="flip-card-wrapper h-72 sm:h-80 cursor-pointer"
+      onClick={toggleCard}
+    >
       <div
         ref={innerRef}
         className="flip-card-inner relative h-full w-full"
@@ -51,25 +61,52 @@ function RomCard({ rom }: { rom: RomFile }) {
         <div className="flip-card-front absolute inset-0 flex flex-col justify-between rounded-3xl border border-sage/20 bg-offwhite p-6 shadow-sm">
           <div>
             <div
-              className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl"
-              style={{ backgroundColor: rom.color + '20' }}
+              className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl overflow-hidden"
+              style={{ backgroundColor: rom.color + "20" }}
             >
-              <span
-                className="text-lg font-bold"
-                style={{ color: rom.color }}
-              >
-                {rom.name.charAt(0)}
-              </span>
+              {(() => {
+                const name = rom.name.toLowerCase();
+                const logo = name.includes("axion")
+                  ? "/images/axion.png"
+                  : name.includes("lineage")
+                    ? "/images/lineage.png"
+                    : name.includes("lunaris")
+                      ? "/images/lunaris.png"
+                      : name.includes("rising")
+                        ? "/images/rising.png"
+                        : name.includes("evolution")
+                          ? "/images/evolution.png"
+                          : null;
+                return logo ? (
+                  <img
+                    src={logo}
+                    alt={rom.name}
+                    className="h-10 w-10 object-contain"
+                  />
+                ) : (
+                  <span
+                    className="text-lg font-bold"
+                    style={{ color: rom.color }}
+                  >
+                    {rom.name.charAt(0)}
+                  </span>
+                );
+              })()}
             </div>
-            <h3 className="text-xl font-semibold text-forest line-clamp-2">{rom.name}</h3>
+            <h3 className="text-xl font-semibold text-forest line-clamp-2">
+              {rom.name}
+            </h3>
             <p className="mt-1 font-mono text-xs text-forest/50">
-              {rom.version ? `v${rom.version}` : ''} {rom.android ? `— Android ${rom.android}` : ''}
+              {rom.version ? `v${rom.version}` : ""}{" "}
+              {rom.android ? `— Android ${rom.android}` : ""}
             </p>
           </div>
 
           <div className="space-y-3">
             <div className="flex items-center justify-between border-t border-sage/10 pt-3">
-              <span className="font-mono text-xs text-forest/40">{rom.date}</span>
+              <span className="font-mono text-xs text-forest/40">
+                {rom.date}
+              </span>
               <span className="font-mono text-sm font-medium text-forest">
                 {rom.size}
               </span>
@@ -84,7 +121,9 @@ function RomCard({ rom }: { rom: RomFile }) {
         {/* Back */}
         <div className="flip-card-back absolute inset-0 flex flex-col rounded-3xl border border-sage/20 bg-forest p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-offwhite truncate">{rom.name}</h3>
+            <h3 className="text-lg font-semibold text-offwhite truncate">
+              {rom.name}
+            </h3>
             <RefreshCw className="h-4 w-4 text-sage" />
           </div>
 
@@ -101,8 +140,8 @@ function RomCard({ rom }: { rom: RomFile }) {
             <button
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-sage py-2.5 text-sm font-semibold text-forest transition-colors duration-200 hover:bg-offwhite"
               onClick={(e) => {
-                e.stopPropagation()
-                window.open(rom.url, '_blank')
+                e.stopPropagation();
+                window.open(rom.url, "_blank");
               }}
             >
               <Download className="h-4 w-4" />
@@ -112,7 +151,7 @@ function RomCard({ rom }: { rom: RomFile }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default function TransmissionFeed() {
@@ -122,7 +161,10 @@ export default function TransmissionFeed() {
 
   const roms: RomFile[] = (data.roms || [])
     .slice()
-    .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .sort(
+      (a: any, b: any) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime(),
+    )
     .slice(0, 8)
     .map((rom: any, i: number) => ({
       ...rom,
@@ -139,9 +181,9 @@ export default function TransmissionFeed() {
           <h2
             className="mt-3 text-offwhite"
             style={{
-              fontSize: 'clamp(2rem, 4vw, 3rem)',
+              fontSize: "clamp(2rem, 4vw, 3rem)",
               fontWeight: 700,
-              letterSpacing: '-0.01em',
+              letterSpacing: "-0.01em",
               lineHeight: 1.15,
             }}
           >
@@ -160,5 +202,5 @@ export default function TransmissionFeed() {
         </div>
       </div>
     </section>
-  )
+  );
 }
