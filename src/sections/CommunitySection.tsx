@@ -111,11 +111,9 @@ export default function CommunitySection() {
               How to Contribute
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-forest/60">
-              Contributing is simple. Upload your files to the Internet Archive,
-              then submit the link to be added to this archive. All submissions
-              are reviewed before being published.
-            </p>
+              Contributing is simple. Upload your files to the Internet Archive, then share the link with us.
 
+            </p>
             <div className="mt-8 space-y-4">
               {features.map((feat) => (
                 <div
