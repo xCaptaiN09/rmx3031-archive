@@ -68,7 +68,7 @@ export default function FileBrowserSection() {
           <div className="relative mb-8">
             <button
               id="tabArrowLeft"
-              onClick={() => { const el = document.getElementById("tabScrollContainer"); if(el) { el.scrollLeft -= 150; updateArrows(); } }}
+              onClick={() => { const el = document.getElementById("tabScrollContainer"); if(el) { el.scrollBy({ left: -200, behavior: "smooth" }); updateArrows(); } }}
               className="absolute left-0 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg border border-sage/20 bg-offwhite text-forest/50 shadow-sm transition-all hover:border-sage hover:text-forest hidden"
             >←</button>
             <div id="tabScrollContainer" className="overflow-x-auto custom-scrollbar pb-2 px-1" onScroll={() => updateArrows()}>
@@ -86,7 +86,7 @@ export default function FileBrowserSection() {
             </div>
             <button
               id="tabArrowRight"
-              onClick={() => { const el = document.getElementById("tabScrollContainer"); if(el) { el.scrollLeft += 150; updateArrows(); } }}
+              onClick={() => { const el = document.getElementById("tabScrollContainer"); if(el) { el.scrollBy({ left: 200, behavior: "smooth" }); updateArrows(); } }}
               className="absolute right-0 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg border border-sage/20 bg-offwhite text-forest/50 shadow-sm transition-all hover:border-sage hover:text-forest hidden"
             >→</button>
           </div>
