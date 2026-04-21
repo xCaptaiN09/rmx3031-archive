@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RMX3031 BENTO Admin ULTIMATE</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600;800&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1a2e26; --surface: #243d34; --surface2: #2d4a3e;
+    --border: rgba(143, 188, 143, 0.2); --accent: #8fbc8f;
+    --text: #f5f5f0; --muted: rgba(245, 245, 240, 0.5);
+    --red: #fca5a5; --blue: #7dd3fc; --green: #bbf7d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; min-height: 100vh; padding: 40px 20px 100px; overflow-x: hidden; }
+  
+  .container { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+  
+  header { margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; font-family: 'JetBrains Mono'; font-size: 10px; color: var(--accent); margin-bottom: 8px; letter-spacing: 1px; }
+  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  
+  h1 { font-family: 'Archivo Black'; font-size: 32px; text-transform: uppercase; letter-spacing: -1px; line-height: 1; }
+  h1 span { color: var(--accent); }
+
+  /* Config */
+  .config-bar { background: var(--surface); border: 1px solid var(--border); padding: 15px 25px; border-radius: 24px; margin-bottom: 30px; display: flex; align-items: center; gap: 15px; }
+  .config-bar input { flex: 1; background: var(--surface2); border: 1px solid var(--border); padding: 10px 15px; border-radius: 12px; color: #fff; font-size: 13px; }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #555; transition: all 0.3s; }
+  .status-dot.active { background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+
+  /* Nav */
+  .nav-tabs { display: flex; gap: 10px; margin-bottom: 24px; }
+  .nav-tab { background: var(--surface); border: 1px solid var(--border); color: var(--muted); font-weight: 800; cursor: pointer; padding: 12px 24px; border-radius: 16px; transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .nav-tab.active { background: var(--accent); color: var(--bg); border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+  .nav-tab:hover:not(.active) { transform: scale(1.05); color: #fff; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 28px; padding: 32px; margin-bottom: 24px; position: relative; }
+  .card-title { font-size: 12px; font-family: 'JetBrains Mono'; color: var(--accent); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* Form */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .full { grid-column: 1 / -1; }
+  label { font-size: 11px; font-family: 'JetBrains Mono'; color: var(--muted); text-transform: uppercase; padding-left: 4px; }
+  input, select, textarea { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 14px; color: var(--text); outline: none; font-family: 'Outfit'; font-size: 14px; transition: border-color 0.2s; }
+  input:focus, textarea:focus { border-color: var(--accent); }
+  
+  /* URL Mode */
+  .url-modes { display: flex; gap: 6px; margin-bottom: 12px; }
+  .mode-btn { padding: 6px 14px; border-radius: 10px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: 10px; cursor: pointer; font-family: 'JetBrains Mono'; font-weight: 700; }
+  .mode-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .url-preview { padding: 14px; background: rgba(0,0,0,0.25); border-radius: 12px; font-family: 'JetBrains Mono'; font-size: 11px; color: var(--accent); word-break: break-all; margin-top: 10px; border: 1px dashed var(--border); }
+
+  .json-box { background: #000; padding: 20px; border-radius: 16px; font-family: 'JetBrains Mono'; font-size: 11px; color: #8fbc8f; white-space: pre-wrap; overflow-x: auto; margin-top: 25px; border: 1px solid var(--border); }
+  
+  .btn { padding: 14px 32px; border-radius: 16px; border: none; font-weight: 800; cursor: pointer; transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); font-family: 'Outfit'; display: inline-flex; align-items: center; gap: 10px; }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+  .btn:active { transform: scale(0.94); }
+  .btn-primary { background: var(--accent); color: var(--bg); }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-danger { background: rgba(252, 165, 165, 0.1); color: var(--red); border: 1px solid var(--red); }
+  
+  /* Entries */
+  .entry-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; background: var(--surface2); border-radius: 20px; margin-bottom: 12px; border: 1px solid transparent; transition: all 0.2s; }
+  .entry-item:hover { border-color: var(--accent); transform: scale(1.01); }
+  .entry-name { font-weight: 800; font-size: 15px; }
+  .entry-meta { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono'; margin-top: 4px; }
+  
+  /* Modals */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; padding: 20px; }
+  .modal-overlay.active { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 32px; padding: 40px; max-width: 450px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); text-align: center; }
+
+  #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 18px 40px; background: var(--accent); color: var(--bg); border-radius: 50px; font-weight: 900; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5000; box-shadow: 0 15px 40px rgba(0,0,0,0.4); text-transform: uppercase; letter-spacing: 1px; }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  .dup-warn { background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 10px; border-radius: 10px; font-size: 11px; margin-top: 8px; font-family: 'JetBrains Mono'; display: none; border: 1px solid rgba(251, 191, 36, 0.2); }
+  .loading-overlay { position: fixed; inset: 0; background: rgba(26, 46, 38, 0.9); display: none; justify-content: center; align-items: center; z-index: 6000; backdrop-filter: blur(10px); }
+  .spinner { width: 40px; height: 40px; border: 4px solid var(--surface2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 20px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loader">
+  <div style="text-align:center">
+    <div class="spinner"></div>
+    <div style="color:var(--accent); font-family:'Archivo Black'; font-size: 14px; letter-spacing: 2px;">SYNCING WITH GITHUB</div>
+  </div>
+</div>
+
+<div class="container">
+  <header>
+    <div>
+      <div class="badge">BENTO ARCHIVE PRO</div>
+      <h1>System <span>Manager</span></h1>
+    </div>
+    <div style="text-align: right">
+      <div id="repoNameDisplay" style="font-family:'JetBrains Mono'; font-size: 10px; color: var(--muted); margin-bottom: 4px;">DISCONNECTED</div>
+      <div style="display:flex; justify-content: flex-end"><div class="status-dot" id="syncStatus"></div></div>
+    </div>
+  </header>
+
+  <!-- Config -->
+  <div class="card" style="padding: 20px 25px; margin-bottom: 30px;">
+    <div class="form-grid" style="grid-template-columns: 1fr 1fr auto; align-items: center;">
+      <input type="password" id="ghToken" placeholder="GitHub Token" style="margin:0" />
+      <input type="text" id="ghRepo" placeholder="Repo Name" style="margin:0" />
+      <button class="btn btn-primary" style="padding: 10px 25px; border-radius: 12px;" onclick="saveConfig()">Verify & Save</button>
+    </div>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchPanel('add', this)">Add Entry</button>
+    <button class="nav-tab" onclick="switchPanel('browse', this)">Browse & Edit</button>
+    <button class="nav-tab" onclick="switchPanel('tabs', this)">Manage Tabs</button>
+  </div>
+
+  <!-- Panel: Add/Edit -->
+  <div id="panel-add" class="panel active">
+    <div class="card">
+      <div class="card-title" id="formTitle">New Entry Details</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="tabSelect" onchange="onTabSelectChange()"></select>
+        </div>
+        <div class="form-group">
+          <label>Display Name</label>
+          <input type="text" id="name" placeholder="e.g. EvolutionX 16.0" oninput="updatePreview()" />
+        </div>
+        <div class="form-group">
+          <label>Version</label>
+          <input type="text" id="version" placeholder="e.g. 1.0" oninput="updatePreview()" />
+        </div>
+        <div class="form-group">
+          <label>File Size</label>
+          <input type="text" id="size" placeholder="e.g. 2.4GB" oninput="updatePreview()" />
+        </div>
+        <div class="form-group">
+           <label>Release Date</label>
+           <input type="date" id="date" oninput="updatePreview()" />
+        </div>
+        <div class="form-group" id="androidGroup" style="display:none">
+          <label>Android Version</label>
+          <input type="text" id="android" placeholder="16" oninput="updatePreview()" />
+        </div>
+
+        <!-- URL Section -->
+        <div class="form-group full">
+          <label>Download Location</label>
+          <div class="url-modes">
+            <button class="mode-btn active" id="btn-auto" onclick="setUrlMode('auto')">AUTO (ITEM ID)</button>
+            <button class="mode-btn" id="btn-manual" onclick="setUrlMode('manual')">MANUAL (PASTE)</button>
+          </div>
+          
+          <div id="url-auto-fields" style="display: flex; gap: 10px;">
+            <input type="text" id="itemId" placeholder="Archive Item ID" oninput="buildAutoUrl()" />
+            <input type="text" id="filename" placeholder="filename.zip" oninput="buildAutoUrl()" />
+          </div>
+          <input type="text" id="manualUrl" placeholder="https://archive.org/download/..." style="display:none" oninput="onManualUrlInput()" />
+          <div class="url-preview" id="urlPreview">Constructing URL...</div>
+          <div class="dup-warn" id="dupWarn">⚠️ Duplicate URL detected in database!</div>
+        </div>
+
+        <div class="form-group full">
+          <label>Changelog / Description</label>
+          <textarea id="changelog" placeholder="Enter build notes..." oninput="updatePreview()"></textarea>
+        </div>
+      </div>
+      
+      <div class="json-box" id="jsonPreview">{}</div>
+
+      <div style="margin-top: 30px; display: flex; gap: 12px;">
+        <button class="btn btn-primary" id="saveBtn" onclick="submitEntry()">Publish to GitHub</button>
+        <button class="btn btn-secondary" id="cancelEditBtn" style="display:none" onclick="resetForm()">Cancel Edit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel: Browse -->
+  <div id="panel-browse" class="panel">
+    <div class="card">
+      <div class="card-title">Database Browser</div>
+      <select id="browseTabSelect" onchange="loadEntriesList()" style="margin-bottom: 24px;"></select>
+      <div id="entryList"></div>
+    </div>
+  </div>
+
+  <!-- Panel: Tabs -->
+  <div id="panel-tabs" class="panel">
+    <div class="card">
+      <div class="card-title">Category Management</div>
+      <div id="tabManagerList"></div>
+      <div style="margin-top: 30px; display: flex; gap: 12px;">
+        <input type="text" id="newTabName" placeholder="New Category (e.g. Wallpapers)" style="margin:0" />
+        <button class="btn btn-primary" onclick="createTab()">Add Category</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <h2 style="color:var(--red); font-family:'Archivo Black'; margin-bottom:10px">DANGER ZONE</h2>
+    <p id="deleteModalDesc" style="color:var(--muted); font-size:14px; margin-bottom:20px"></p>
+    <div style="background:rgba(252,165,165,0.1); padding:15px; border-radius:16px; margin-bottom:20px">
+       <p style="font-size:11px; color:var(--red); font-family:'JetBrains Mono'">Type <span style="font-weight:900">DELETE</span> to confirm:</p>
+       <input type="text" id="deleteConfirmInput" placeholder="DELETE" style="margin:10px 0 0; text-align:center; border-color:var(--red)" oninput="checkDeleteMatch()"/>
+    </div>
+    <div style="display:flex; gap:10px">
+       <button class="btn btn-secondary" style="flex:1" onclick="closeDeleteModal()">Cancel</button>
+       <button class="btn btn-danger" id="confirmDeleteBtn" style="flex:1" disabled onclick="executeDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast">Changes Synced!</div>
+
+<script>
+  let indexData = null;
+  let indexSha = null;
+  let urlMode = 'auto';
+  let editingId = null;
+  let deletePending = null; // {type, id, tab}
+
+  // --- Config & Auth ---
+  async function saveConfig() {
+    const t = document.getElementById('ghToken').value.trim();
+    const r = document.getElementById('ghRepo').value.trim();
+    if(!t || !r) return alert('Token and Repo are required.');
+    
+    // Verify Token
+    try {
+      const res = await fetch(`https://api.github.com/repos/xCaptaiN09/${r}/contents/public/index.json`, {
+        headers: { 'Authorization': `token ${t}` }
+      });
+      if(!res.ok) throw new Error('Invalid Token or Repo');
+      localStorage.setItem('v2_token', t);
+      localStorage.setItem('v2_repo', r);
+      showToast('CONNECTED SUCCESSFULLY');
+      fetchData();
+    } catch(e) {
+      alert('Verification failed. Token might be invalid or Repo name is wrong.');
+      localStorage.removeItem('v2_token');
+    }
+  }
+
+  function getCfg() {
+    return { token: localStorage.getItem('v2_token'), repo: localStorage.getItem('v2_repo'), owner: 'xCaptaiN09' };
+  }
+
+  // --- Data Fetching ---
+  async function fetchData() {
+    const { token, repo, owner } = getCfg();
+    if(!token || !repo) return;
+
+    try {
+      const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/public/index.json`, {
+        headers: { 'Authorization': `token ${token}` }
+      });
+      if(res.status === 401) {
+         localStorage.removeItem('v2_token');
+         document.getElementById('syncStatus').classList.remove('active');
+         return alert('Session Expired. Please reconnect.');
+      }
+      const file = await res.json();
+      indexSha = file.sha;
+      indexData = JSON.parse(atob(file.content.replace(/\n/g, '')));
+      
+      document.getElementById('syncStatus').classList.add('active');
+      document.getElementById('repoNameDisplay').innerText = repo.toUpperCase();
+      
+      populateDropdowns();
+      if(document.getElementById('panel-browse').classList.contains('active')) loadEntriesList();
+      if(document.getElementById('panel-tabs').classList.contains('active')) renderTabManager();
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  async function commit(message) {
+    const { token, repo, owner } = getCfg();
+    document.getElementById('loader').style.display = 'flex';
+    try {
+      const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/public/index.json`, {
+        method: 'PUT',
+        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message,
+          content: btoa(unescape(encodeURIComponent(JSON.stringify(indexData, null, 2)))),
+          sha: indexSha
+        })
+      });
+      const result = await res.json();
+      indexSha = result.content.sha;
+      showToast(message.toUpperCase());
+    } catch(e) {
+      alert('Sync Failed: ' + e.message);
+    } finally {
+      document.getElementById('loader').style.display = 'none';
+    }
+  }
+
+  // --- Logic ---
+  function populateDropdowns() {
+    const tabs = Object.keys(indexData).filter(k => Array.isArray(indexData[k]));
+    const html = tabs.map(t => `<option value="${t}">${t.toUpperCase()}</option>`).join('');
+    document.getElementById('tabSelect').innerHTML = html;
+    document.getElementById('browseTabSelect').innerHTML = html;
+  }
+
+  function setUrlMode(m) {
+    urlMode = m;
+    document.getElementById('btn-auto').className = `mode-btn ${m==='auto'?'active':''}`;
+    document.getElementById('btn-manual').className = `mode-btn ${m==='manual'?'active':''}`;
+    document.getElementById('url-auto-fields').style.display = m==='auto' ? 'flex' : 'none';
+    document.getElementById('manualUrl').style.display = m==='manual' ? 'block' : 'none';
+    updatePreview();
+  }
+
+  function buildAutoUrl() {
+    const id = document.getElementById('itemId').value.trim();
+    const fn = document.getElementById('filename').value.trim();
+    const url = id && fn ? `https://archive.org/download/${id}/${fn}` : '';
+    document.getElementById('urlPreview').innerText = url || 'Waiting for Item ID...';
+    checkDuplicate(url);
+    updatePreview();
+  }
+
+  function onManualUrlInput() {
+    const url = document.getElementById('manualUrl').value.trim();
+    document.getElementById('urlPreview').innerText = url;
+    
+    // Auto-parse Back
+    const match = url.match(/archive\.org\/download\/([^\/]+)\/([^?]+)/);
+    if (match) {
+      document.getElementById('itemId').value = match[1];
+      document.getElementById('filename').value = match[2];
+    }
+    checkDuplicate(url);
+    updatePreview();
+  }
+
+  function checkDuplicate(url) {
+    if(!url || !indexData) return;
+    let found = false;
+    for(const tab in indexData) {
+      if(Array.isArray(indexData[tab]) && indexData[tab].some(e => e.url === url)) found = true;
+    }
+    document.getElementById('dupWarn').style.display = found ? 'block' : 'none';
+  }
+
+  function onTabSelectChange() {
+    updatePreview();
+  }
+
+  function updatePreview() {
+    const tab = document.getElementById('tabSelect').value;
+    document.getElementById('androidGroup').style.display = tab === 'roms' ? 'flex' : 'none';
+
+    const entry = {
+      name: document.getElementById('name').value,
+      version: document.getElementById('version').value,
+      date: document.getElementById('date').value || new Date().toISOString().split('T')[0],
+      size: document.getElementById('size').value,
+      url: document.getElementById('urlPreview').innerText,
+      changelog: document.getElementById('changelog').value
+    };
+    if(tab === 'roms') entry.android = document.getElementById('android').value || "16";
+    
+    document.getElementById('jsonPreview').innerText = JSON.stringify(entry, null, 2);
+  }
+
+  async function submitEntry() {
+    const tab = document.getElementById('tabSelect').value;
+    const entry = JSON.parse(document.getElementById('jsonPreview').innerText);
+    if(!entry.name || !entry.url) return alert('Missing Name or URL');
+
+    if(editingId) {
+       indexData[editingId.tab][editingId.index] = entry;
+       await commit(`Updated ${entry.name}`);
+    } else {
+       indexData[tab].unshift(entry);
+       await commit(`Added ${entry.name}`);
+    }
+    resetForm();
+    fetchData();
+  }
+
+  // --- Panels ---
+  function switchPanel(id, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    btn.classList.add('active');
+    if(id === 'browse') loadEntriesList();
+    if(id === 'tabs') renderTabManager();
+  }
+
+  function loadEntriesList() {
+    const tab = document.getElementById('browseTabSelect').value;
+    const list = document.getElementById('entryList');
+    if(!indexData || !indexData[tab]) return;
+
+    // Entries are already unshifted (newest first in JSON), 
+    // But we sort again locally for safety
+    const sorted = [...indexData[tab]].sort((a,b) => new Date(b.date) - new Date(a.date));
+
+    list.innerHTML = sorted.map((e, i) => `
+      <div class="entry-item">
+        <div>
+          <div class="entry-name">${e.name}</div>
+          <div class="entry-meta">${e.date} • ${e.version || 'NO VER'} • ${e.size || '—'}</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-secondary" style="padding:8px 16px; font-size:10px" onclick="startEdit('${tab}', ${i})">Edit</button>
+          <button class="btn btn-danger" style="padding:8px 16px; font-size:10px" onclick="openDeleteModal('entry', ${i}, '${tab}')">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function startEdit(tab, index) {
+    const e = indexData[tab][index];
+    editingId = {tab, index};
+    
+    document.getElementById('tabSelect').value = tab;
+    document.getElementById('name').value = e.name;
+    document.getElementById('version').value = e.version || '';
+    document.getElementById('size').value = e.size || '';
+    document.getElementById('date').value = e.date;
+    document.getElementById('android').value = e.android || '';
+    document.getElementById('changelog').value = e.changelog;
+    
+    setUrlMode('manual');
+    document.getElementById('manualUrl').value = e.url;
+    document.getElementById('urlPreview').innerText = e.url;
+    
+    document.getElementById('formTitle').innerText = 'EDITING ARCHIVE ENTRY';
+    document.getElementById('cancelEditBtn').style.display = 'block';
+    document.getElementById('saveBtn').innerText = 'Update GitHub';
+    
+    switchPanel('add', document.querySelectorAll('.nav-tab')[0]);
+    updatePreview();
+  }
+
+  function resetForm() {
+    editingId = null;
+    document.getElementById('name').value = '';
+    document.getElementById('version').value = '';
+    document.getElementById('size').value = '';
+    document.getElementById('changelog').value = '';
+    document.getElementById('itemId').value = '';
+    document.getElementById('filename').value = '';
+    document.getElementById('manualUrl').value = '';
+    document.getElementById('date').value = new Date().toISOString().split('T')[0];
+    
+    document.getElementById('formTitle').innerText = 'NEW ENTRY DETAILS';
+    document.getElementById('cancelEditBtn').style.display = 'none';
+    document.getElementById('saveBtn').innerText = 'Publish to GitHub';
+    setUrlMode('auto');
+    updatePreview();
+  }
+
+  // --- Tab Management ---
+  function renderTabManager() {
+    const list = document.getElementById('tabManagerList');
+    const tabs = Object.keys(indexData).filter(k => Array.isArray(indexData[k]));
+    list.innerHTML = tabs.map(t => `
+      <div class="tab-card">
+        <div style="font-weight:800; text-transform:uppercase; color:var(--accent); font-family:'JetBrains Mono'">${t}</div>
+        <div style="display:flex; gap:12px; align-items:center">
+          <span style="font-size:10px; color:var(--muted)">${indexData[t].length} ITEMS</span>
+          <button class="btn btn-danger" style="padding:6px 12px; font-size:10px" onclick="openDeleteModal('tab', null, '${t}')">Remove</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  async function createTab() {
+    const rawName = document.getElementById('newTabName').value.trim();
+    const key = rawName.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+    if(!key || indexData[key]) return alert('Invalid or Duplicate Category Key');
+    
+    indexData[key] = [];
+    await commit(`Created category: ${key}`);
+    document.getElementById('newTabName').value = '';
+    fetchData();
+  }
+
+  // --- Multi-Step Delete ---
+  function openDeleteModal(type, index, tab) {
+    deletePending = { type, index, tab };
+    const desc = type === 'tab' ? 
+      `Deleting the category "${tab.toUpperCase()}" will wipe all ${indexData[tab].length} files within it.` :
+      `Permanently remove "${indexData[tab][index].name}" from the database?`;
+    
+    document.getElementById('deleteModalDesc').innerText = desc;
+    document.getElementById('deleteConfirmInput').value = '';
+    document.getElementById('confirmDeleteBtn').disabled = true;
+    document.getElementById('deleteModal').classList.add('active');
+  }
+
+  function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('active'); }
+
+  function checkDeleteMatch() {
+    document.getElementById('confirmDeleteBtn').disabled = document.getElementById('deleteConfirmInput').value !== 'DELETE';
+  }
+
+  async function executeDelete() {
+    if(deletePending.type === 'tab') {
+      delete indexData[deletePending.tab];
+      await commit(`Removed category: ${deletePending.tab}`);
+    } else {
+      const name = indexData[deletePending.tab][deletePending.index].name;
+      indexData[deletePending.tab].splice(deletePending.index, 1);
+      await commit(`Deleted ${name}`);
+    }
+    closeDeleteModal();
+    fetchData();
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.innerText = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // Init
+  document.getElementById('date').value = new Date().toISOString().split('T')[0];
+  const savedT = localStorage.getItem('v2_token');
+  const savedR = localStorage.getItem('v2_repo');
+  if(savedT) document.getElementById('ghToken').value = savedT;
+  if(savedR) document.getElementById('ghRepo').value = savedR;
+  if(savedT && savedR) fetchData();
+
+</script>
+</body>
+</html>

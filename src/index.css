@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 60 14% 96%;
+    --foreground: 152 26% 24%;
+    --card: 60 14% 96%;
+    --card-foreground: 152 26% 24%;
+    --popover: 60 14% 96%;
+    --popover-foreground: 152 26% 24%;
+    --primary: 152 26% 24%;
+    --primary-foreground: 60 14% 96%;
+    --secondary: 40 22% 69%;
+    --secondary-foreground: 152 26% 24%;
+    --muted: 120 25% 65%;
+    --muted-foreground: 152 26% 40%;
+    --accent: 120 25% 65%;
+    --accent-foreground: 152 26% 24%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 120 25% 65%;
+    --input: 120 25% 65%;
+    --ring: 152 26% 24%;
+    --radius: 0.625rem;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f5f0;
+    color: #2d4a3e;
+  }
+}
+
+@layer components {
+  .font-mono-data {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .tilt-grid {
+    perspective: 900px;
+    transform-style: preserve-3d;
+  }
+
+  .tilt-card {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .tilt-grid:hover .tilt-card {
+    transform: translateZ(-30px);
+    box-shadow: 0 10px 20px rgba(45, 74, 62, 0.1);
+  }
+
+  .tilt-grid:hover .glare-overlay::before {
+    transform: translateX(200%) rotate(45deg);
+  }
+
+  .tilt-card:hover {
+    transform: translateZ(60px) scale(1.02) !important;
+    box-shadow: 0 40px 80px rgba(45, 74, 62, 0.2) !important;
+  }
+
+  .glare-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .glare-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+    transform: translateX(0) rotate(0deg);
+    transition: transform 0.6s ease;
+  }
+
+  .flip-card-wrapper {
+    perspective: 1000px;
+  }
+
+  .flip-card-inner {
+    transform-style: preserve-3d;
+  }
+
+  .flip-card-front,
+  .flip-card-back {
+    backface-visibility: hidden;
+  }
+
+  .flip-card-back {
+    transform: rotateX(180deg);
+  }
+}

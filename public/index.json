@@ -1,0 +1,520 @@
+{
+  "device": "Realme X7 Max",
+  "codename": "RMX3031",
+  "maintainer": "xCaptaiN09",
+  "roms": [
+    {
+      "name": "LineageOS 23.2 Unofficial II",
+      "version": "23.2",
+      "android": "16",
+      "date": "2026-04-10",
+      "size": "1.4GB",
+      "url": "https://archive.org/download/rmx3031-lineageos-23-2-apr/lineage-23.2-20260410-UNOFFICIAL-gms-op6893.zip",
+      "changelog": "April Security Patch. Switched to Pixel Thermal Service. Added Screen Off UDFPS support. Fixed Fast Charging & Disconnecting issue. Blobs updated from latest OnePlus Nord 2 stock ROM (vendor security patch: July 2025). Signed build. Misc improvements. By ManshuTyagi."
+    },
+    {
+      "name": "Lunaris AOSP 3.8",
+      "version": "3.8",
+      "android": "16",
+      "date": "2026-03-30",
+      "size": "2.4GB",
+      "url": "https://archive.org/download/rmx3031-lunaris-aosp-3-8/Lunaris-AOSP-op6893-Community-3.8-GMS-2026032923.zip",
+      "changelog": "Initial release. Added Sony Dolby Atmos (OnePlus UI). Added Warp Charging Overlay. Disabled 6GHz hotspot (broken). Gapps | Userdebug build. SELinux: Enforcing. Signed with release keys. Known bug: Screen Off UDFPS. By Rakhshan."
+    },
+    {
+      "name": "EvolutionX v11.6.1",
+      "version": "11.6.1",
+      "android": "16",
+      "date": "2025-12-10",
+      "size": "3.6GB",
+      "url": "https://archive.org/download/rmx3031-evolutionx-16-11-6-1/EvolutionX-16.0-20260302-op6893-11.6.1-Unofficial.zip",
+      "changelog": "Rebranded to op6893. Improved udfps behaviour. Temporarily rolled back some. previous changes(bt, wifi). Synced with latest rom changes. February security patches"
+    },
+    {
+      "name": "LineageOS 23.2 Unofficial",
+      "version": "23.2",
+      "date": "2026-03-01",
+      "size": "1.1GB",
+      "android": "16",
+      "url": "https://archive.org/download/rmx3031-lineageos-23-2/lineage-23.2-20260301-UNOFFICIAL-op6893.zip",
+      "changelog": "Rebranded to op6893. Switched back to mtk vibrator hal. Fixed video call issues across all major apps. Fixed open and close animations. Misc improvements. By ManshuTyagi."
+    },
+    {
+      "name": "Axion AOSP V2.2.1",
+      "version": "2.2.1",
+      "android": "16",
+      "date": "2025-12-09",
+      "size": "2.4GB",
+      "url": "https://archive.org/download/rmx3031-axion-aosp-v2-2-1/axion-2.2.1-NIGHTLY-20251209-UNOFFICIAL-GMS-MT6893.zip",
+      "changelog": "Axion AOSP V2.2.1 Nightly. Unofficial GMS build for Cupida (RMX3031) and Denniz. Android 16. Screen off UDFPS now works."
+    },
+    {
+      "name": "RisingOS Revived 8.1.1",
+      "version": "8.1.1",
+      "android": "16",
+      "date": "2026-03-12",
+      "size": "3.6GB",
+      "url": "https://archive.org/download/rmx3031-risingos-8-1-1/RisingOS_Revived-8.1.1-251005-1609-GAPPS-COMMUNITY-MT6893-ota.zip",
+      "changelog": "RisingOS Revived 8.1.1 unofficial build for RMX3031. Android 16."
+    },
+    {
+      "name": "Axion AOSP 2.5",
+      "version": "2.5",
+      "date": "2026-04-17",
+      "size": "3.5GB",
+      "url": "https://archive.org/download/rmx3031-axion-aosp-2-5/axion-2.5-REVERIE-20260417-UNOFFICIAL-GMS-op6893.zip",
+      "changelog": "Added Oplus Camera. Non-rooted build. Shipped with Revanced Apps. Clean flash mandatory. By zatvio.",
+      "android": "16"
+    }
+  ],
+  "kernels": [
+    {
+      "name": "ReSukiSU Cupida Denniz (AOSP)",
+      "version": "4.1.0",
+      "date": "2026-04-18",
+      "size": "19MB",
+      "url": "https://archive.org/download/rmx3031-kernels/RESUKISU-CUPIDA-DENNIZ.zip",
+      "changelog": "SuSFS v2.1.0. For AOSP ROMs."
+    },
+    {
+      "name": "ReSukiSU Cupida Denniz (COS16/OOS16)",
+      "version": "4.1.0",
+      "date": "2026-04-18",
+      "size": "19MB",
+      "url": "https://archive.org/download/rmx3031-kernels/COS16-RESUKISU-CUPIDA-DENNIZ.zip",
+      "changelog": "SuSFS v2.1.0. Tagged for ColorOS 16 and OxygenOS 16 ROMs."
+    },
+    {
+      "name": "COS 16 Kernel KSU Next",
+      "version": "3.1.0",
+      "date": "2026-03-24",
+      "size": "21MB",
+      "url": "https://archive.org/download/rmx3031-kernel-realme_ui/Realme_UI_KSU_RMX3031.zip",
+      "changelog": "COS 16 kernel . KernelSU Next . LSPosed working . SuSFS v1.5.5. SELinux: Enforcing. Flash SUSFS-FOR-KERNELSU module (required for better stealth/root hiding). Added UDFPS support."
+    },
+    {
+      "name": "COS 16 Kernel (No Root)",
+      "version": "",
+      "date": "2026-03-24",
+      "size": "21MB",
+      "url": "https://archive.org/download/rmx3031-kernel-realme_ui/Realme_UI_NoRoot_RMX3031.zip",
+      "changelog": "COS 16 kernel without root. Charging fix for RMX3031. Added UDFPS support"
+    },
+    {
+      "name": "KSU Next Cupida Denniz",
+      "version": "3.1.0",
+      "date": "2026-03-15",
+      "size": "21MB",
+      "url": "https://archive.org/download/rmx3031-kernel-ksu-next/KSU_Next_Cupida_Denniz.zip",
+      "changelog": "KernelSU Next. LSPosed working. SuSFS v1.5.5. SELinux: Enforcing. Flash SUSFS-FOR-KERNELSU module (required for better stealth/root hiding). Added UDFPS support."
+    },
+    {
+      "name": "Kernel RMX3031 Charging Fix (No Root)",
+      "version": "",
+      "date": "2026-03-08",
+      "size": "21MB",
+      "url": "https://archive.org/download/rmx3031-kernel-lineage-chargingfix/Lineage_23.2_ChargingFix_RMX3031.zip",
+      "changelog": "Charging fix kernel for RMX3031. Added UDFPS support"
+    },
+    {
+      "name": "SukiSU Ultra RMX3031 (Unstable)",
+      "version": "4.1.1",
+      "date": "2026-03-08",
+      "size": "22MB",
+      "url": "https://archive.org/download/rmx3031-sukisu-ultra/SukiSU_Ultra_RMX3031.zip",
+      "changelog": "Working: Root via SukiSU Ultra, SuSFS v2.0.0, Zygisk Next, Tricky Store / Play Integrity, Droidspaces / Linux container, KPM modules. Not working: ReZygisk (version check blocks non-submodule KSU), LSPosed (incompatible with Android 16 QPR2 ART)."
+    },
+    {
+      "name": "COS 16 Kernel (No Root)(Unstable)",
+      "version": "",
+      "date": "2026-03-08",
+      "size": "20MB",
+      "url": "https://archive.org/download/rmx3031-kernels/COS_16_kernel_no_root.zip",
+      "changelog": "COS 16 kernel without root for RMX3031"
+    },
+    {
+      "name": "Stock KSU Kernel",
+      "version": "3.1.0",
+      "date": "2026-03-08",
+      "size": "23MB",
+      "url": "https://archive.org/download/rmx3031-kernels/STOCK_KSU.zip",
+      "changelog": "Stock kernel with KernelSU for RMX3031"
+    },
+    {
+      "name": "SukiSU Ultra 3.2.0",
+      "version": "3.2.0",
+      "date": "2026-03-08",
+      "size": "26MB",
+      "url": "https://archive.org/download/rmx3031-kernels/SukiSU-Ultra_3.2.0.zip",
+      "changelog": "SukiSU Ultra 3.2.0 kernel for RMX3031"
+    },
+    {
+      "name": "Kernel v4.19.325 KSUN SuSFS v1.5.5",
+      "version": "1.0.8",
+      "date": "2026-03-08",
+      "size": "35MB",
+      "url": "https://archive.org/download/rmx3031-kernels/v4.19.325-ksun-v12602-susfs-v1.5.5.zip",
+      "changelog": "Linux 4.19.325 with KernelSU Next and SuSFS v1.5.5 and Nethunter"
+    }
+  ],
+  "modules": [
+    {
+      "name": "SUSFS for KernelSU",
+      "version": "",
+      "date": "2026-03-15",
+      "size": "1.6KB",
+      "url": "https://archive.org/download/rmx3031-modules/ksu_module_susfs.zip",
+      "changelog": "Required for better stealth and root hiding with KernelSU Next. Flash via KSU Manager."
+    },
+    {
+      "name": "Permissiver V5",
+      "version": "5",
+      "date": "2026-03-08",
+      "size": "1.2MB",
+      "url": "https://archive.org/download/permissiver-v-5/Permissiver_v5.zip",
+      "changelog": "Permissiver V5 for RMX3031. Flashable via Magisk or TWRP."
+    }
+  ],
+  "ota": [
+    {
+      "name": "X7-MAX A15 Toolbox",
+      "version": "A15",
+      "date": "2026-03-11",
+      "size": "4.66GB",
+      "url": "https://archive.org/download/rmx3031-ota-a15/X7-MAX-A15-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "X7-MAX A22 Toolbox",
+      "version": "A22",
+      "date": "2026-03-11",
+      "size": "4.47GB",
+      "url": "https://archive.org/download/rmx3031-ota-a22/X7-MAX-A22-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "X7-MAX C12 Toolbox",
+      "version": "C12",
+      "date": "2026-03-11",
+      "size": "5.73GB",
+      "url": "https://archive.org/download/rmx3031-ota-c12/X7-MAX-C12-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "X7-MAX C17 Toolbox",
+      "version": "C17",
+      "date": "2026-03-11",
+      "size": "5.83GB",
+      "url": "https://archive.org/download/rmx3031-ota-c17/X7-MAX-C17-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "X7-MAX F01 Toolbox",
+      "version": "F01",
+      "date": "2026-03-11",
+      "size": "6.01GB",
+      "url": "https://archive.org/download/rmx3031-ota-f01/X7-MAX-F01-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "X7-MAX F12 Toolbox",
+      "version": "F12",
+      "date": "2026-03-11",
+      "size": "6.13GB",
+      "url": "https://archive.org/download/rmx3031-ota-f12/X7-MAX-F12-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "X7-MAX F13 Toolbox",
+      "version": "F13",
+      "date": "2026-03-11",
+      "size": "6.14GB",
+      "url": "https://archive.org/download/rmx3031-ota-f13/X7-MAX-F13-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "X7-MAX F24 Toolbox",
+      "version": "F24",
+      "date": "2026-03-11",
+      "size": "6.43GB",
+      "url": "https://archive.org/download/rmx3031-ota-f24/X7-MAX-F24-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "X7-MAX F25 Toolbox",
+      "version": "F25",
+      "date": "2026-03-11",
+      "size": "6.58GB",
+      "url": "https://archive.org/download/rmx3031-ota-f25/X7-MAX-F25-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "X7-MAX A21 (Rollback)",
+      "version": "A21",
+      "date": "2026-03-11",
+      "size": "3.60GB",
+      "url": "https://archive.org/download/rmx3031-rollback-a21/X7MAX_11_A.21.zip",
+      "changelog": "Rollback package. Enable Developer Mode ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Settings > About Phone > Software Update > Local Installation ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ select and install."
+    },
+    {
+      "name": "X7-MAX C16 (Rollback)",
+      "version": "C16",
+      "date": "2026-03-11",
+      "size": "5.02GB",
+      "url": "https://archive.org/download/rmx3031-rollback-c16/X7MAX_11_C.16.zip",
+      "changelog": "Rollback package. Enable Developer Mode ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Settings > About Phone > Software Update > Local Installation ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ select and install."
+    }
+  ],
+  "ota_cn": [
+    {
+      "name": "A14 Toolbox",
+      "version": "A14",
+      "date": "2026-03-17",
+      "size": "5.45GB",
+      "url": "https://archive.org/download/rmx3031-ota-in-a14/RMX3031-A14-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3031 Indian variant. Sequential upgrade path: A27 > C18 > C26 > F01 > F12 > F24 > F25 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "A27 Toolbox",
+      "version": "A27",
+      "date": "2026-03-17",
+      "size": "5.24GB",
+      "url": "https://archive.org/download/rmx3031-ota-in-a27/RMX3031-A27-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3031 Indian variant. Sequential upgrade path: A27 > C18 > C26 > F01 > F12 > F24 > F25 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "C18 Toolbox",
+      "version": "C18",
+      "date": "2026-03-17",
+      "size": "6.02GB",
+      "url": "https://archive.org/download/rmx3031-ota-in-c18/RMX3031-C18-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3031 Indian variant. Sequential upgrade path: A27 > C18 > C26 > F01 > F12 > F24 > F25 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "C26 Toolbox",
+      "version": "C26",
+      "date": "2026-03-17",
+      "size": "6.28GB",
+      "url": "https://archive.org/download/rmx3031-ota-in-c26/RMX3031-C26-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3031 Indian variant. Sequential upgrade path: A27 > C18 > C26 > F01 > F12 > F24 > F25 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "F01 Toolbox",
+      "version": "F01",
+      "date": "2026-03-17",
+      "size": "6.59GB",
+      "url": "https://archive.org/download/rmx3031-ota-in-f01/RMX3031-F01-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3031 Indian variant. Sequential upgrade path: A27 > C18 > C26 > F01 > F12 > F24 > F25 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "F12 Toolbox",
+      "version": "F12",
+      "date": "2026-03-30",
+      "size": "6.80GB",
+      "url": "https://archive.org/download/rmx3031-ota-cn-f12/RMX3031-F12-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3031 Indian variant. Sequential upgrade path: A27 > C18 > C26 > F01 > F12 > F24 > F25 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "F24 Toolbox",
+      "version": "F24",
+      "date": "2026-03-30",
+      "size": "7.29GB",
+      "url": "https://archive.org/download/rmx3031-ota-cn-f24/RMX3031-F24-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3031 Indian variant. Sequential upgrade path: A27 > C18 > C26 > F01 > F12 > F24 > F25 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "F25 Toolbox",
+      "version": "F25",
+      "date": "2026-03-30",
+      "size": "7.26GB",
+      "url": "https://archive.org/download/rmx3031-ota-cn-f25/RMX3031-F25-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3031 Indian variant. Sequential upgrade path: A27 > C18 > C26 > F01 > F12 > F24 > F25 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "A29 (Rollback)",
+      "version": "A29",
+      "date": "2026-03-30",
+      "size": "4.59GB",
+      "url": "https://archive.org/download/rmx3031-rollback-cn-a29/RMX3031_11_A.29.zip",
+      "changelog": "Rollback package. Enable Developer Mode ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Settings > About Phone > Software Update > Local Installation ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ rename to ota_downgrade.zip and install."
+    },
+    {
+      "name": "C25 (Rollback)",
+      "version": "C25",
+      "date": "2026-03-30",
+      "size": "5.47GB",
+      "url": "https://archive.org/download/rmx3031-rollback-cn-c25/RMX3031_11_C.25.zip",
+      "changelog": "Rollback package. Enable Developer Mode ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Settings > About Phone > Software Update > Local Installation ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ rename to ota_downgrade.zip and install."
+    }
+  ],
+  "ota_cnf": [
+    {
+      "name": "A07 (Deep Compact) Toolbox",
+      "version": "A07",
+      "date": "2026-03-31",
+      "size": "3.56GB",
+      "url": "https://archive.org/download/rmx3350-flash-a07-deep/RMX3350-A07-Deep-Compact-Toolbox-pkg.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. Deep Compact variant ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ smaller size. RMX3350 GT Neo Flash Edition."
+    },
+    {
+      "name": "A07 Toolbox",
+      "version": "A07",
+      "date": "2026-03-31",
+      "size": "5.31GB",
+      "url": "https://archive.org/download/rmx3350-flash-a07/RMX3350-A07-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3350 GT Neo Flash Edition."
+    },
+    {
+      "name": "A16 (Compact) Toolbox",
+      "version": "A16",
+      "date": "2026-03-31",
+      "size": "4.34GB",
+      "url": "https://archive.org/download/rmx3350-flash-a16-compact/RMX3350-A16-Compact-Toolbox-pkg.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. Compact variant ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ smaller size. RMX3350 GT Neo Flash Edition."
+    },
+    {
+      "name": "A16 Toolbox",
+      "version": "A16",
+      "date": "2026-03-31",
+      "size": "5.45GB",
+      "url": "https://archive.org/download/rmx3350-flash-a16/RMX3350-A16-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3350 GT Neo Flash Edition."
+    },
+    {
+      "name": "C15 Toolbox",
+      "version": "C15",
+      "date": "2026-03-31",
+      "size": "6.07GB",
+      "url": "https://archive.org/download/rmx3350-flash-c15/RMX3350-C15-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3350 GT Neo Flash Edition. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "C20 Toolbox",
+      "version": "C20",
+      "date": "2026-03-31",
+      "size": "6.29GB",
+      "url": "https://archive.org/download/rmx3350-flash-c20/RMX3350-C20-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3350 GT Neo Flash Edition. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    },
+    {
+      "name": "F01 Toolbox",
+      "version": "F01",
+      "date": "2026-03-31",
+      "size": "6.59GB",
+      "url": "https://archive.org/download/rmx3350-flash-f01/RMX3350-F01-Toolbox.zip",
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3350 GT Neo Flash Edition. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
+    }
+  ],
+  "firmware": [
+    {
+      "name": "RUI4 F.12 Firmware Only",
+      "version": "F.12",
+      "date": "2026-03-08",
+      "size": "57MB",
+      "url": "https://archive.org/download/rmx3031-firmware/RMX3031_RUI4_F.12_FW_ONLY.zip",
+      "changelog": "RUI4 F.12 firmware only package for RMX3031"
+    },
+    {
+      "name": "RUI4 F.13 Firmware Only",
+      "version": "F.13",
+      "date": "2026-03-08",
+      "size": "57MB",
+      "url": "https://archive.org/download/rmx3031-firmware/RMX3031_RUI4_F.13_FW_ONLY.zip",
+      "changelog": "RUI4 F.13 firmware only package for RMX3031"
+    }
+  ],
+  "sptool": [
+    {
+      "name": "A.15",
+      "version": "A.15",
+      "date": "2026-03-12",
+      "size": "3.2GB",
+      "url": "https://archive.org/download/rmx3031-sptool-firmware/A.15.7z",
+      "changelog": "SP Flash Tool firmware package for RMX3031."
+    },
+    {
+      "name": "A.22",
+      "version": "A.22",
+      "date": "2026-03-12",
+      "size": "3.0GB",
+      "url": "https://archive.org/download/rmx3031-sptool-firmware/A.22.7z",
+      "changelog": "SP Flash Tool firmware package for RMX3031."
+    },
+    {
+      "name": "C.12saxx",
+      "version": "C.12saxx",
+      "date": "2026-03-12",
+      "size": "4.3GB",
+      "url": "https://archive.org/download/rmx3031-sptool-firmware/C.12saxx.7z",
+      "changelog": "SP Flash Tool firmware package for RMX3031."
+    },
+    {
+      "name": "C.15",
+      "version": "C.15",
+      "date": "2026-03-12",
+      "size": "4.4GB",
+      "url": "https://archive.org/download/rmx3031-sptool-firmware/C.15.7z",
+      "changelog": "SP Flash Tool firmware package for RMX3031."
+    },
+    {
+      "name": "Tools",
+      "version": "",
+      "date": "2026-03-12",
+      "size": "51MB",
+      "url": "https://archive.org/download/rmx3031-sptool-firmware/Tools.7z",
+      "changelog": "SP Flash Tool and required tools for RMX3031 firmware flashing."
+    }
+  ],
+  "recovery": [
+    {
+      "name": "RMX3031 TWRP RUI4",
+      "version": "",
+      "date": "2026-03-09",
+      "size": "46MB",
+      "url": "https://archive.org/download/rmx3031-twrp-rui4/TWRP-3.7.0-12.1-RUI4-RMX3031-20220417.zip",
+      "changelog": "RMX3031-twrp-RUI4"
+    },
+    {
+      "name": "RMX3031 TWRP RUI3",
+      "version": "",
+      "date": "2026-03-09",
+      "size": "45MB",
+      "url": "https://archive.org/download/rmx3031-twrp-rui3/TWRP-3.7.0-12-RMX3031-20221024.zip",
+      "changelog": "RMX3031-twrp-RUI3"
+    },
+    {
+      "name": "RMX3031 TWRP RUI2",
+      "version": "",
+      "date": "2026-03-09",
+      "size": "38MB",
+      "url": "https://archive.org/download/rmx3031-twrp-rui2/TWRP_RUI2_A11.zip",
+      "changelog": "RMX3031-twrp-RUI2"
+    }
+  ],
+  "other": [
+    {
+      "name": "ADB/Fastboot Commands",
+      "version": "",
+      "date": "2026-03-09",
+      "size": "20KB",
+      "url": "https://archive.org/download/rmx3031-docs/ADB_Fastboot_Commands.pdf",
+      "changelog": "commands for ADB & Fastboot"
+    },
+    {
+      "name": "LOG Capture Commands",
+      "version": "",
+      "date": "2026-03-09",
+      "size": "10KB",
+      "url": "https://archive.org/download/rmx3031-docs/LOG%20commands.pdf",
+      "changelog": "Commands to Capture LOGs"
+    },
+    {
+      "name": "Git Commands",
+      "version": "",
+      "date": "2026-03-09",
+      "size": "3MB",
+      "url": "https://archive.org/download/rmx3031-docs/git.pdf",
+      "changelog": "Git Commands"
+    }
+  ]
+}
