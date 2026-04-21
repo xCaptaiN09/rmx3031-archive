@@ -1,4 +1,4 @@
-import { Cpu, HardDrive, ShieldCheck, Wrench } from 'lucide-react'
+import { Cpu, HardDrive, ShieldCheck } from 'lucide-react'
 import type React from 'react'
 import { useData } from '../hooks/use-data'
 
