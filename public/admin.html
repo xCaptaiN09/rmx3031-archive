@@ -226,7 +226,7 @@
   let indexSha = null;
   let urlMode = 'auto';
   let editingId = null;
-  let deletePending = null; // {type, id, tab}
+  let deletePending = null;
 
   // --- Config & Auth ---
   async function saveConfig() {
@@ -234,14 +234,15 @@
     const r = document.getElementById('ghRepo').value.trim();
     if(!t || !r) return alert('Token and Repo are required.');
     
-    // Verify Token
+    const cleanRepo = r.replace('https://github.com/', '').replace('github.com/', '').split('/').filter(p => p).pop();
+
     try {
-      const res = await fetch(`https://api.github.com/repos/xCaptaiN09/${r}/contents/public/index.json`, {
+      const res = await fetch(`https://api.github.com/repos/xCaptaiN09/${cleanRepo}/contents/public/index.json`, {
         headers: { 'Authorization': `token ${t}` }
       });
       if(!res.ok) throw new Error('Invalid Token or Repo');
       localStorage.setItem('v2_token', t);
-      localStorage.setItem('v2_repo', r);
+      localStorage.setItem('v2_repo', cleanRepo);
       showToast('CONNECTED SUCCESSFULLY');
       fetchData();
     } catch(e) {
@@ -266,11 +267,18 @@
       if(res.status === 401) {
          localStorage.removeItem('v2_token');
          document.getElementById('syncStatus').classList.remove('active');
-         return alert('Session Expired. Please reconnect.');
+         return alert('GitHub Token Invalid or Expired.');
       }
+      if(!res.ok) throw new Error(`Repo or File not found (${res.status})`);
+
       const file = await res.json();
       indexSha = file.sha;
-      indexData = JSON.parse(atob(file.content.replace(/\n/g, '')));
+      
+      // UTF-8 Decoding
+      const binaryId = atob(file.content.replace(/\n/g, ''));
+      const bytes = new Uint8Array(binaryId.length);
+      for (let i = 0; i < binaryId.length; i++) bytes[i] = binaryId.charCodeAt(i);
+      indexData = JSON.parse(new TextDecoder().decode(bytes));
       
       document.getElementById('syncStatus').classList.add('active');
       document.getElementById('repoNameDisplay').innerText = repo.toUpperCase();
@@ -280,6 +288,7 @@
       if(document.getElementById('panel-tabs').classList.contains('active')) renderTabManager();
     } catch(e) {
       console.error(e);
+      alert('Error loading data: ' + e.message);
     }
   }
 
@@ -287,15 +296,20 @@
     const { token, repo, owner } = getCfg();
     document.getElementById('loader').style.display = 'flex';
     try {
+      const jsonStr = JSON.stringify(indexData, null, 2);
+      const bytes = new TextEncoder().encode(jsonStr);
+      const base64 = btoa(String.fromCharCode(...bytes));
+
       const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/public/index.json`, {
         method: 'PUT',
         headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message,
-          content: btoa(unescape(encodeURIComponent(JSON.stringify(indexData, null, 2)))),
+          content: base64,
           sha: indexSha
         })
       });
+      if(!res.ok) throw new Error('Commit failed');
       const result = await res.json();
       indexSha = result.content.sha;
       showToast(message.toUpperCase());
@@ -308,6 +322,7 @@
 
   // --- Logic ---
   function populateDropdowns() {
+    if(!indexData) return;
     const tabs = Object.keys(indexData).filter(k => Array.isArray(indexData[k]));
     const html = tabs.map(t => `<option value="${t}">${t.toUpperCase()}</option>`).join('');
     document.getElementById('tabSelect').innerHTML = html;
@@ -335,8 +350,6 @@
   function onManualUrlInput() {
     const url = document.getElementById('manualUrl').value.trim();
     document.getElementById('urlPreview').innerText = url;
-    
-    // Auto-parse Back
     const match = url.match(/archive\.org\/download\/([^\/]+)\/([^?]+)/);
     if (match) {
       document.getElementById('itemId').value = match[1];
@@ -355,11 +368,10 @@
     document.getElementById('dupWarn').style.display = found ? 'block' : 'none';
   }
 
-  function onTabSelectChange() {
-    updatePreview();
-  }
+  function onTabSelectChange() { updatePreview(); }
 
   function updatePreview() {
+    if(!indexData) return;
     const tab = document.getElementById('tabSelect').value;
     document.getElementById('androidGroup').style.display = tab === 'roms' ? 'flex' : 'none';
 
@@ -372,7 +384,6 @@
       changelog: document.getElementById('changelog').value
     };
     if(tab === 'roms') entry.android = document.getElementById('android').value || "16";
-    
     document.getElementById('jsonPreview').innerText = JSON.stringify(entry, null, 2);
   }
 
@@ -392,7 +403,6 @@
     fetchData();
   }
 
-  // --- Panels ---
   function switchPanel(id, btn) {
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -407,15 +417,11 @@
     const list = document.getElementById('entryList');
     if(!indexData || !indexData[tab]) return;
 
-    // Entries are already unshifted (newest first in JSON), 
-    // But we sort again locally for safety
-    const sorted = [...indexData[tab]].sort((a,b) => new Date(b.date) - new Date(a.date));
-
-    list.innerHTML = sorted.map((e, i) => `
+    list.innerHTML = indexData[tab].map((e, i) => `
       <div class="entry-item">
         <div>
           <div class="entry-name">${e.name}</div>
-          <div class="entry-meta">${e.date} • ${e.version || 'NO VER'} • ${e.size || '—'}</div>
+          <div class="entry-meta">${e.date} • ${e.version || 'NO VER'}</div>
         </div>
         <div class="actions">
           <button class="btn btn-secondary" style="padding:8px 16px; font-size:10px" onclick="startEdit('${tab}', ${i})">Edit</button>
@@ -428,7 +434,6 @@
   function startEdit(tab, index) {
     const e = indexData[tab][index];
     editingId = {tab, index};
-    
     document.getElementById('tabSelect').value = tab;
     document.getElementById('name').value = e.name;
     document.getElementById('version').value = e.version || '';
@@ -436,30 +441,20 @@
     document.getElementById('date').value = e.date;
     document.getElementById('android').value = e.android || '';
     document.getElementById('changelog').value = e.changelog;
-    
     setUrlMode('manual');
     document.getElementById('manualUrl').value = e.url;
     document.getElementById('urlPreview').innerText = e.url;
-    
     document.getElementById('formTitle').innerText = 'EDITING ARCHIVE ENTRY';
     document.getElementById('cancelEditBtn').style.display = 'block';
     document.getElementById('saveBtn').innerText = 'Update GitHub';
-    
     switchPanel('add', document.querySelectorAll('.nav-tab')[0]);
     updatePreview();
   }
 
   function resetForm() {
     editingId = null;
-    document.getElementById('name').value = '';
-    document.getElementById('version').value = '';
-    document.getElementById('size').value = '';
-    document.getElementById('changelog').value = '';
-    document.getElementById('itemId').value = '';
-    document.getElementById('filename').value = '';
-    document.getElementById('manualUrl').value = '';
+    ['name','version','size','changelog','itemId','filename','manualUrl','android'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('date').value = new Date().toISOString().split('T')[0];
-    
     document.getElementById('formTitle').innerText = 'NEW ENTRY DETAILS';
     document.getElementById('cancelEditBtn').style.display = 'none';
     document.getElementById('saveBtn').innerText = 'Publish to GitHub';
@@ -467,9 +462,9 @@
     updatePreview();
   }
 
-  // --- Tab Management ---
   function renderTabManager() {
     const list = document.getElementById('tabManagerList');
+    if(!indexData) return;
     const tabs = Object.keys(indexData).filter(k => Array.isArray(indexData[k]));
     list.innerHTML = tabs.map(t => `
       <div class="tab-card">
@@ -485,21 +480,16 @@
   async function createTab() {
     const rawName = document.getElementById('newTabName').value.trim();
     const key = rawName.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
-    if(!key || indexData[key]) return alert('Invalid or Duplicate Category Key');
-    
+    if(!key || indexData[key]) return alert('Invalid Key');
     indexData[key] = [];
     await commit(`Created category: ${key}`);
     document.getElementById('newTabName').value = '';
     fetchData();
   }
 
-  // --- Multi-Step Delete ---
   function openDeleteModal(type, index, tab) {
     deletePending = { type, index, tab };
-    const desc = type === 'tab' ? 
-      `Deleting the category "${tab.toUpperCase()}" will wipe all ${indexData[tab].length} files within it.` :
-      `Permanently remove "${indexData[tab][index].name}" from the database?`;
-    
+    const desc = type === 'tab' ? `Deleting category "${tab.toUpperCase()}" wipes all files.` : `Remove "${indexData[tab][index].name}"?`;
     document.getElementById('deleteModalDesc').innerText = desc;
     document.getElementById('deleteConfirmInput').value = '';
     document.getElementById('confirmDeleteBtn').disabled = true;
@@ -507,38 +497,24 @@
   }
 
   function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('active'); }
-
-  function checkDeleteMatch() {
-    document.getElementById('confirmDeleteBtn').disabled = document.getElementById('deleteConfirmInput').value !== 'DELETE';
-  }
+  function checkDeleteMatch() { document.getElementById('confirmDeleteBtn').disabled = document.getElementById('deleteConfirmInput').value !== 'DELETE'; }
 
   async function executeDelete() {
-    if(deletePending.type === 'tab') {
-      delete indexData[deletePending.tab];
-      await commit(`Removed category: ${deletePending.tab}`);
-    } else {
-      const name = indexData[deletePending.tab][deletePending.index].name;
-      indexData[deletePending.tab].splice(deletePending.index, 1);
-      await commit(`Deleted ${name}`);
-    }
-    closeDeleteModal();
-    fetchData();
+    if(deletePending.type === 'tab') { delete indexData[deletePending.tab]; await commit(`Removed category: ${deletePending.tab}`); }
+    else { indexData[deletePending.tab].splice(deletePending.index, 1); await commit(`Deleted entry`); }
+    closeDeleteModal(); fetchData();
   }
 
   function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.innerText = msg; t.classList.add('show');
+    const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3000);
   }
 
-  // Init
-  document.getElementById('date').value = new Date().toISOString().split('T')[0];
-  const savedT = localStorage.getItem('v2_token');
-  const savedR = localStorage.getItem('v2_repo');
-  if(savedT) document.getElementById('ghToken').value = savedT;
-  if(savedR) document.getElementById('ghRepo').value = savedR;
-  if(savedT && savedR) fetchData();
-
+  const sT = localStorage.getItem('v2_token');
+  const sR = localStorage.getItem('v2_repo');
+  if(sT) document.getElementById('ghToken').value = sT;
+  if(sR) document.getElementById('ghRepo').value = sR;
+  if(sT && sR) fetchData();
 </script>
 </body>
 </html>
