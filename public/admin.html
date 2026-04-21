@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RMX3031 Admin V2.1</title>
+<title>RMX3031 Admin V2.2 FINAL</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600;800&family=Archivo+Black&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -15,263 +15,326 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; min-height: 100vh; padding: 20px; }
   .container { max-width: 900px; margin: 0 auto; }
-  header { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 20px; }
-  .badge { padding: 4px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; font-family: 'JetBrains Mono'; font-size: 10px; color: var(--accent); }
-  h1 { font-family: 'Archivo Black'; font-size: 24px; text-transform: uppercase; }
+  
+  header { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 20px; border: 1px solid var(--border); }
+  h1 { font-family: 'Archivo Black'; font-size: 20px; text-transform: uppercase; letter-spacing: -1px; }
   h1 span { color: var(--accent); }
 
-  .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--surface); padding: 10px; border-radius: 20px; border: 1px solid var(--border); }
-  .nav-tab { flex: 1; background: transparent; border: none; color: var(--muted); font-weight: 800; cursor: pointer; padding: 12px; border-radius: 12px; transition: 0.2s; font-size: 13px; }
-  .nav-tab.active { background: var(--accent); color: var(--bg); }
+  .nav-tabs { display: flex; gap: 8px; margin-bottom: 20px; background: var(--surface); padding: 8px; border-radius: 24px; border: 1px solid var(--border); }
+  .nav-tab { flex: 1; background: transparent; border: none; color: var(--muted); font-weight: 800; cursor: pointer; padding: 14px; border-radius: 18px; transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); font-size: 13px; text-transform: uppercase; }
+  .nav-tab.active { background: var(--accent); color: var(--bg); transform: scale(1.02); }
 
-  .panel { display: none; }
+  .panel { display: none; animation: fadeIn 0.3s ease-out; }
   .panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 25px; margin-bottom: 20px; }
-  .card-title { font-size: 11px; font-family: 'JetBrains Mono'; color: var(--accent); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 28px; padding: 30px; margin-bottom: 20px; }
+  .card-title { font-size: 11px; font-family: 'JetBrains Mono'; color: var(--accent); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px; }
 
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
   .full { grid-column: 1 / -1; }
-  label { font-size: 10px; font-family: 'JetBrains Mono'; color: var(--muted); text-transform: uppercase; }
-  input, select, textarea { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; color: var(--text); outline: none; font-family: 'Outfit'; font-size: 14px; width: 100%; }
+  label { font-size: 10px; font-family: 'JetBrains Mono'; color: var(--muted); text-transform: uppercase; padding-left: 5px; }
+  input, select, textarea { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 14px; color: var(--text); outline: none; font-family: 'Outfit'; font-size: 14px; transition: 0.2s; }
+  input:focus { border-color: var(--accent); }
   
-  .btn { padding: 12px 24px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.2s; font-family: 'Outfit'; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn { padding: 14px 28px; border-radius: 16px; border: none; font-weight: 800; cursor: pointer; transition: 0.2s; font-family: 'Outfit'; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
   .btn:active { transform: scale(0.95); }
-  .btn-primary { background: var(--accent); color: var(--bg); width: 100%; }
+  .btn-primary { background: var(--accent); color: var(--bg); }
   .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
   .btn-danger { background: rgba(252, 165, 165, 0.1); color: var(--red); border: 1px solid var(--red); }
 
-  .entry-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--surface2); border-radius: 15px; margin-bottom: 10px; }
-  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #444; }
-  .status-dot.active { background: #8fbc8f; box-shadow: 0 0 8px #8fbc8f; }
+  .entry-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; background: var(--surface2); border-radius: 20px; margin-bottom: 12px; border: 1px solid transparent; transition: 0.2s; }
+  .entry-item:hover { border-color: var(--accent); }
+  
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 9000; }
+  .modal-overlay.active { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 32px; padding: 40px; max-width: 450px; width: 100%; text-align: center; }
 
-  .loading-overlay { position: fixed; inset: 0; background: rgba(26, 46, 38, 0.9); display: none; justify-content: center; align-items: center; z-index: 9000; backdrop-filter: blur(5px); }
-  #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 12px 30px; background: var(--accent); color: var(--bg); border-radius: 50px; font-weight: 800; transition: 0.4s; z-index: 9999; }
+  #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 15px 40px; background: var(--accent); color: var(--bg); border-radius: 50px; font-weight: 900; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9999; text-transform: uppercase; }
   #toast.show { transform: translateX(-50%) translateY(0); }
+  .loading-overlay { position: fixed; inset: 0; background: rgba(26, 46, 38, 0.95); display: none; justify-content: center; align-items: center; z-index: 9999; }
 </style>
 </head>
 <body>
 
 <div class="loading-overlay" id="loader">
-  <div style="color:var(--accent); font-family:'Archivo Black'">SYNCING...</div>
+  <div style="text-align:center">
+     <div style="font-family:'Archivo Black'; color:var(--accent); font-size:24px; margin-bottom:10px">SYNCING</div>
+     <div style="font-family:'JetBrains Mono'; color:var(--muted); font-size:12px">GITHUB COMMIT IN PROGRESS...</div>
+  </div>
 </div>
 
 <div class="container">
   <header>
-    <div>
-      <div class="badge">V2.1 STABLE</div>
-      <h1>Archive <span>Admin</span></h1>
-    </div>
-    <div style="display:flex; align-items:center; gap:10px">
-      <div id="statusText" style="font-family:'JetBrains Mono'; font-size:10px; color:var(--muted)">OFFLINE</div>
-      <div class="status-dot" id="statusDot"></div>
-    </div>
+    <h1>Bento <span>Archive</span></h1>
+    <div id="connStatus" style="font-family:'JetBrains Mono'; font-size:10px; color:var(--muted)">● DISCONNECTED</div>
   </header>
 
   <div class="card" id="configCard">
-    <div class="card-title">1. Connection</div>
+    <div class="card-title">Cloud Setup</div>
     <div style="display:flex; gap:10px">
-      <input type="password" id="ghToken" placeholder="GitHub Token" style="flex:2" />
-      <input type="text" id="ghRepo" placeholder="Repo (rmx3031-archive)" style="flex:1" />
-      <button class="btn btn-primary" style="width:auto" onclick="connect()">Connect</button>
+      <input type="password" id="ghToken" placeholder="GitHub Token" style="flex:1" />
+      <input type="text" id="ghRepo" placeholder="Repo Name" style="flex:1" />
+      <button class="btn btn-primary" onclick="connectRepo()">Connect</button>
     </div>
   </div>
 
   <div class="nav-tabs">
-    <button class="nav-tab active" id="tab-add" onclick="showPanel('add')">Add Entry</button>
-    <button class="nav-tab" id="tab-browse" onclick="showPanel('browse')">Browse Files</button>
-    <button class="nav-tab" id="tab-tabs" onclick="showPanel('tabs')">Manage Tabs</button>
+    <button class="nav-tab active" id="tab-btn-add" onclick="switchTab('add')">Add Entry</button>
+    <button class="nav-tab" id="tab-btn-browse" onclick="switchTab('browse')">Browse & Edit</button>
+    <button class="nav-tab" id="tab-btn-tabs" onclick="switchTab('tabs')">Manage Tabs</button>
   </div>
 
-  <!-- Panel: Add -->
+  <!-- PANELS -->
   <div id="panel-add" class="panel active">
     <div class="card">
-      <div class="card-title">New Entry Details</div>
+      <div class="card-title" id="formHeader">New Archive Entry</div>
       <div class="form-grid">
-        <div class="form-group"><label>Category</label><select id="f-tab"></select></div>
-        <div class="form-group"><label>Name</label><input type="text" id="f-name" /></div>
-        <div class="form-group"><label>Version</label><input type="text" id="f-ver" /></div>
-        <div class="form-group"><label>Size</label><input type="text" id="f-size" /></div>
-        <div class="form-group"><label>Date</label><input type="date" id="f-date" /></div>
-        <div class="form-group" id="f-android-group"><label>Android</label><input type="text" id="f-android" value="16" /></div>
+        <div class="form-group"><label>Category</label><select id="f-category" onchange="updatePreview()"></select></div>
+        <div class="form-group"><label>Display Name</label><input type="text" id="f-name" oninput="updatePreview()" /></div>
+        <div class="form-group"><label>Version</label><input type="text" id="f-version" oninput="updatePreview()" /></div>
+        <div class="form-group"><label>File Size</label><input type="text" id="f-size" oninput="updatePreview()" /></div>
+        <div class="form-group"><label>Release Date</label><input type="date" id="f-date" oninput="updatePreview()" /></div>
+        <div class="form-group" id="f-android-group"><label>Android</label><input type="text" id="f-android" oninput="updatePreview()" /></div>
         <div class="form-group full">
-          <label>URL (Auto-parses Archive.org)</label>
-          <input type="text" id="f-url" placeholder="Paste URL here..." oninput="parseUrl(this.value)" />
+           <label>URL (Auto-Parses Archive.org)</label>
+           <input type="text" id="f-url" placeholder="Paste URL here..." oninput="handleUrlInput(this.value)" />
         </div>
-        <div class="form-group full"><label>Changelog</label><textarea id="f-changelog"></textarea></div>
+        <div class="form-group full"><label>Changelog</label><textarea id="f-changelog" oninput="updatePreview()"></textarea></div>
       </div>
-      <button class="btn btn-primary" style="margin-top:20px" id="saveBtn" onclick="saveEntry()">Publish to GitHub</button>
+      <div style="margin-top:25px; display:flex; gap:10px">
+        <button class="btn btn-primary" style="flex:2" onclick="publishEntry()" id="publishBtn">Publish to GitHub</button>
+        <button class="btn btn-secondary" style="flex:1; display:none" id="cancelEditBtn" onclick="resetForm()">Cancel</button>
+      </div>
     </div>
   </div>
 
-  <!-- Panel: Browse -->
   <div id="panel-browse" class="panel">
     <div class="card">
-      <div class="card-title">Select Category</div>
-      <select id="b-tab" onchange="renderEntries()"></select>
-      <div id="entryList" style="margin-top:20px">Connect to see entries.</div>
+      <div class="card-title">Files in database</div>
+      <select id="b-category" onchange="renderEntryList()" style="margin-bottom:20px"></select>
+      <div id="entryList">Connect GitHub to see files.</div>
     </div>
   </div>
 
-  <!-- Panel: Tabs -->
   <div id="panel-tabs" class="panel">
     <div class="card">
-      <div class="card-title">Current Tabs</div>
-      <div id="tabList">Connect to see tabs.</div>
-      <div style="margin-top:20px; display:flex; gap:10px">
-        <input type="text" id="newTabName" placeholder="New category name..." />
-        <button class="btn btn-primary" style="width:auto" onclick="addTab()">Add</button>
+      <div class="card-title">Archive Categories</div>
+      <div id="tabListDisplay">Connect GitHub to see categories.</div>
+      <div style="margin-top:25px; display:flex; gap:10px">
+        <input type="text" id="newCatInput" placeholder="New category name..." style="flex:1" />
+        <button class="btn btn-primary" onclick="createNewTab()">Create Tab</button>
       </div>
     </div>
   </div>
-
 </div>
 
-<div id="toast">Synced!</div>
+<!-- DELETE MODAL -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <h2 style="color:var(--red); font-family:'Archivo Black'">CONFIRM ACTION</h2>
+    <p id="delMsg" style="margin:20px 0; font-size:14px; color:var(--muted)"></p>
+    <p style="font-size:10px; color:var(--red); margin-bottom:10px">TYPE <span style="font-weight:900">DELETE</span> TO CONTINUE</p>
+    <input type="text" id="delConfirm" style="text-align:center" oninput="checkDelKey()"/>
+    <div style="display:flex; gap:10px; margin-top:30px">
+      <button class="btn btn-secondary" style="flex:1" onclick="closeDelModal()">Cancel</button>
+      <button class="btn btn-danger" id="delFinalBtn" style="flex:1" disabled onclick="executeDeletion()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast">Changes Synced!</div>
 
 <script>
-  let data = null, sha = null;
+  let indexData = null, indexSha = null, editingIdx = null, deleteObj = null;
 
-  // UI: Tab Switching (Guaranteed to work)
-  function showPanel(id) {
-    console.log('Switching to:', id);
-    const panels = ['add', 'browse', 'tabs'];
-    panels.forEach(p => {
-      document.getElementById('panel-' + p).style.display = (p === id) ? 'block' : 'none';
-      document.getElementById('tab-' + p).classList.toggle('active', p === id);
-    });
-    if(id === 'browse') renderEntries();
-    if(id === 'tabs') renderTabs();
+  // 1. FOOLPROOF TAB SWITCHING
+  function switchTab(id) {
+    console.log('User clicked tab:', id);
+    // Hide all panels
+    const panels = document.querySelectorAll('.panel');
+    panels.forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
+    
+    // Deactivate all buttons
+    const btns = document.querySelectorAll('.nav-tab');
+    btns.forEach(b => b.classList.remove('active'));
+    
+    // Activate selected
+    const activePanel = document.getElementById('panel-' + id);
+    const activeBtn = document.getElementById('tab-btn-' + id);
+    
+    if(activePanel && activeBtn) {
+      activePanel.style.display = 'block';
+      setTimeout(() => activePanel.classList.add('active'), 10);
+      activeBtn.classList.add('active');
+    }
+
+    if(id === 'browse') renderEntryList();
+    if(id === 'tabs') renderTabManager();
   }
 
-  // API: Connect
-  async function connect() {
-    const t = document.getElementById('ghToken').value, r = document.getElementById('ghRepo').value;
-    if(!t || !r) return alert('Fill both fields');
+  // 2. CONNECTION
+  async function connectRepo() {
+    const t = document.getElementById('ghToken').value.trim();
+    const r = document.getElementById('ghRepo').value.trim().replace('https://github.com/','').replace('github.com/','').split('/').filter(p=>p).pop();
+    if(!t || !r) return alert('Token/Repo Missing');
     
     try {
-      const res = await fetch(`https://api.github.com/repos/xCaptaiN09/${r}/contents/public/index.json`, { headers: { 'Authorization': `token ${t}` } });
-      if(!res.ok) throw new Error('Repo/File not found');
+      const res = await fetch(`https://api.github.com/repos/xCaptaiN09/${r}/contents/public/index.json`, { headers: {'Authorization': `token ${t}`} });
+      if(!res.ok) throw new Error('Repository or File not found');
       const file = await res.json();
-      sha = file.sha;
+      indexSha = file.sha;
       const bin = atob(file.content.replace(/\n/g, ''));
       const bytes = new Uint8Array(bin.length); for(let i=0; i<bin.length; i++) bytes[i] = bin.charCodeAt(i);
-      data = JSON.parse(new TextDecoder().decode(bytes));
+      indexData = JSON.parse(new TextDecoder().decode(bytes));
       
       localStorage.setItem('v2_token', t); localStorage.setItem('v2_repo', r);
-      document.getElementById('statusDot').classList.add('active');
-      document.getElementById('statusText').innerText = 'CONNECTED';
+      document.getElementById('connStatus').innerText = '● CONNECTED: ' + r.toUpperCase();
+      document.getElementById('connStatus').style.color = 'var(--accent)';
       document.getElementById('configCard').style.display = 'none';
       
-      initDropdowns();
-      showToast('CONNECTED');
+      refreshUI();
+      showToast('READY');
     } catch(e) { alert(e.message); }
   }
 
-  function initDropdowns() {
-    const tabs = Object.keys(data).filter(k => Array.isArray(data[k]));
+  function refreshUI() {
+    if(!indexData) return;
+    const tabs = Object.keys(indexData).filter(k => Array.isArray(indexData[k]));
     const html = tabs.map(t => `<option value="${t}">${t.toUpperCase()}</option>`).join('');
-    document.getElementById('f-tab').innerHTML = html;
-    document.getElementById('b-tab').innerHTML = html;
+    document.getElementById('f-category').innerHTML = html;
+    document.getElementById('b-category').innerHTML = html;
+    updatePreview();
   }
 
-  function renderEntries() {
-    const tab = document.getElementById('b-tab').value, list = document.getElementById('entryList');
-    if(!data || !data[tab]) return;
-    list.innerHTML = data[tab].map((e, i) => `
-      <div class="entry-item">
-        <div><b>${e.name}</b><div style="font-size:10px; color:var(--muted)">${e.date}</div></div>
-        <button class="btn btn-danger" style="padding:5px 10px; font-size:10px" onclick="deleteEntry('${tab}', ${i})">Delete</button>
-      </div>`).join('');
+  // 3. LOGIC
+  function handleUrlInput(val) {
+    const m = val.match(/archive\.org\/download\/([^\/]+)\/([^?]+)/);
+    if(m) showToast('ARCHIVE URL PARSED');
+    updatePreview();
   }
 
-  function renderTabs() {
-    const list = document.getElementById('tabList');
-    if(!data) return;
-    const tabs = Object.keys(data).filter(k => Array.isArray(data[k]));
-    list.innerHTML = tabs.map(t => `
-      <div class="entry-item">
-        <b>${t.toUpperCase()}</b>
-        <button class="btn btn-danger" style="padding:5px 10px; font-size:10px" onclick="deleteTab('${t}')">Remove</button>
-      </div>`).join('');
-  }
-
-  function parseUrl(val) {
-    // Basic detection for Archive.org
-    if(val.includes('archive.org/download/')) {
-       showToast('ARCHIVE URL DETECTED');
-    }
-  }
-
-  async function saveEntry() {
-    const tab = document.getElementById('f-tab').value;
+  function updatePreview() {
+    const cat = document.getElementById('f-category').value;
+    document.getElementById('f-android-group').style.display = (cat === 'roms') ? 'flex' : 'none';
     const entry = {
-      name: document.getElementById('f-name').value,
-      version: document.getElementById('f-ver').value,
-      size: document.getElementById('f-size').value,
-      date: document.getElementById('f-date').value || new Date().toISOString().split('T')[0],
-      url: document.getElementById('f-url').value,
-      changelog: document.getElementById('f-changelog').value
+      name: document.getElementById('f-name').value, version: document.getElementById('f-version').value,
+      size: document.getElementById('f-size').value, date: document.getElementById('f-date').value || new Date().toISOString().split('T')[0],
+      url: document.getElementById('f-url').value, changelog: document.getElementById('f-changelog').value
     };
-    if(tab === 'roms') entry.android = document.getElementById('f-android').value;
-    
-    data[tab].unshift(entry);
-    await commit(`Add ${entry.name}`);
-    clearForm();
+    if(cat === 'roms') entry.android = document.getElementById('f-android').value || "16";
+    document.getElementById('jsonPreview').innerText = JSON.stringify(entry, null, 2);
   }
 
-  async function commit(msg) {
+  async function publishEntry() {
+    if(!indexData) return alert('Connect GitHub first');
+    const cat = document.getElementById('f-category').value;
+    const entry = JSON.parse(document.getElementById('jsonPreview').innerText);
+    if(!entry.name || !entry.url) return alert('Name and URL required');
+
+    if(editingIdx !== null) indexData[editingIdx.tab][editingIdx.idx] = entry;
+    else indexData[cat].unshift(entry);
+
+    await sync(`Update: ${entry.name}`);
+    resetForm(); refreshUI();
+  }
+
+  async function sync(msg) {
     const t = localStorage.getItem('v2_token'), r = localStorage.getItem('v2_repo');
     document.getElementById('loader').style.display = 'flex';
     try {
-      const bytes = new TextEncoder().encode(JSON.stringify(data, null, 2));
+      const bytes = new TextEncoder().encode(JSON.stringify(indexData, null, 2));
       const res = await fetch(`https://api.github.com/repos/xCaptaiN09/${r}/contents/public/index.json`, {
-        method: 'PUT',
-        headers: { 'Authorization': `token ${t}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: msg, content: btoa(String.fromCharCode(...bytes)), sha: sha })
+        method: 'PUT', headers: {'Authorization': `token ${t}`, 'Content-Type': 'application/json'},
+        body: JSON.stringify({ message: msg, content: btoa(String.fromCharCode(...bytes)), sha: indexSha })
       });
-      const resData = await res.json();
-      sha = resData.content.sha;
-      showToast('SYNCED');
+      if(!res.ok) throw new Error('GitHub Sync Failed');
+      const resData = await res.json(); indexSha = resData.content.sha;
+      showToast('SYNCED SUCCESSFULLY');
     } catch(e) { alert(e.message); }
     finally { document.getElementById('loader').style.display = 'none'; }
   }
 
-  function deleteEntry(tab, i) {
-    if(!confirm('Delete?')) return;
-    data[tab].splice(i, 1);
-    commit('Deleted Entry').then(renderEntries);
+  function renderEntryList() {
+    const tab = document.getElementById('b-category').value, list = document.getElementById('entryList');
+    if(!indexData || !indexData[tab]) return list.innerHTML = 'No data found.';
+    list.innerHTML = indexData[tab].map((e, i) => `
+      <div class="entry-item">
+        <div><b>${e.name}</b><div style="font-size:10px; color:var(--muted)">${e.date} • ${e.version}</div></div>
+        <div style="display:flex; gap:8px">
+          <button class="btn btn-secondary" style="padding:6px 12px; font-size:10px" onclick="editEntry('${tab}', ${i})">Edit</button>
+          <button class="btn btn-danger" style="padding:6px 12px; font-size:10px" onclick="openDel('entry', '${tab}', ${i})">Delete</button>
+        </div>
+      </div>`).join('');
   }
 
-  function addTab() {
-    const n = document.getElementById('newTabName').value.toLowerCase().replace(/ /g, '_');
-    if(!n || data[n]) return alert('Invalid');
-    data[n] = [];
-    commit('Added Tab: ' + n).then(() => { initDropdowns(); renderTabs(); });
+  function renderTabManager() {
+    const list = document.getElementById('tabListDisplay');
+    if(!indexData) return;
+    const tabs = Object.keys(indexData).filter(k => Array.isArray(indexData[k]));
+    list.innerHTML = tabs.map(t => `
+      <div class="entry-item">
+        <b style="color:var(--accent)">${t.toUpperCase()}</b>
+        <button class="btn btn-danger" style="padding:6px 12px; font-size:10px" onclick="openDel('tab', '${t}')">Remove</button>
+      </div>`).join('');
   }
 
-  function deleteTab(t) {
-    if(!confirm('Delete Category?')) return;
-    delete data[t];
-    commit('Deleted Tab: ' + t).then(() => { initDropdowns(); renderTabs(); });
+  function editEntry(tab, i) {
+    const e = indexData[tab][i]; editingIdx = {tab, idx: i};
+    document.getElementById('f-category').value = tab;
+    document.getElementById('f-name').value = e.name; document.getElementById('f-version').value = e.version;
+    document.getElementById('f-size').value = e.size; document.getElementById('f-date').value = e.date;
+    document.getElementById('f-android').value = e.android || ''; document.getElementById('f-changelog').value = e.changelog;
+    document.getElementById('f-url').value = e.url;
+    document.getElementById('formHeader').innerText = 'EDITING ENTRY';
+    document.getElementById('cancelEditBtn').style.display = 'block';
+    document.getElementById('publishBtn').innerText = 'Update Changes';
+    switchTab('add');
   }
 
-  function clearForm() {
-    ['f-name','f-ver','f-size','f-url','f-changelog'].forEach(i => document.getElementById(id).value = '');
+  function resetForm() {
+    editingIdx = null;
+    ['f-name','f-version','f-size','f-changelog','f-url','f-android'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('formHeader').innerText = 'NEW ARCHIVE ENTRY';
+    document.getElementById('cancelEditBtn').style.display = 'none';
+    document.getElementById('publishBtn').innerText = 'Publish to GitHub';
+    updatePreview();
+  }
+
+  async function createNewTab() {
+    const n = document.getElementById('newCatInput').value.trim().toLowerCase().replace(/ /g, '_');
+    if(!n || indexData[n]) return alert('Invalid Key');
+    indexData[n] = [];
+    await sync('Created category: ' + n);
+    document.getElementById('newCatInput').value = ''; refreshUI(); renderTabManager();
+  }
+
+  // 4. DELETION
+  function openDel(type, tab, idx) {
+    deleteObj = {type, tab, idx};
+    document.getElementById('delMsg').innerText = (type === 'tab') ? `Delete Category "${tab.toUpperCase()}" and all files within?` : `Remove "${indexData[tab][idx].name}"?`;
+    document.getElementById('delConfirm').value = ''; document.getElementById('delFinalBtn').disabled = true;
+    document.getElementById('deleteModal').classList.add('active');
+  }
+  function closeDelModal() { document.getElementById('deleteModal').classList.remove('active'); }
+  function checkDelKey() { document.getElementById('delFinalBtn').disabled = (document.getElementById('delConfirm').value !== 'DELETE'); }
+  async function executeDeletion() {
+    if(deleteObj.type === 'tab') delete indexData[deleteObj.tab]; else indexData[deleteObj.tab].splice(deleteObj.idx, 1);
+    await sync('Deleted Item'); closeDelModal(); refreshUI(); if(deleteObj.type === 'tab') renderTabManager(); else renderEntryList();
   }
 
   function showToast(m) {
     const t = document.getElementById('toast'); t.innerText = m; t.classList.add('show');
-    setTimeout(()=>t.classList.remove('show'), 3000);
+    setTimeout(() => t.classList.remove('show'), 3000);
   }
 
-  // Load Saved
-  const sT = localStorage.getItem('v2_token'), sR = localStorage.getItem('v2_repo');
-  if(sT) document.getElementById('ghToken').value = sT; 
-  if(sR) document.getElementById('ghRepo').value = sR;
-  if(sT && sR) connect();
-
+  // Start Logic
+  const savedT = localStorage.getItem('v2_token'), savedR = localStorage.getItem('v2_repo');
+  if(savedT) document.getElementById('ghToken').value = savedT;
+  if(savedR) document.getElementById('ghRepo').value = savedR;
+  if(savedT && savedR) connectRepo();
 </script>
 </body>
 </html>
