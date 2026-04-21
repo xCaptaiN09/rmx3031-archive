@@ -82,7 +82,7 @@ export default function CommunitySection() {
           <div
             className="flex tracking-tighter text-forest"
             style={{
-              fontSize: 'clamp(4rem, 10vw, 8rem)',
+              fontSize: 'clamp(2rem, 8vw, 8rem)',
               fontWeight: 800,
               lineHeight: 1,
             }}
