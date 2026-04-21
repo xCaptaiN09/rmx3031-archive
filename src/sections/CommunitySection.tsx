@@ -187,7 +187,7 @@ export default function CommunitySection() {
                   Want to add your files?
                 </p>
                 <a
-                  href="https://archive.org/create"
+                  href="https://archive.org/upload"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-3 inline-flex items-center gap-2 rounded-xl bg-forest px-6 py-3 text-sm font-semibold text-offwhite transition-colors duration-200 hover:bg-sage hover:text-forest"
