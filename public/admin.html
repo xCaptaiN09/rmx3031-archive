@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RMX3031 Bento Admin</title>
+<title>RMX3031 Archive Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&family=Archivo+Black&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -35,7 +35,7 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
   }
-  h1 { font-family: 'Archivo Black', sans-serif; font-size: 30px; font-weight: 400; text-transform: uppercase; letter-spacing: -1px; line-height: 1; }
+  h1 { font-family: 'Archivo Black', sans-serif; font-size: 30px; font-weight: 400; letter-spacing: -0.5px; line-height: 1; }
   h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .subtitle { margin-top: 8px; color: var(--muted); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
 
@@ -53,7 +53,7 @@
   .nav-tab { flex: 1; padding: 10px 16px; border: none; background: transparent; color: var(--muted); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 7px; transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1); }
   .nav-tab:hover { color: var(--text); background: var(--surface2); transform: scale(1.04); }
   .nav-tab:active { transform: scale(0.96); }
-  .nav-tab.active { background: var(--accent); color: var(--text); box-shadow: 0 2px 12px #8fbc8f55; }
+  .nav-tab.active { background: #2d4a3e; color: #f5f5f0; box-shadow: 0 2px 12px rgba(45,74,62,0.3); }
 
   .panel { display: none; }
   .panel.active { display: block; }
@@ -260,7 +260,7 @@
   .modal-edit .form-group.full { grid-column: 1/-1; }
   .modal-edit input, .modal-edit textarea, .modal-edit select { font-size: 13px; padding: 8px 10px; }
   .modal-edit textarea { min-height: 60px; }
-  .modal-title-edit { color: var(--blue); }
+  .modal-title-edit { color: var(--green); }
 
   /* Entries panel nav */
   .sub-nav { display: flex; gap: 6px; margin-bottom: 14px; }
@@ -279,12 +279,13 @@
 </style>
 </head>
 <body>
+<nav style="background:#2d4a3e;padding:14px 24px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50;"><a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;"><span style="font-family:Inter,sans-serif;font-size:15px;font-weight:700;color:#f5f5f0;">RMX3031</span><span style="font-family:Inter,sans-serif;font-size:13px;color:#8fbc8f;">Admin</span></a></nav>
 <div class="container">
 
   <header>
-    <div class="badge">BENTO ADMIN</div>
+    <div class="badge">ARCHIVE ADMIN</div>
     <h1>RMX3031 <span>Archive Admin</span></h1>
-    <p class="subtitle">Stable legacy core - New Bento green UI</p>
+    <p class="subtitle">Manage index.json via GitHub API</p>
   </header>
 
   <!-- Token -->
@@ -436,7 +437,7 @@
         </div>
       </div>
       <div class="btn-row">
-        <button class="btn btn-blue" id="createTabBtn" onclick="createTab()">Create Tab</button>
+        <button class="btn btn-primary" id="createTabBtn" onclick="createTab()">Create Tab</button>
       </div>
     </div>
 
