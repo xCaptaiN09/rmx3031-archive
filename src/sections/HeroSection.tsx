@@ -64,8 +64,7 @@ export default function HeroSection() {
             textShadow: '0px 2px 12px rgba(0,0,0,0.25)',
           }}
         >
-          Immutable builds for the {data.codename}. Custom ROMs, kernels, recoveries,
-          and mods — maintained by {data.maintainer}.
+          Custom ROMs, kernels, recoveries, and mods for the {data.codename} — maintained by {data.maintainer}.
         </p>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
