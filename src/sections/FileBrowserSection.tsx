@@ -24,6 +24,8 @@ const categoryNames: Record<string, string> = {
 
 export default function FileBrowserSection() {
   const { data, loading } = useData()
+  const updateArrows = () => { const el = document.getElementById("tabScrollContainer"); const left = document.getElementById("tabArrowLeft"); const right = document.getElementById("tabArrowRight"); if(!el||!left||!right) return; const overflow = el.scrollWidth > el.clientWidth; left.classList.toggle("hidden", !overflow || el.scrollLeft <= 0); right.classList.toggle("hidden", !overflow || el.scrollLeft >= el.scrollWidth - el.clientWidth - 1); };
+  setTimeout(updateArrows, 100);
   const [activeTab, setActiveTab] = useState('roms')
 
   useEffect(() => {
@@ -63,18 +65,30 @@ export default function FileBrowserSection() {
         </div>
 
         <Tabs value={activeTab} className="w-full" onValueChange={setActiveTab}>
-          <div className="mb-8 overflow-x-auto pb-2 custom-scrollbar">
-            <TabsList className="inline-flex h-auto w-auto bg-sage/10 p-1">
-              {categories.map((cat) => (
-                <TabsTrigger
-                  key={cat}
-                  value={cat}
-                  className="rounded-lg px-6 py-2.5 text-sm font-medium transition-all data-[state=active]:bg-forest data-[state=active]:text-offwhite"
-                >
-                  {categoryNames[cat] || cat}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+          <div className="relative mb-8">
+            <button
+              id="tabArrowLeft"
+              onClick={() => { const el = document.getElementById("tabScrollContainer"); if(el) { el.scrollLeft -= 150; updateArrows(); } }}
+              className="absolute left-0 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg border border-sage/20 bg-offwhite text-forest/50 shadow-sm transition-all hover:border-sage hover:text-forest hidden"
+            >←</button>
+            <div id="tabScrollContainer" className="overflow-x-auto custom-scrollbar pb-2 px-1" onScroll={() => updateArrows()}>
+              <TabsList className="inline-flex h-auto w-auto bg-sage/10 p-1">
+                {categories.map((cat) => (
+                  <TabsTrigger
+                    key={cat}
+                    value={cat}
+                    className="rounded-lg px-6 py-2.5 text-sm font-medium transition-all data-[state=active]:bg-forest data-[state=active]:text-offwhite"
+                  >
+                    {categoryNames[cat] || cat}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+            <button
+              id="tabArrowRight"
+              onClick={() => { const el = document.getElementById("tabScrollContainer"); if(el) { el.scrollLeft += 150; updateArrows(); } }}
+              className="absolute right-0 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg border border-sage/20 bg-offwhite text-forest/50 shadow-sm transition-all hover:border-sage hover:text-forest hidden"
+            >→</button>
           </div>
 
           {categories.map((cat) => (
