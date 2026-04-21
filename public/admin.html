@@ -93,6 +93,7 @@
   /* URL section */
   .url-section { display: flex; flex-direction: column; gap: 8px; }
   .url-mode-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  @media (max-width: 640px) { .url-mode-row { flex-direction: column; } .mode-btn { width: 100%; } }
   .url-auto-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .url-preview {
     background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
