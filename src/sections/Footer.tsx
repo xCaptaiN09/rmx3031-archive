@@ -77,7 +77,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://github.com/xCaptaiN09/RMX3031-Community-Files"
+                  href="https://github.com/xCaptaiN09/rmx3031-archive"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-sm text-offwhite/50 transition-colors hover:text-offwhite"
@@ -88,7 +88,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="/admin.html"
+                  href="/admin"
                   className="inline-flex items-center gap-1.5 text-sm text-offwhite/50 transition-colors hover:text-offwhite"
                 >
                   Admin Panel
