@@ -42,7 +42,7 @@ export default function Navbar() {
         </div>
 
         <a
-          href="https://archive.org"
+          href="https://archive.org/details/@xcaptain09"
           target="_blank"
           rel="noopener noreferrer"
           className="hidden rounded-lg bg-forest px-4 py-1.5 text-xs font-semibold text-offwhite transition-colors duration-200 hover:bg-sage hover:text-forest md:inline-block"
@@ -71,7 +71,7 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="https://archive.org"
+            href="https://archive.org/details/@xcaptain09"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-2 inline-block rounded-lg bg-forest px-4 py-2 text-center text-xs font-semibold text-offwhite"
