@@ -41,7 +41,7 @@ function RomCard({ rom }: { rom: RomFile }) {
   }, [])
 
   return (
-    <div className="flip-card-wrapper h-80 cursor-pointer" onClick={toggleCard}>
+    <div className="flip-card-wrapper h-72 sm:h-80 cursor-pointer" onClick={toggleCard}>
       <div
         ref={innerRef}
         className="flip-card-inner relative h-full w-full"
