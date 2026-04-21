@@ -54,7 +54,7 @@ export default function CommunitySection() {
       icon: <ShieldCheck className="h-5 w-5" />,
       title: 'Verify Builds',
       description:
-        'Help verify MD5 checksums and test ROMs to ensure they work correctly on the RMX3031.',
+        'Test ROMs and kernels on the RMX3031 and report issues to help the community.',
     },
     {
       icon: <Globe className="h-5 w-5" />,

@@ -87,12 +87,6 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a
-                  href="/admin"
-                  className="inline-flex items-center gap-1.5 text-sm text-offwhite/50 transition-colors hover:text-offwhite"
-                >
-                  Admin Panel
-                </a>
               </li>
             </ul>
           </div>

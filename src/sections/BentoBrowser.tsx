@@ -55,7 +55,7 @@ export default function BentoBrowser() {
     {
       title: 'Custom ROMs',
       count: `${data.roms?.length || 0} ROMs`,
-      description: 'PixelOS, DerpFest, LineageOS, crDroid and more AOSP-based builds.',
+      description: 'Custom Android builds for the RMX3031. LineageOS, EvolutionX, Axion and more.',
       image: '/images/card-custom-roms.jpg',
       icon: <HardDrive className="h-5 w-5" />,
       gridClass: 'md:col-span-1 md:row-span-1',
@@ -64,7 +64,7 @@ export default function BentoBrowser() {
     {
       title: 'Kernels',
       count: `${data.kernels?.length || 0} Kernels`,
-      description: 'Custom kernels with overclocking, underclocking, and battery optimizations.',
+      description: 'KernelSU, SuSFS, and custom kernels maintained for the RMX3031.',
       image: '/images/card-kernels.jpg',
       icon: <Cpu className="h-5 w-5" />,
       gridClass: 'md:col-span-1 md:row-span-1',
@@ -73,7 +73,7 @@ export default function BentoBrowser() {
     {
       title: 'Recoveries',
       count: `${data.recovery?.length || 0} Recoveries`,
-      description: 'TWRP, OrangeFox, and SHRP builds for flashing and backups.',
+      description: 'TWRP and OrangeFox recovery builds for the RMX3031.',
       image: '/images/card-recoveries.jpg',
       icon: <ShieldCheck className="h-5 w-5" />,
       gridClass: 'md:col-span-1 md:row-span-1',
