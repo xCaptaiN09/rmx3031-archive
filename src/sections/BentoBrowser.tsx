@@ -109,7 +109,7 @@ export default function BentoBrowser() {
           {categories.map((cat) => (
             <div
               key={cat.title}
-              className={`tilt-card group cursor-pointer overflow-hidden rounded-3xl border border-sage/30 bg-offwhite ${cat.gridClass}`}
+              className={`tilt-card group overflow-hidden rounded-3xl border border-sage/30 bg-offwhite ${cat.gridClass}`}
               style={{
                 transform: 'perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale3d(1, 1, 1)',
                 transition: 'transform 0.2s ease-out, box-shadow 0.2s ease-out',
@@ -120,11 +120,6 @@ export default function BentoBrowser() {
               onMouseEnter={(e) => {
                 const card = e.currentTarget;
                 card.style.transform = 'perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale3d(1.02, 1.02, 1.02)';
-              }}
-              onClick={() => {
-                 const el = document.getElementById('full-archive');
-                 if (el) el.scrollIntoView({ behavior: 'smooth' });
-                 window.dispatchEvent(new CustomEvent('change-archive-tab', { detail: cat.href }));
               }}
             >
               <div 
@@ -162,7 +157,7 @@ export default function BentoBrowser() {
                   {/* Hover-reveal download button */}
                   <div className="mt-4 overflow-hidden h-10">
                     <div className="translate-y-full opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                      <button className="rounded-lg bg-forest px-5 py-2.5 text-sm font-semibold text-offwhite transition-colors duration-200 hover:bg-sage hover:text-forest">
+                      <button onClick={() => { const el = document.getElementById("full-archive"); if (el) el.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new CustomEvent("change-archive-tab", { detail: cat.href })); }} className="rounded-lg bg-forest px-5 py-2.5 text-sm font-semibold text-offwhite transition-colors duration-200 hover:bg-sage hover:text-forest">
                         Browse Files
                       </button>
                     </div>
