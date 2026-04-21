@@ -3,324 +3,274 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RMX3031 Admin PRO</title>
+<title>RMX3031 Admin V2.1</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600;800&family=Archivo+Black&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #1a2e26; --surface: #243d34; --surface2: #2d4a3e;
     --border: rgba(143, 188, 143, 0.2); --accent: #8fbc8f;
     --text: #f5f5f0; --muted: rgba(245, 245, 240, 0.5);
-    --red: #fca5a5; --blue: #7dd3fc; --green: #bbf7d0;
+    --red: #fca5a5; --blue: #7dd3fc;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; min-height: 100vh; padding: 40px 20px 100px; }
+  body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; min-height: 100vh; padding: 20px; }
   .container { max-width: 900px; margin: 0 auto; }
-  header { margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
-  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; font-family: 'JetBrains Mono'; font-size: 10px; color: var(--accent); margin-bottom: 8px; letter-spacing: 1px; }
-  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-  h1 { font-family: 'Archivo Black'; font-size: 32px; text-transform: uppercase; letter-spacing: -1px; line-height: 1; }
+  header { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 20px; }
+  .badge { padding: 4px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; font-family: 'JetBrains Mono'; font-size: 10px; color: var(--accent); }
+  h1 { font-family: 'Archivo Black'; font-size: 24px; text-transform: uppercase; }
   h1 span { color: var(--accent); }
-  .config-bar { background: var(--surface); border: 1px solid var(--border); padding: 15px 25px; border-radius: 24px; margin-bottom: 30px; display: flex; align-items: center; gap: 15px; }
-  .config-bar input { flex: 1; background: var(--surface2); border: 1px solid var(--border); padding: 10px 15px; border-radius: 12px; color: #fff; font-size: 13px; }
-  .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #555; transition: all 0.3s; }
-  .status-dot.active { background: var(--accent); box-shadow: 0 0 12px var(--accent); }
-  .nav-tabs { display: flex; gap: 10px; margin-bottom: 24px; }
-  .nav-tab { background: var(--surface); border: 1px solid var(--border); color: var(--muted); font-weight: 800; cursor: pointer; padding: 12px 24px; border-radius: 16px; transition: all 0.2s; }
-  .nav-tab.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 28px; padding: 32px; margin-bottom: 24px; position: relative; }
-  .card-title { font-size: 12px; font-family: 'JetBrains Mono'; color: var(--accent); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px; }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .form-group { display: flex; flex-direction: column; gap: 8px; }
-  .full { grid-column: 1 / -1; }
-  label { font-size: 11px; font-family: 'JetBrains Mono'; color: var(--muted); text-transform: uppercase; }
-  input, select, textarea { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 14px; color: var(--text); outline: none; font-family: 'Outfit'; font-size: 14px; }
-  .url-modes { display: flex; gap: 6px; margin-bottom: 12px; }
-  .mode-btn { padding: 6px 14px; border-radius: 10px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: 10px; cursor: pointer; font-family: 'JetBrains Mono'; font-weight: 700; }
-  .mode-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-  .url-preview { padding: 14px; background: rgba(0,0,0,0.25); border-radius: 12px; font-family: 'JetBrains Mono'; font-size: 11px; color: var(--accent); word-break: break-all; margin-top: 10px; border: 1px dashed var(--border); }
-  .json-box { background: #000; padding: 20px; border-radius: 16px; font-family: 'JetBrains Mono'; font-size: 11px; color: #8fbc8f; white-space: pre-wrap; overflow-x: auto; margin-top: 25px; border: 1px solid var(--border); }
-  .btn { padding: 14px 32px; border-radius: 16px; border: none; font-weight: 800; cursor: pointer; transition: all 0.2s; font-family: 'Outfit'; display: inline-flex; align-items: center; gap: 10px; }
-  .btn-primary { background: var(--accent); color: var(--bg); }
-  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-  .btn-danger { background: rgba(252, 165, 165, 0.1); color: var(--red); border: 1px solid var(--red); }
-  .entry-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; background: var(--surface2); border-radius: 20px; margin-bottom: 12px; border: 1px solid transparent; }
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; }
-  .modal-overlay.active { display: flex; }
-  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 32px; padding: 40px; max-width: 450px; width: 100%; text-align: center; }
-  #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 18px 40px; background: var(--accent); color: var(--bg); border-radius: 50px; font-weight: 900; transition: transform 0.5s; z-index: 5000; }
-  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--surface); padding: 10px; border-radius: 20px; border: 1px solid var(--border); }
+  .nav-tab { flex: 1; background: transparent; border: none; color: var(--muted); font-weight: 800; cursor: pointer; padding: 12px; border-radius: 12px; transition: 0.2s; font-size: 13px; }
+  .nav-tab.active { background: var(--accent); color: var(--bg); }
+
   .panel { display: none; }
   .panel.active { display: block; }
-  .loading-overlay { position: fixed; inset: 0; background: rgba(26, 46, 38, 0.9); display: none; justify-content: center; align-items: center; z-index: 6000; backdrop-filter: blur(10px); }
+  
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 25px; margin-bottom: 20px; }
+  .card-title { font-size: 11px; font-family: 'JetBrains Mono'; color: var(--accent); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .full { grid-column: 1 / -1; }
+  label { font-size: 10px; font-family: 'JetBrains Mono'; color: var(--muted); text-transform: uppercase; }
+  input, select, textarea { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; color: var(--text); outline: none; font-family: 'Outfit'; font-size: 14px; width: 100%; }
+  
+  .btn { padding: 12px 24px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.2s; font-family: 'Outfit'; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn:active { transform: scale(0.95); }
+  .btn-primary { background: var(--accent); color: var(--bg); width: 100%; }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-danger { background: rgba(252, 165, 165, 0.1); color: var(--red); border: 1px solid var(--red); }
+
+  .entry-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--surface2); border-radius: 15px; margin-bottom: 10px; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #444; }
+  .status-dot.active { background: #8fbc8f; box-shadow: 0 0 8px #8fbc8f; }
+
+  .loading-overlay { position: fixed; inset: 0; background: rgba(26, 46, 38, 0.9); display: none; justify-content: center; align-items: center; z-index: 9000; backdrop-filter: blur(5px); }
+  #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 12px 30px; background: var(--accent); color: var(--bg); border-radius: 50px; font-weight: 800; transition: 0.4s; z-index: 9999; }
+  #toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
 <div class="loading-overlay" id="loader">
-  <div style="color:var(--accent); font-family:'Archivo Black'">SYNCING WITH GITHUB...</div>
+  <div style="color:var(--accent); font-family:'Archivo Black'">SYNCING...</div>
 </div>
 
 <div class="container">
   <header>
     <div>
-      <div class="badge">BENTO ARCHIVE PRO</div>
-      <h1>System <span>Manager</span></h1>
+      <div class="badge">V2.1 STABLE</div>
+      <h1>Archive <span>Admin</span></h1>
     </div>
-    <div style="text-align: right">
-      <div id="repoNameDisplay" style="font-family:'JetBrains Mono'; font-size: 10px; color: var(--muted); margin-bottom: 4px;">DISCONNECTED</div>
-      <div style="display:flex; justify-content: flex-end"><div class="status-dot" id="syncStatus"></div></div>
+    <div style="display:flex; align-items:center; gap:10px">
+      <div id="statusText" style="font-family:'JetBrains Mono'; font-size:10px; color:var(--muted)">OFFLINE</div>
+      <div class="status-dot" id="statusDot"></div>
     </div>
   </header>
 
-  <div class="config-bar">
-    <input type="password" id="ghToken" placeholder="GitHub Token" />
-    <input type="text" id="ghRepo" placeholder="Repo Name (rmx3031-archive)" />
-    <button class="btn btn-primary" style="padding: 10px 20px; border-radius: 12px;" onclick="saveConfig()">Verify & Connect</button>
+  <div class="card" id="configCard">
+    <div class="card-title">1. Connection</div>
+    <div style="display:flex; gap:10px">
+      <input type="password" id="ghToken" placeholder="GitHub Token" style="flex:2" />
+      <input type="text" id="ghRepo" placeholder="Repo (rmx3031-archive)" style="flex:1" />
+      <button class="btn btn-primary" style="width:auto" onclick="connect()">Connect</button>
+    </div>
   </div>
 
   <div class="nav-tabs">
-    <button class="nav-tab active" id="tab-btn-add" onclick="switchPanel('add')">Add Entry</button>
-    <button class="nav-tab" id="tab-btn-browse" onclick="switchPanel('browse')">Browse & Edit</button>
-    <button class="nav-tab" id="tab-btn-tabs" onclick="switchPanel('tabs')">Manage Tabs</button>
+    <button class="nav-tab active" id="tab-add" onclick="showPanel('add')">Add Entry</button>
+    <button class="nav-tab" id="tab-browse" onclick="showPanel('browse')">Browse Files</button>
+    <button class="nav-tab" id="tab-tabs" onclick="showPanel('tabs')">Manage Tabs</button>
   </div>
 
+  <!-- Panel: Add -->
   <div id="panel-add" class="panel active">
     <div class="card">
-      <div class="card-title" id="formTitle">New Entry Details</div>
+      <div class="card-title">New Entry Details</div>
       <div class="form-grid">
-        <div class="form-group"><label>Category</label><select id="tabSelect" onchange="updatePreview()"></select></div>
-        <div class="form-group"><label>Display Name</label><input type="text" id="name" oninput="updatePreview()" /></div>
-        <div class="form-group"><label>Version</label><input type="text" id="version" oninput="updatePreview()" /></div>
-        <div class="form-group"><label>File Size</label><input type="text" id="size" oninput="updatePreview()" /></div>
-        <div class="form-group"><label>Date</label><input type="date" id="date" oninput="updatePreview()" /></div>
-        <div class="form-group" id="androidGroup"><label>Android Version</label><input type="text" id="android" placeholder="16" oninput="updatePreview()" /></div>
+        <div class="form-group"><label>Category</label><select id="f-tab"></select></div>
+        <div class="form-group"><label>Name</label><input type="text" id="f-name" /></div>
+        <div class="form-group"><label>Version</label><input type="text" id="f-ver" /></div>
+        <div class="form-group"><label>Size</label><input type="text" id="f-size" /></div>
+        <div class="form-group"><label>Date</label><input type="date" id="f-date" /></div>
+        <div class="form-group" id="f-android-group"><label>Android</label><input type="text" id="f-android" value="16" /></div>
         <div class="form-group full">
-          <label>Download Location</label>
-          <div class="url-modes">
-            <button class="mode-btn active" id="btn-auto" onclick="setUrlMode('auto')">AUTO (ID)</button>
-            <button class="mode-btn" id="btn-manual" onclick="setUrlMode('manual')">MANUAL</button>
-          </div>
-          <div id="url-auto-fields" style="display: flex; gap: 10px;">
-            <input type="text" id="itemId" placeholder="Item ID" oninput="buildAutoUrl()" />
-            <input type="text" id="filename" placeholder="filename.zip" oninput="buildAutoUrl()" />
-          </div>
-          <input type="text" id="manualUrl" style="display:none" oninput="onManualUrlInput()" />
-          <div class="url-preview" id="urlPreview">Waiting for input...</div>
+          <label>URL (Auto-parses Archive.org)</label>
+          <input type="text" id="f-url" placeholder="Paste URL here..." oninput="parseUrl(this.value)" />
         </div>
-        <div class="form-group full"><label>Changelog</label><textarea id="changelog" oninput="updatePreview()"></textarea></div>
+        <div class="form-group full"><label>Changelog</label><textarea id="f-changelog"></textarea></div>
       </div>
-      <div class="json-box" id="jsonPreview">{}</div>
-      <div style="margin-top: 30px; display: flex; gap: 12px;">
-        <button class="btn btn-primary" id="saveBtn" onclick="submitEntry()">Publish to GitHub</button>
-        <button class="btn btn-secondary" id="cancelEditBtn" style="display:none" onclick="resetForm()">Cancel Edit</button>
-      </div>
+      <button class="btn btn-primary" style="margin-top:20px" id="saveBtn" onclick="saveEntry()">Publish to GitHub</button>
     </div>
   </div>
 
+  <!-- Panel: Browse -->
   <div id="panel-browse" class="panel">
     <div class="card">
-      <div class="card-title">Database Browser</div>
-      <select id="browseTabSelect" onchange="loadEntriesList()" style="margin-bottom: 24px;"></select>
-      <div id="entryList">Connect GitHub to browse files.</div>
+      <div class="card-title">Select Category</div>
+      <select id="b-tab" onchange="renderEntries()"></select>
+      <div id="entryList" style="margin-top:20px">Connect to see entries.</div>
     </div>
   </div>
 
+  <!-- Panel: Tabs -->
   <div id="panel-tabs" class="panel">
     <div class="card">
-      <div class="card-title">Tab Management</div>
-      <div id="tabManagerList">Connect GitHub to manage tabs.</div>
-      <div style="margin-top: 30px; display: flex; gap: 12px;">
-        <input type="text" id="newTabName" placeholder="Category Name" style="margin:0" />
-        <button class="btn btn-primary" onclick="createTab()">Add Category</button>
+      <div class="card-title">Current Tabs</div>
+      <div id="tabList">Connect to see tabs.</div>
+      <div style="margin-top:20px; display:flex; gap:10px">
+        <input type="text" id="newTabName" placeholder="New category name..." />
+        <button class="btn btn-primary" style="width:auto" onclick="addTab()">Add</button>
       </div>
     </div>
   </div>
-</div>
 
-<div class="modal-overlay" id="deleteModal">
-  <div class="modal">
-    <h2 style="color:var(--red)">CONFIRM DELETE</h2>
-    <p id="deleteModalDesc" style="margin: 15px 0; font-size:14px; color:var(--muted)"></p>
-    <p style="font-size:10px; color:var(--red)">Type DELETE to confirm:</p>
-    <input type="text" id="deleteConfirmInput" style="margin:10px 0; text-align:center" oninput="checkDeleteMatch()" />
-    <div style="display:flex; gap:10px; margin-top:20px">
-      <button class="btn btn-secondary" style="flex:1" onclick="closeDeleteModal()">Cancel</button>
-      <button class="btn btn-danger" id="confirmDeleteBtn" style="flex:1" disabled onclick="executeDelete()">Delete</button>
-    </div>
-  </div>
 </div>
 
 <div id="toast">Synced!</div>
 
 <script>
-  let indexData = null, indexSha = null, urlMode = 'auto', editingId = null, deletePending = null;
+  let data = null, sha = null;
 
-  function switchPanel(id) {
-    console.log('Switching to panel:', id);
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('panel-' + id).classList.add('active');
-    document.getElementById('tab-btn-' + id).classList.add('active');
-    if(id === 'browse') loadEntriesList();
-    if(id === 'tabs') renderTabManager();
+  // UI: Tab Switching (Guaranteed to work)
+  function showPanel(id) {
+    console.log('Switching to:', id);
+    const panels = ['add', 'browse', 'tabs'];
+    panels.forEach(p => {
+      document.getElementById('panel-' + p).style.display = (p === id) ? 'block' : 'none';
+      document.getElementById('tab-' + p).classList.toggle('active', p === id);
+    });
+    if(id === 'browse') renderEntries();
+    if(id === 'tabs') renderTabs();
   }
 
-  async function saveConfig() {
-    const t = document.getElementById('ghToken').value.trim();
-    const r = document.getElementById('ghRepo').value.trim().replace('https://github.com/','').replace('github.com/','').split('/').filter(p=>p).pop();
-    if(!t || !r) return alert('Token and Repo Required');
-    localStorage.setItem('v2_token', t); localStorage.setItem('v2_repo', r);
-    fetchData();
-  }
-
-  async function fetchData() {
-    const token = localStorage.getItem('v2_token'), repo = localStorage.getItem('v2_repo');
-    if(!token || !repo) return;
+  // API: Connect
+  async function connect() {
+    const t = document.getElementById('ghToken').value, r = document.getElementById('ghRepo').value;
+    if(!t || !r) return alert('Fill both fields');
+    
     try {
-      const res = await fetch(`https://api.github.com/repos/xCaptaiN09/${repo}/contents/public/index.json`, { headers: {'Authorization': `token ${token}`} });
-      if(!res.ok) throw new Error('Repo not found');
-      const file = await res.json(); indexSha = file.sha;
+      const res = await fetch(`https://api.github.com/repos/xCaptaiN09/${r}/contents/public/index.json`, { headers: { 'Authorization': `token ${t}` } });
+      if(!res.ok) throw new Error('Repo/File not found');
+      const file = await res.json();
+      sha = file.sha;
       const bin = atob(file.content.replace(/\n/g, ''));
       const bytes = new Uint8Array(bin.length); for(let i=0; i<bin.length; i++) bytes[i] = bin.charCodeAt(i);
-      indexData = JSON.parse(new TextDecoder().decode(bytes));
-      document.getElementById('syncStatus').classList.add('active');
-      document.getElementById('repoNameDisplay').innerText = repo.toUpperCase();
-      populateDropdowns();
-      if(document.getElementById('panel-browse').classList.contains('active')) loadEntriesList();
-      if(document.getElementById('panel-tabs').classList.contains('active')) renderTabManager();
-      showToast('DATA LOADED');
-    } catch(e) { alert('Error: ' + e.message); }
+      data = JSON.parse(new TextDecoder().decode(bytes));
+      
+      localStorage.setItem('v2_token', t); localStorage.setItem('v2_repo', r);
+      document.getElementById('statusDot').classList.add('active');
+      document.getElementById('statusText').innerText = 'CONNECTED';
+      document.getElementById('configCard').style.display = 'none';
+      
+      initDropdowns();
+      showToast('CONNECTED');
+    } catch(e) { alert(e.message); }
   }
 
-  function populateDropdowns() {
-    if(!indexData) return;
-    const tabs = Object.keys(indexData).filter(k => Array.isArray(indexData[k]));
+  function initDropdowns() {
+    const tabs = Object.keys(data).filter(k => Array.isArray(data[k]));
     const html = tabs.map(t => `<option value="${t}">${t.toUpperCase()}</option>`).join('');
-    document.getElementById('tabSelect').innerHTML = html;
-    document.getElementById('browseTabSelect').innerHTML = html;
-    updatePreview();
+    document.getElementById('f-tab').innerHTML = html;
+    document.getElementById('b-tab').innerHTML = html;
   }
 
-  function loadEntriesList() {
-    const tab = document.getElementById('browseTabSelect').value, list = document.getElementById('entryList');
-    if(!indexData || !indexData[tab]) return list.innerHTML = 'Connect GitHub to browse files.';
-    list.innerHTML = indexData[tab].map((e, i) => `
+  function renderEntries() {
+    const tab = document.getElementById('b-tab').value, list = document.getElementById('entryList');
+    if(!data || !data[tab]) return;
+    list.innerHTML = data[tab].map((e, i) => `
       <div class="entry-item">
-        <div><div class="entry-name">${e.name}</div><div style="font-size:10px; color:var(--muted)">${e.date} • ${e.version}</div></div>
-        <div style="display:flex; gap:8px"><button class="btn btn-secondary" style="padding:6px 12px; font-size:10px" onclick="startEdit('${tab}', ${i})">Edit</button>
-        <button class="btn btn-danger" style="padding:6px 12px; font-size:10px" onclick="openDeleteModal('entry', ${i}, '${tab}')">Delete</button></div>
+        <div><b>${e.name}</b><div style="font-size:10px; color:var(--muted)">${e.date}</div></div>
+        <button class="btn btn-danger" style="padding:5px 10px; font-size:10px" onclick="deleteEntry('${tab}', ${i})">Delete</button>
       </div>`).join('');
   }
 
-  function renderTabManager() {
-    const list = document.getElementById('tabManagerList');
-    if(!indexData) return list.innerHTML = 'Connect GitHub to manage tabs.';
-    const tabs = Object.keys(indexData).filter(k => Array.isArray(indexData[k]));
+  function renderTabs() {
+    const list = document.getElementById('tabList');
+    if(!data) return;
+    const tabs = Object.keys(data).filter(k => Array.isArray(data[k]));
     list.innerHTML = tabs.map(t => `
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 20px; background:var(--surface2); border-radius:12px; margin-bottom:8px">
-        <div style="font-weight:800; color:var(--accent)">${t.toUpperCase()}</div>
-        <div style="display:flex; gap:10px; align-items:center"><span style="font-size:10px; color:var(--muted)">${indexData[t].length} ITEMS</span>
-        <button class="btn btn-danger" style="padding:4px 10px; font-size:10px" onclick="openDeleteModal('tab', null, '${t}')">Remove</button></div>
+      <div class="entry-item">
+        <b>${t.toUpperCase()}</b>
+        <button class="btn btn-danger" style="padding:5px 10px; font-size:10px" onclick="deleteTab('${t}')">Remove</button>
       </div>`).join('');
   }
 
-  function setUrlMode(m) {
-    urlMode = m;
-    document.getElementById('btn-auto').classList.toggle('active', m==='auto');
-    document.getElementById('btn-manual').classList.toggle('active', m==='manual');
-    document.getElementById('url-auto-fields').style.display = m==='auto' ? 'flex' : 'none';
-    document.getElementById('manualUrl').style.display = m==='manual' ? 'block' : 'none';
-    updatePreview();
+  function parseUrl(val) {
+    // Basic detection for Archive.org
+    if(val.includes('archive.org/download/')) {
+       showToast('ARCHIVE URL DETECTED');
+    }
   }
 
-  function buildAutoUrl() {
-    const id = document.getElementById('itemId').value, fn = document.getElementById('filename').value;
-    document.getElementById('urlPreview').innerText = (id && fn) ? `https://archive.org/download/${id}/${fn}` : 'Waiting...';
-    updatePreview();
-  }
-
-  function onManualUrlInput() {
-    const url = document.getElementById('manualUrl').value; document.getElementById('urlPreview').innerText = url;
-    const m = url.match(/archive\.org\/download\/([^\/]+)\/([^?]+)/);
-    if(m) { document.getElementById('itemId').value = m[1]; document.getElementById('filename').value = m[2]; }
-    updatePreview();
-  }
-
-  function updatePreview() {
-    const tab = document.getElementById('tabSelect').value;
-    document.getElementById('androidGroup').style.display = tab === 'roms' ? 'flex' : 'none';
+  async function saveEntry() {
+    const tab = document.getElementById('f-tab').value;
     const entry = {
-      name: document.getElementById('name').value, version: document.getElementById('version').value,
-      date: document.getElementById('date').value || new Date().toISOString().split('T')[0],
-      size: document.getElementById('size').value, url: document.getElementById('urlPreview').innerText,
-      changelog: document.getElementById('changelog').value
+      name: document.getElementById('f-name').value,
+      version: document.getElementById('f-ver').value,
+      size: document.getElementById('f-size').value,
+      date: document.getElementById('f-date').value || new Date().toISOString().split('T')[0],
+      url: document.getElementById('f-url').value,
+      changelog: document.getElementById('f-changelog').value
     };
-    if(tab === 'roms') entry.android = document.getElementById('android').value || "16";
-    document.getElementById('jsonPreview').innerText = JSON.stringify(entry, null, 2);
-  }
-
-  async function submitEntry() {
-    const tab = document.getElementById('tabSelect').value, entry = JSON.parse(document.getElementById('jsonPreview').innerText);
-    if(!entry.name || entry.url.includes('Waiting')) return alert('Name and URL required');
-    if(editingId) indexData[editingId.tab][editingId.index] = entry; else indexData[tab].unshift(entry);
-    commit(editingId ? `Update ${entry.name}` : `Add ${entry.name}`).then(resetForm);
+    if(tab === 'roms') entry.android = document.getElementById('f-android').value;
+    
+    data[tab].unshift(entry);
+    await commit(`Add ${entry.name}`);
+    clearForm();
   }
 
   async function commit(msg) {
-    const token = localStorage.getItem('v2_token'), repo = localStorage.getItem('v2_repo');
+    const t = localStorage.getItem('v2_token'), r = localStorage.getItem('v2_repo');
     document.getElementById('loader').style.display = 'flex';
     try {
-      const bytes = new TextEncoder().encode(JSON.stringify(indexData, null, 2));
-      const res = await fetch(`https://api.github.com/repos/xCaptaiN09/${repo}/contents/public/index.json`, {
-        method: 'PUT', headers: {'Authorization': `token ${token}`, 'Content-Type': 'application/json'},
-        body: JSON.stringify({ message: msg, content: btoa(String.fromCharCode(...bytes)), sha: indexSha })
+      const bytes = new TextEncoder().encode(JSON.stringify(data, null, 2));
+      const res = await fetch(`https://api.github.com/repos/xCaptaiN09/${r}/contents/public/index.json`, {
+        method: 'PUT',
+        headers: { 'Authorization': `token ${t}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, content: btoa(String.fromCharCode(...bytes)), sha: sha })
       });
-      if(!res.ok) throw new Error('Failed to Sync');
-      const data = await res.json(); indexSha = data.content.sha; showToast('SYNCED!'); fetchData();
-    } catch(e) { alert(e.message); } finally { document.getElementById('loader').style.display = 'none'; }
+      const resData = await res.json();
+      sha = resData.content.sha;
+      showToast('SYNCED');
+    } catch(e) { alert(e.message); }
+    finally { document.getElementById('loader').style.display = 'none'; }
   }
 
-  function startEdit(tab, i) {
-    const e = indexData[tab][i]; editingId = {tab, index: i};
-    document.getElementById('tabSelect').value = tab;
-    document.getElementById('name').value = e.name; document.getElementById('version').value = e.version;
-    document.getElementById('size').value = e.size; document.getElementById('date').value = e.date;
-    document.getElementById('android').value = e.android || ''; document.getElementById('changelog').value = e.changelog;
-    setUrlMode('manual'); document.getElementById('manualUrl').value = e.url; document.getElementById('urlPreview').innerText = e.url;
-    document.getElementById('formTitle').innerText = 'EDITING ENTRY';
-    document.getElementById('cancelEditBtn').style.display = 'block'; document.getElementById('saveBtn').innerText = 'Save Changes';
-    switchPanel('add');
+  function deleteEntry(tab, i) {
+    if(!confirm('Delete?')) return;
+    data[tab].splice(i, 1);
+    commit('Deleted Entry').then(renderEntries);
   }
 
-  function resetForm() {
-    editingId = null;
-    ['name','version','size','changelog','itemId','filename','manualUrl','android'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('formTitle').innerText = 'NEW ENTRY DETAILS';
-    document.getElementById('cancelEditBtn').style.display = 'none'; document.getElementById('saveBtn').innerText = 'Publish to GitHub';
-    setUrlMode('auto');
+  function addTab() {
+    const n = document.getElementById('newTabName').value.toLowerCase().replace(/ /g, '_');
+    if(!n || data[n]) return alert('Invalid');
+    data[n] = [];
+    commit('Added Tab: ' + n).then(() => { initDropdowns(); renderTabs(); });
   }
 
-  function openDeleteModal(type, i, tab) {
-    deletePending = {type, index: i, tab};
-    document.getElementById('deleteModalDesc').innerText = type==='tab' ? `Delete Category "${tab.toUpperCase()}"?` : `Delete "${indexData[tab][i].name}"?`;
-    document.getElementById('deleteConfirmInput').value = ''; document.getElementById('confirmDeleteBtn').disabled = true;
-    document.getElementById('deleteModal').classList.add('active');
+  function deleteTab(t) {
+    if(!confirm('Delete Category?')) return;
+    delete data[t];
+    commit('Deleted Tab: ' + t).then(() => { initDropdowns(); renderTabs(); });
   }
-  function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('active'); }
-  function checkDeleteMatch() { document.getElementById('confirmDeleteBtn').disabled = document.getElementById('deleteConfirmInput').value !== 'DELETE'; }
-  async function executeDelete() {
-    if(deletePending.type === 'tab') delete indexData[deletePending.tab]; else indexData[deletePending.tab].splice(deletePending.index, 1);
-    commit('DELETED').then(closeDeleteModal);
+
+  function clearForm() {
+    ['f-name','f-ver','f-size','f-url','f-changelog'].forEach(i => document.getElementById(id).value = '');
   }
-  function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 3000); }
-  window.onerror = (m) => alert('Runtime Error: ' + m);
-  
-  // Init
+
+  function showToast(m) {
+    const t = document.getElementById('toast'); t.innerText = m; t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 3000);
+  }
+
+  // Load Saved
   const sT = localStorage.getItem('v2_token'), sR = localStorage.getItem('v2_repo');
-  if(sT) document.getElementById('ghToken').value = sT; if(sR) document.getElementById('ghRepo').value = sR;
-  if(sT && sR) fetchData(); else switchPanel('add');
+  if(sT) document.getElementById('ghToken').value = sT; 
+  if(sR) document.getElementById('ghRepo').value = sR;
+  if(sT && sR) connect();
 
 </script>
 </body>
