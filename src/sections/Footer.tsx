@@ -66,7 +66,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2.5">
               <li>
                 <a
-                  href="https://archive.org/details/@xcaptain09"
+                  href="https://archive.org/details/rmx3031-community"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-sm text-offwhite/50 transition-colors hover:text-offwhite"

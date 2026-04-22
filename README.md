@@ -6,7 +6,7 @@
 
 [![Deployment](https://img.shields.io/badge/Cloudflare_Pages-Deployed-F38020?style=for-the-badge&logo=cloudflare)](https://rmx3031-archive.pages.dev)  
 [![Maintainer](https://img.shields.io/badge/Maintainer-xCaptaiN09-blue?style=for-the-badge&logo=github)](https://github.com/xCaptaiN09)  
-[![Storage](https://img.shields.io/badge/Hosted_on-Internet_Archive-CCCCCC?style=for-the-badge&logo=internetarchive)](https://archive.org/details/@xcaptain09)  
+[![Storage](https://img.shields.io/badge/Hosted_on-Internet_Archive-CCCCCC?style=for-the-badge&logo=internetarchive)](https://archive.org/details/rmx3031-community)  
 
 </div>
 
@@ -24,7 +24,7 @@
 | :--- | :--- |
 | **Frontend** | [rmx3031-archive.pages.dev](https://rmx3031-archive.pages.dev) |
 | **Admin Panel** | [rmx3031-archive.pages.dev/admin](https://rmx3031-archive.pages.dev/admin) |
-| **Storage** | [archive.org/details/@xcaptain09](https://archive.org/details/@xcaptain09) |
+| **Storage** | [archive.org/details/rmx3031-community](https://archive.org/details/rmx3031-community) |
 
 ## Stack
 
