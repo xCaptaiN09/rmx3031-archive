@@ -58,7 +58,7 @@ function RomCard({ rom }: { rom: RomFile }) {
         data-flipped="false"
       >
         {/* Front */}
-        <div className="flip-card-front absolute inset-0 flex flex-col justify-between rounded-3xl border border-sage/20 bg-offwhite p-6 shadow-sm">
+        <div className="flip-card-front absolute inset-0 flex flex-col justify-between rounded-3xl border border-sage/20 dark:border-white/10 bg-offwhite dark:bg-[#2a4a38]/60 dark:backdrop-blur-md dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-6 shadow-lg">
           <div>
             <div
               className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl overflow-hidden"
@@ -93,10 +93,10 @@ function RomCard({ rom }: { rom: RomFile }) {
                 );
               })()}
             </div>
-            <h3 className="text-xl font-semibold text-forest line-clamp-2">
+            <h3 className="text-xl font-semibold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb] line-clamp-2">
               {rom.name}
             </h3>
-            <p className="mt-1 font-mono text-xs text-forest/50">
+            <p className="mt-1 font-mono text-xs text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50">
               {rom.version ? `v${rom.version}` : ""}{" "}
               {rom.android ? `— Android ${rom.android}` : ""}
             </p>
@@ -104,10 +104,10 @@ function RomCard({ rom }: { rom: RomFile }) {
 
           <div className="space-y-3">
             <div className="flex items-center justify-between border-t border-sage/10 pt-3">
-              <span className="font-mono text-xs text-forest/40">
+              <span className="font-mono text-xs text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/40">
                 {rom.date}
               </span>
-              <span className="font-mono text-sm font-medium text-forest">
+              <span className="font-mono text-sm font-medium text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]">
                 {rom.size}
               </span>
             </div>
@@ -119,9 +119,9 @@ function RomCard({ rom }: { rom: RomFile }) {
         </div>
 
         {/* Back */}
-        <div className="flip-card-back absolute inset-0 flex flex-col rounded-3xl border border-sage/20 bg-forest p-6 shadow-sm">
+        <div className="flip-card-back absolute inset-0 flex flex-col rounded-3xl border border-sage/20 dark:border-sage/30 dark:border-sage/40 bg-forest dark:bg-[#0d2b20] p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-offwhite truncate">
+            <h3 className="text-lg font-semibold text-offwhite dark:text-[#e8f0eb] truncate">
               {rom.name}
             </h3>
             <RefreshCw className="h-4 w-4 text-sage" />
@@ -131,14 +131,14 @@ function RomCard({ rom }: { rom: RomFile }) {
             <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-sage">
               Changelog
             </p>
-            <p className="text-xs leading-relaxed text-offwhite/70 whitespace-pre-wrap">
+            <p className="text-xs leading-relaxed text-offwhite dark:text-[#e8f0eb]/70 whitespace-pre-wrap">
               {rom.changelog}
             </p>
           </div>
 
           <div className="mt-4 space-y-3">
             <button
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-sage py-2.5 text-sm font-semibold text-forest transition-colors duration-200 hover:bg-offwhite"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-sage py-2.5 text-sm font-semibold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb] transition-colors duration-200 hover:bg-offwhite dark:bg-[#0d1f1a]"
               onClick={(e) => {
                 e.stopPropagation();
                 window.open(rom.url, "_blank");
@@ -172,14 +172,14 @@ export default function TransmissionFeed() {
     }));
 
   return (
-    <section id="roms" className="relative z-10 bg-forest px-6 py-24 lg:px-12">
+    <section id="roms" className="relative z-10 bg-forest dark:bg-[#0f2a1f] px-6 py-24 lg:px-12">
       <div className="mx-auto max-w-6xl">
         <div className="mb-14">
           <span className="font-mono text-xs font-medium uppercase tracking-widest text-sage">
             Featured ROMs
           </span>
           <h2
-            className="mt-3 text-offwhite"
+            className="mt-3 text-offwhite dark:text-[#e8f0eb]"
             style={{
               fontSize: "clamp(2rem, 4vw, 3rem)",
               fontWeight: 700,
@@ -189,7 +189,7 @@ export default function TransmissionFeed() {
           >
             Latest Releases
           </h2>
-          <p className="mt-3 max-w-md text-base leading-relaxed text-offwhite/50">
+          <p className="mt-3 max-w-md text-base leading-relaxed text-offwhite dark:text-[#e8f0eb]/50">
             Popular custom ROMs ready for download. Tap any card to view
             changelog and download links.
           </p>

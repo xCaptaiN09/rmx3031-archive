@@ -41,14 +41,14 @@ export default function FileBrowserSection() {
   const categories = Object.keys(data).filter((key) => Array.isArray(data[key]))
 
   return (
-    <section id="full-archive" className="relative z-10 bg-offwhite px-6 py-24 lg:px-12">
+    <section id="full-archive" className="relative z-10 bg-offwhite dark:bg-[#0d1f1a] px-6 py-24 lg:px-12">
       <div className="mx-auto max-w-6xl">
         <div className="mb-14">
           <span className="font-mono text-xs font-medium uppercase tracking-widest text-sage">
             Full Archive
           </span>
           <h2
-            className="mt-3 text-forest"
+            className="mt-3 text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]"
             style={{
               fontSize: 'clamp(2rem, 4vw, 3rem)',
               fontWeight: 700,
@@ -58,7 +58,7 @@ export default function FileBrowserSection() {
           >
             Explore All Files
           </h2>
-          <p className="mt-3 max-w-md text-base leading-relaxed text-forest/60">
+          <p className="mt-3 max-w-md text-base leading-relaxed text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/60">
             A comprehensive list of all preserved files for the {data.device}.
             Use the tabs below to switch between categories.
           </p>
@@ -69,15 +69,15 @@ export default function FileBrowserSection() {
             <button
               id="tabArrowLeft"
               onClick={() => { const el = document.getElementById("tabScrollContainer"); if(el) { el.scrollBy({ left: -200, behavior: "smooth" }); updateArrows(); } }}
-              className="absolute left-0 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg border border-sage/20 bg-offwhite text-forest/50 shadow-sm transition-all hover:border-sage hover:text-forest hidden"
+              className="absolute left-0 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg border border-sage/20 dark:border-sage/30 dark:border-sage/40 bg-offwhite dark:bg-[#0d1f1a] text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50 shadow-sm transition-all hover:border-sage hover:text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb] hidden"
             >←</button>
             <div id="tabScrollContainer" className="overflow-x-auto custom-scrollbar pb-2 px-1" onScroll={() => updateArrows()}>
-              <TabsList className="inline-flex h-auto w-auto bg-sage/10 p-1">
+              <TabsList className="inline-flex h-auto w-auto bg-sage/10 dark:bg-[#0a1a15] p-1">
                 {categories.map((cat) => (
                   <TabsTrigger
                     key={cat}
                     value={cat}
-                    className="rounded-lg px-6 py-2.5 text-sm font-medium transition-all data-[state=active]:bg-forest data-[state=active]:text-offwhite"
+                    className="rounded-lg px-6 py-2.5 text-sm font-medium transition-all data-[state=active]:bg-forest data-[state=active]:dark:bg-sage data-[state=active]:text-offwhite dark:text-[#e8f0eb] dark:hover:bg-[#1a3028]"
                   >
                     {categoryNames[cat] || cat}
                   </TabsTrigger>
@@ -87,7 +87,7 @@ export default function FileBrowserSection() {
             <button
               id="tabArrowRight"
               onClick={() => { const el = document.getElementById("tabScrollContainer"); if(el) { el.scrollBy({ left: 200, behavior: "smooth" }); updateArrows(); } }}
-              className="absolute right-0 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg border border-sage/20 bg-offwhite text-forest/50 shadow-sm transition-all hover:border-sage hover:text-forest hidden"
+              className="absolute right-0 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg border border-sage/20 dark:border-sage/30 dark:border-sage/40 bg-offwhite dark:bg-[#0d1f1a] text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50 shadow-sm transition-all hover:border-sage hover:text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb] hidden"
             >→</button>
           </div>
 
@@ -95,9 +95,9 @@ export default function FileBrowserSection() {
             <TabsContent key={cat} value={cat} className="mt-0">
               <div className="grid grid-cols-1 gap-4">
                 {data[cat].length === 0 ? (
-                  <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-sage/30 py-20 text-center">
+                  <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-sage/30 dark:border-sage/40 py-20 text-center">
                     <HardDrive className="mb-4 h-12 w-12 text-sage/30" />
-                    <p className="text-forest/40">No files found in this category.</p>
+                    <p className="text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/40">No files found in this category.</p>
                   </div>
                 ) : (
                   <Accordion type="single" collapsible className="w-full space-y-3">
@@ -107,14 +107,14 @@ export default function FileBrowserSection() {
                       <AccordionItem
                         key={i}
                         value={`${cat}-${i}`}
-                        className="overflow-hidden rounded-2xl border border-sage/20 bg-white/50 px-6 transition-all hover:border-sage/40 hover:bg-white"
+                        className="overflow-hidden rounded-2xl border border-sage/20 dark:border-sage/30 dark:border-sage/40 bg-white dark:bg-[#152b23]/50 dark:bg-[#152b23]/50 px-6 transition-all hover:border-sage/40 hover:bg-white dark:bg-[#152b23]"
                       >
                         <div className="flex flex-col items-start justify-between py-4 sm:flex-row sm:items-center">
                           <div className="flex-1">
-                            <h4 className="text-base font-semibold text-forest">
+                            <h4 className="text-base font-semibold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]">
                               {file.name}
                             </h4>
-                            <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-forest/50">
+                            <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50">
                               {file.version && (
                                 <span className="flex items-center gap-1">
                                   <Info className="h-3 w-3" />
@@ -122,7 +122,7 @@ export default function FileBrowserSection() {
                                 </span>
                               )}
                               {file.android && (
-                                <span className="rounded-full bg-sage/10 px-2 py-0.5 text-sage">
+                                <span className="rounded-full bg-sage/10 dark:bg-sage/20 px-2 py-0.5 text-sage">
                                   Android {file.android}
                                 </span>
                               )}
@@ -140,10 +140,10 @@ export default function FileBrowserSection() {
                           </div>
 
                           <div className="mt-4 flex w-full items-center gap-2 sm:mt-0 sm:w-auto">
-                            <AccordionTrigger className="flex h-10 w-10 items-center justify-center rounded-xl bg-sage/10 text-sage hover:bg-sage/20 hover:no-underline" />
+                            <AccordionTrigger className="flex h-10 w-10 items-center justify-center rounded-xl bg-sage/10 dark:bg-sage/20 text-sage hover:bg-sage dark:hover:bg-sage/80/20 hover:no-underline" />
                             <button
                               onClick={() => window.open(file.url, '_blank')}
-                              className="flex h-10 flex-1 items-center justify-center gap-2 rounded-xl bg-forest px-6 text-xs font-semibold text-offwhite transition-colors hover:bg-sage hover:text-forest sm:flex-none"
+                              className="flex h-10 flex-1 items-center justify-center gap-2 rounded-xl bg-forest dark:bg-[#152b23] px-6 text-xs font-semibold text-offwhite dark:text-[#e8f0eb] transition-colors hover:bg-sage dark:hover:bg-sage/80 hover:text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb] sm:flex-none"
                             >
                               <Download className="h-3.5 w-3.5" />
                               Download
@@ -155,7 +155,7 @@ export default function FileBrowserSection() {
                             <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-sage">
                               Changelog / Description
                             </p>
-                            <p className="text-sm leading-relaxed text-forest/70 whitespace-pre-wrap">
+                            <p className="text-sm leading-relaxed text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/70 whitespace-pre-wrap">
                               {file.changelog || 'No description provided.'}
                             </p>
                           </div>

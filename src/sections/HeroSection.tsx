@@ -35,7 +35,7 @@ export default function HeroSection() {
 
       {/* Hero Content */}
       <div className="relative z-[2] flex h-full flex-col items-center justify-center px-6 text-center">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-sage/30 bg-sage/10 px-4 py-1.5">
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-sage/30  bg-sage/10 dark:bg-sage/20 px-4 py-1.5">
           <span className="h-2 w-2 animate-pulse rounded-full bg-sage" />
           <span className="font-mono text-xs font-medium tracking-wide text-sage">
             Community Archive — {totalFiles} Files Preserved
@@ -43,7 +43,7 @@ export default function HeroSection() {
         </div>
 
         <h1
-          className="max-w-4xl text-offwhite"
+          className="max-w-4xl text-offwhite "
           style={{
             fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
             fontWeight: 800,
@@ -56,7 +56,7 @@ export default function HeroSection() {
         </h1>
 
         <p
-          className="mt-5 max-w-lg text-offwhite/80"
+          className="mt-5 max-w-lg text-offwhite /80"
           style={{
             fontSize: '1.05rem',
             fontWeight: 400,
@@ -70,14 +70,14 @@ export default function HeroSection() {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
           <a
             href="#browse"
-            className="rounded-xl bg-offwhite px-7 py-3 text-sm font-semibold text-forest transition-colors duration-200 hover:bg-sage"
+            className="rounded-xl bg-offwhite  px-7 py-3 text-sm font-semibold text-forest   transition-colors duration-200 hover:bg-sage "
           >
             Browse Files
           </a>
           <a
             href="https://github.com/xCaptaiN09/rmx3031-archive"
             target="_blank"
-            className="rounded-xl border border-offwhite/30 bg-transparent px-7 py-3 text-sm font-semibold text-offwhite transition-colors duration-200 hover:bg-offwhite/10"
+            className="rounded-xl border border-offwhite/30 bg-transparent px-7 py-3 text-sm font-semibold text-offwhite  transition-colors duration-200 hover:bg-offwhite /10"
           >
             GitHub Repo
           </a>
@@ -88,7 +88,7 @@ export default function HeroSection() {
       <div className="absolute bottom-8 left-1/2 z-[2] -translate-x-1/2">
         <a
           href="#browse"
-          className="flex flex-col items-center gap-1 text-offwhite/50 transition-colors hover:text-offwhite"
+          className="flex flex-col items-center gap-1 text-offwhite /50 transition-colors hover:text-offwhite "
         >
           <span className="font-mono text-[10px] uppercase tracking-widest">
             Scroll

@@ -1,8 +1,25 @@
-import { HardDrive, Menu, X } from 'lucide-react'
+import { HardDrive, Menu, Moon, Sun, X } from 'lucide-react'
 import { useState } from 'react'
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [dark, setDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme'))
+    }
+    return true
+  })
+
+  const toggleDark = () => {
+    const next = !dark
+    setDark(next)
+    document.documentElement.classList.toggle('dark', next)
+    localStorage.setItem('theme', next ? 'dark' : 'light')
+  }
+
+  if (typeof window !== 'undefined') {
+    document.documentElement.classList.toggle('dark', dark)
+  }
 
   const navLinks = [
     { label: 'Browse', href: '#browse' },
@@ -23,8 +40,8 @@ export default function Navbar() {
     >
       <div className="flex items-center justify-between">
         <a href="#" className="flex items-center gap-2.5">
-          <HardDrive className="h-5 w-5 text-offwhite" />
-          <span className="text-sm font-semibold tracking-tight text-offwhite">
+          <HardDrive className="h-5 w-5 text-offwhite dark:text-[#e8f0eb]" />
+          <span className="text-sm font-semibold tracking-tight text-offwhite dark:text-[#e8f0eb]">
             RMX3031
           </span>
         </a>
@@ -34,24 +51,31 @@ export default function Navbar() {
             <a
               key={link.label}
               href={link.href}
-              className="text-sm font-medium text-offwhite/70 transition-colors duration-200 hover:text-offwhite"
+              className="text-sm font-medium text-offwhite dark:text-[#e8f0eb]/70 transition-colors duration-200 hover:text-offwhite dark:text-[#e8f0eb]"
             >
               {link.label}
             </a>
           ))}
         </div>
 
+        <button
+          onClick={toggleDark}
+          className="hidden md:flex h-8 w-8 items-center justify-center rounded-lg border border-offwhite/20 text-offwhite/70 transition-colors hover:border-offwhite/40 hover:text-offwhite"
+          aria-label="Toggle dark mode"
+        >
+          {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+        </button>
         <a
           href="https://archive.org/details/rmx3031-community"
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden rounded-lg bg-forest px-4 py-1.5 text-xs font-semibold text-offwhite transition-colors duration-200 hover:bg-sage hover:text-forest md:inline-block"
+          className="hidden rounded-lg bg-forest dark:bg-[#152b23] px-4 py-1.5 text-xs font-semibold text-offwhite dark:text-[#e8f0eb] transition-colors duration-200 hover:bg-sage dark:hover:bg-sage/80 hover:text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb] md:inline-block"
         >
           Internet Archive
         </a>
 
         <button
-          className="text-offwhite md:hidden"
+          className="text-offwhite dark:text-[#e8f0eb] md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -64,7 +88,7 @@ export default function Navbar() {
             <a
               key={link.label}
               href={link.href}
-              className="text-sm font-medium text-offwhite/70 transition-colors hover:text-offwhite"
+              className="text-sm font-medium text-offwhite dark:text-[#e8f0eb]/70 transition-colors hover:text-offwhite dark:text-[#e8f0eb]"
               onClick={() => setMobileOpen(false)}
             >
               {link.label}
@@ -74,7 +98,7 @@ export default function Navbar() {
             href="https://archive.org/details/rmx3031-community"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 inline-block rounded-lg bg-forest px-4 py-2 text-center text-xs font-semibold text-offwhite"
+            className="mt-2 inline-block rounded-lg bg-forest dark:bg-[#152b23] px-4 py-2 text-center text-xs font-semibold text-offwhite dark:text-[#e8f0eb]"
           >
             Internet Archive
           </a>

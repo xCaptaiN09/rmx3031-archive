@@ -74,13 +74,13 @@ export default function CommunitySection() {
     <section
       id="contribute"
       ref={sectionRef}
-      className="community-section relative z-10 bg-offwhite px-6 py-24 lg:px-12"
+      className="community-section relative z-10 bg-offwhite dark:bg-[#0d1f1a] px-6 py-24 lg:px-12"
     >
       <div className="mx-auto max-w-6xl">
         {/* Wave Text */}
         <div ref={lettersRef} className="mb-16 overflow-hidden">
           <div
-            className="flex tracking-tighter text-forest"
+            className="flex tracking-tighter text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]"
             style={{
               fontSize: 'clamp(2rem, 8vw, 8rem)',
               fontWeight: 800,
@@ -97,7 +97,7 @@ export default function CommunitySection() {
               </span>
             ))}
           </div>
-          <p className="mt-4 max-w-lg text-base leading-relaxed text-forest/60">
+          <p className="mt-4 max-w-lg text-base leading-relaxed text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/60">
             The {data.codename} Archive is built by the community, for the community.
             Every contribution helps keep this resource alive.
           </p>
@@ -107,10 +107,10 @@ export default function CommunitySection() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           {/* Left: How to Contribute */}
           <div>
-            <h3 className="text-2xl font-semibold text-forest">
+            <h3 className="text-2xl font-semibold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]">
               How to Contribute
             </h3>
-            <p className="mt-3 text-sm leading-relaxed text-forest/60">
+            <p className="mt-3 text-sm leading-relaxed text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/60">
               Contributing is simple. Upload your files to the Internet Archive, then share the link with us.
 
             </p>
@@ -118,16 +118,16 @@ export default function CommunitySection() {
               {features.map((feat) => (
                 <div
                   key={feat.title}
-                  className="group flex gap-4 rounded-2xl border border-sage/20 bg-white/50 p-5 transition-all duration-200 hover:border-sage/40 hover:shadow-md"
+                  className="group flex gap-4 rounded-2xl border border-sage/20 dark:border-sage/30 dark:border-sage/40 bg-white dark:bg-[#152b23]/50 dark:bg-[#152b23]/50 p-5 transition-all duration-200 hover:border-sage/40 hover:shadow-md"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sage/15 text-sage transition-colors group-hover:bg-sage group-hover:text-offwhite">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sage/15 dark:bg-sage/25 text-sage transition-colors group-hover:bg-sage dark:hover:bg-sage/80 group-hover:text-offwhite dark:text-[#e8f0eb]">
                     {feat.icon}
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-forest">
+                    <h4 className="text-sm font-semibold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]">
                       {feat.title}
                     </h4>
-                    <p className="mt-1 text-xs leading-relaxed text-forest/50">
+                    <p className="mt-1 text-xs leading-relaxed text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50">
                       {feat.description}
                     </p>
                   </div>
@@ -138,59 +138,59 @@ export default function CommunitySection() {
 
           {/* Right: Stats & CTA */}
           <div className="flex flex-col justify-center">
-            <div className="rounded-3xl border border-sage/20 bg-white/50 p-8">
-              <h3 className="text-xl font-semibold text-forest">
+            <div className="rounded-3xl border border-sage/20 dark:border-sage/30 dark:border-sage/40 bg-white dark:bg-[#152b23]/50 dark:bg-[#152b23]/50 p-8">
+              <h3 className="text-xl font-semibold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]">
                 Archive Stats
               </h3>
 
               <div className="mt-6 grid grid-cols-2 gap-6">
                 <div>
                   <p
-                    className="font-mono text-3xl font-bold text-forest"
+                    className="font-mono text-3xl font-bold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]"
                     style={{ fontVariantNumeric: 'tabular-nums' }}
                   >
                     {totalFiles}+
                   </p>
-                  <p className="mt-1 text-xs text-forest/50">Files Preserved</p>
+                  <p className="mt-1 text-xs text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50">Files Preserved</p>
                 </div>
                 <div>
                   <p
-                    className="font-mono text-3xl font-bold text-forest"
+                    className="font-mono text-3xl font-bold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]"
                     style={{ fontVariantNumeric: 'tabular-nums' }}
                   >
                     {data.roms?.length || 0}
                   </p>
-                  <p className="mt-1 text-xs text-forest/50">Custom ROMs</p>
+                  <p className="mt-1 text-xs text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50">Custom ROMs</p>
                 </div>
                 <div>
                   <p
-                    className="font-mono text-3xl font-bold text-forest"
+                    className="font-mono text-3xl font-bold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]"
                     style={{ fontVariantNumeric: 'tabular-nums' }}
                   >
                     {data.kernels?.length || 0}
                   </p>
-                  <p className="mt-1 text-xs text-forest/50">Kernels</p>
+                  <p className="mt-1 text-xs text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50">Kernels</p>
                 </div>
                 <div>
                   <p
-                    className="font-mono text-3xl font-bold text-forest"
+                    className="font-mono text-3xl font-bold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]"
                     style={{ fontVariantNumeric: 'tabular-nums' }}
                   >
                     {data.recovery?.length || 0}
                   </p>
-                  <p className="mt-1 text-xs text-forest/50">Recoveries</p>
+                  <p className="mt-1 text-xs text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50">Recoveries</p>
                 </div>
               </div>
 
               <div className="mt-8 border-t border-sage/10 pt-6">
-                <p className="text-sm text-forest/60">
+                <p className="text-sm text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/60">
                   Want to add your files?
                 </p>
                 <a
                   href="https://archive.org/upload"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-2 rounded-xl bg-forest px-6 py-3 text-sm font-semibold text-offwhite transition-colors duration-200 hover:bg-sage hover:text-forest"
+                  className="mt-3 inline-flex items-center gap-2 rounded-xl bg-forest dark:bg-[#152b23] px-6 py-3 text-sm font-semibold text-offwhite dark:text-[#e8f0eb] transition-colors duration-200 hover:bg-sage dark:hover:bg-sage/80 hover:text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]"
                 >
                   <Upload className="h-4 w-4" />
                   Upload to Archive
