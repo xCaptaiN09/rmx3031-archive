@@ -93,6 +93,94 @@
   /* URL section */
   .url-section { display: flex; flex-direction: column; gap: 8px; }
   .url-mode-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+  .dark body {
+    background-color: #0d1f1a;
+    color: #e8f0eb;
+  }
+
+  .dark .card {
+    background: #152b23;
+    border-color: rgba(143, 188, 143, 0.2);
+  }
+
+  .dark .card:hover {
+    border-color: rgba(143, 188, 143, 0.4);
+    box-shadow: 0 6px 28px rgba(13, 31, 26, 0.4);
+  }
+
+  .dark .token-card {
+    background: #152b23;
+    border-color: rgba(143, 188, 143, 0.2);
+  }
+
+  .dark .nav-tabs {
+    background: #152b23;
+    border-color: rgba(143, 188, 143, 0.2);
+  }
+
+  .dark input, .dark select, .dark textarea {
+    background: #0d1f1a;
+    border-color: rgba(143, 188, 143, 0.2);
+    color: #e8f0eb;
+  }
+
+  .dark input::placeholder, .dark textarea::placeholder {
+    color: rgba(143, 188, 143, 0.5);
+  }
+
+  .dark .url-preview {
+    background: #0d1f1a;
+    border-color: rgba(143, 188, 143, 0.2);
+  }
+
+  .dark .json-preview {
+    background: #0a1a14;
+    border-color: rgba(143, 188, 143, 0.15);
+    color: #a8c5a8;
+  }
+
+  .dark .tab-item {
+    background: #0d1f1a;
+    border-color: rgba(143, 188, 143, 0.15);
+  }
+
+  .dark .tab-item:hover {
+    border-color: rgba(143, 188, 143, 0.4);
+  }
+
+  .dark .tab-item.selected {
+    background: #152b23;
+    border-color: #8fbc8f;
+  }
+
+  .dark .entry-item {
+    background: #0d1f1a;
+    border-color: rgba(143, 188, 143, 0.15);
+  }
+
+  .dark .modal {
+    background: #152b23;
+    border-color: rgba(143, 188, 143, 0.2);
+  }
+
+  .dark .toast {
+    background: #152b23;
+    border-color: rgba(143, 188, 143, 0.2);
+  }
+
+  .dark label {
+    color: rgba(143, 188, 143, 0.7);
+  }
+
+  .dark .card-title {
+    color: rgba(143, 188, 143, 0.6);
+  }
+
+  .dark .subtitle {
+    color: rgba(143, 188, 143, 0.6);
+  }
+
   @media (max-width: 640px) { .url-mode-row { flex-direction: column; } .mode-btn { width: 100%; } }
   .url-auto-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .url-preview {
@@ -272,6 +360,94 @@
   }
   .sub-nav-btn.active { background: #8fbc8f22; border-color: var(--accent); color: var(--accent); }
 
+
+  .dark body {
+    background-color: #0d1f1a;
+    color: #e8f0eb;
+  }
+
+  .dark .card {
+    background: #152b23;
+    border-color: rgba(143, 188, 143, 0.2);
+  }
+
+  .dark .card:hover {
+    border-color: rgba(143, 188, 143, 0.4);
+    box-shadow: 0 6px 28px rgba(13, 31, 26, 0.4);
+  }
+
+  .dark .token-card {
+    background: #152b23;
+    border-color: rgba(143, 188, 143, 0.2);
+  }
+
+  .dark .nav-tabs {
+    background: #152b23;
+    border-color: rgba(143, 188, 143, 0.2);
+  }
+
+  .dark input, .dark select, .dark textarea {
+    background: #0d1f1a;
+    border-color: rgba(143, 188, 143, 0.2);
+    color: #e8f0eb;
+  }
+
+  .dark input::placeholder, .dark textarea::placeholder {
+    color: rgba(143, 188, 143, 0.5);
+  }
+
+  .dark .url-preview {
+    background: #0d1f1a;
+    border-color: rgba(143, 188, 143, 0.2);
+  }
+
+  .dark .json-preview {
+    background: #0a1a14;
+    border-color: rgba(143, 188, 143, 0.15);
+    color: #a8c5a8;
+  }
+
+  .dark .tab-item {
+    background: #0d1f1a;
+    border-color: rgba(143, 188, 143, 0.15);
+  }
+
+  .dark .tab-item:hover {
+    border-color: rgba(143, 188, 143, 0.4);
+  }
+
+  .dark .tab-item.selected {
+    background: #152b23;
+    border-color: #8fbc8f;
+  }
+
+  .dark .entry-item {
+    background: #0d1f1a;
+    border-color: rgba(143, 188, 143, 0.15);
+  }
+
+  .dark .modal {
+    background: #152b23;
+    border-color: rgba(143, 188, 143, 0.2);
+  }
+
+  .dark .toast {
+    background: #152b23;
+    border-color: rgba(143, 188, 143, 0.2);
+  }
+
+  .dark label {
+    color: rgba(143, 188, 143, 0.7);
+  }
+
+  .dark .card-title {
+    color: rgba(143, 188, 143, 0.6);
+  }
+
+  .dark .subtitle {
+    color: rgba(143, 188, 143, 0.6);
+  }
+
   @media (max-width: 640px) {
     .form-grid { grid-template-columns: 1fr; }
     .form-group.full { grid-column: 1; }
@@ -280,7 +456,7 @@
 </style>
 </head>
 <body>
-<nav style="background:#2d4a3e;padding:14px 24px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50;"><a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;"><span style="font-family:Inter,sans-serif;font-size:15px;font-weight:700;color:#f5f5f0;">RMX3031</span><span style="font-family:Inter,sans-serif;font-size:13px;color:#8fbc8f;">Admin</span></a></nav>
+<nav style="background:#2d4a3e;padding:14px 24px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50;"><a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;"><span style="font-family:Inter,sans-serif;font-size:15px;font-weight:700;color:#f5f5f0;">RMX3031</span><span style="font-family:Inter,sans-serif;font-size:13px;color:#8fbc8f;">Admin</span></a><button onclick="toggleDark()" id="darkToggle" style="margin-left:auto;background:transparent;border:1px solid rgba(143,188,143,0.3);border-radius:8px;padding:6px 10px;cursor:pointer;color:#8fbc8f;font-size:16px;" title="Toggle dark mode">☀️</button></nav>
 <div class="container">
 
   <header>
@@ -1057,6 +1233,23 @@
   document.getElementById('deleteEntryModal').addEventListener('click', function(e) {
     if (e.target === this) closeDeleteEntryModal();
   });
+
+  // Dark mode
+  function toggleDark() {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('adminTheme', isDark ? 'dark' : 'light');
+    document.getElementById('darkToggle').textContent = isDark ? '☀️' : '🌙';
+  }
+
+  // Init theme - default dark
+  (function() {
+    const saved = localStorage.getItem('adminTheme');
+    const isDark = saved ? saved === 'dark' : true;
+    if (isDark) document.documentElement.classList.add('dark');
+    const btn = document.getElementById('darkToggle');
+    if (btn) btn.textContent = isDark ? '☀️' : '🌙';
+  })();
+
 </script>
 </body>
 </html>
