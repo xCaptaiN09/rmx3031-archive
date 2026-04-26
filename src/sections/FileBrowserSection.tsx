@@ -76,9 +76,10 @@ export default function FileBrowserSection() {
   }, []);
 
   useEffect(() => {
-    const handler = (e: CustomEvent) => {
-      if (e.detail && TABS.some((tab) => tab.key === e.detail)) {
-        setActiveTab(e.detail);
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail && TABS.some((tab) => tab.key === detail)) {
+        setActiveTab(detail);
         setOpenAccordion(null);
       }
     };
