@@ -308,17 +308,6 @@ export default function TransmissionFeed() {
           to   { stroke-dashoffset: 0; }
         }
 
-        /* ── Border animation ── */
-        .rom-card:hover .rom-border-svg {
-          opacity: 1 !important;
-        }
-        .rom-card:hover .rom-border-rect {
-          animation: draw-rom-border 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
-        .rom-border-svg.is-active .rom-border-rect {
-          animation: draw-rom-border 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
-
         /* ── Flipped state (tap/click) ── */
         .rom-flip-container.rom-flip-flipped {
           transform: rotateY(180deg);
@@ -341,8 +330,14 @@ export default function TransmissionFeed() {
           pointer-events: none;
         }
 
-        /* ── Hover flip — DESKTOP ONLY (no sticky hover on mobile) ── */
+        /* ── Hover effects — DESKTOP ONLY ── */
         @media (hover: hover) and (pointer: fine) {
+          .rom-card:hover .rom-border-svg {
+            opacity: 1 !important;
+          }
+          .rom-card:hover .rom-border-rect {
+            animation: draw-rom-border 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+          }
           .rom-card:hover .rom-flip-container:not(.rom-flip-flipped) {
             transform: rotateY(180deg);
           }
@@ -354,6 +349,14 @@ export default function TransmissionFeed() {
             opacity: 1;
             pointer-events: auto;
           }
+        }
+
+        /* ── Tap border animation (mobile + desktop) ── */
+        .rom-border-svg.is-active {
+          opacity: 1 !important;
+        }
+        .rom-border-svg.is-active .rom-border-rect {
+          animation: draw-rom-border 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
       `}</style>
     </section>
