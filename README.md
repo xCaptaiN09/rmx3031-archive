@@ -1,3 +1,4 @@
+```markdown
 <div align="center">
 
 # RMX3031 Archive
@@ -28,8 +29,13 @@
 
 ## Stack
 
-React 18 + Vite · Tailwind CSS · GSAP · Cloudflare Pages · Internet Archive
+React + TypeScript · Vite · Tailwind CSS · Cloudflare Pages · Internet Archive
 
 ## How it works
 
 All files are hosted on Internet Archive. The site reads from `public/index.json`. The admin panel commits changes directly to GitHub via API — Cloudflare rebuilds automatically in ~60 seconds.
+
+## License
+
+[MIT](LICENSE)
+```
