@@ -137,16 +137,31 @@ function RomCard({ rom }: { rom: RomFile }) {
           </div>
 
           <div className="mt-4 space-y-3">
-            <button
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-sage py-2.5 text-sm font-semibold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb] transition-colors duration-200 hover:bg-offwhite dark:bg-[#0d1f1a]"
-              onClick={(e) => {
-                e.stopPropagation();
-                window.open(rom.url, "_blank");
-              }}
-            >
-              <Download className="h-4 w-4" />
-              Download
-            </button>
+            <div className="flex gap-2">
+              <button
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-sage py-2.5 text-sm font-semibold text-forest transition-colors duration-200 hover:bg-offwhite"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(rom.url, "_blank");
+                }}
+              >
+                <Download className="h-4 w-4" />
+                Download
+              </button>
+              <button
+                className="flex h-10 w-10 items-center justify-center rounded-xl bg-sage/20 text-sage hover:bg-sage hover:text-forest transition-colors"
+                title="Copy link"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigator.clipboard.writeText(rom.url);
+                  const btn = e.currentTarget;
+                  btn.innerHTML = '<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+                  setTimeout(() => { btn.innerHTML = '<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'; }, 2000);
+                }}
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
