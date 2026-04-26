@@ -104,7 +104,19 @@ export default function FileBrowserSection() {
 
   if (!data) return null;
 
-  const currentFiles = (data[activeTab] || []) as any[];
+  const SORTED_TABS = new Set([
+    "roms",
+    "kernels",
+    "modules",
+    "recovery",
+    "other",
+  ]);
+  const currentFiles = SORTED_TABS.has(activeTab)
+    ? [...(data[activeTab] || [])].sort(
+        (a: any, b: any) =>
+          new Date(b.date).getTime() - new Date(a.date).getTime(),
+      )
+    : ((data[activeTab] || []) as any[]);
 
   return (
     <section id="full-archive" className="py-28 relative">
