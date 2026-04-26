@@ -1,101 +1,186 @@
-import { ChevronDown } from 'lucide-react'
-import { useData } from '../hooks/use-data'
+import { useRef, useEffect } from "react";
 
-export default function HeroSection() {
-  const { data, loading } = useData();
+type VideoIconProps = {
+  src: string;
+  size?: number;
+};
 
-  if (loading || !data) return null;
+const VideoIcon = ({ src, size = 72 }: VideoIconProps) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  const totalFiles = Object.values(data)
-    .filter(Array.isArray)
-    .reduce((acc, curr) => acc + curr.length, 0);
+  useEffect(() => {
+    videoRef.current?.play().catch(() => {});
+  }, []);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
-      {/* Video Background */}
+    <span
+      className="inline-block align-middle rounded-full overflow-hidden"
+      style={{
+        width: `clamp(48px, 10vw, ${size}px)`,
+        height: `clamp(48px, 10vw, ${size}px)`,
+      }}
+    >
       <video
+        ref={videoRef}
         autoPlay
-        muted
         loop
+        muted
         playsInline
-        preload="auto"
-        className="absolute inset-0 z-0 h-full w-full object-cover"
-      >
-        <source src="/videos/hero-bg.mp4" type="video/mp4" />
-      </video>
-
-      {/* Overlay gradient */}
-      <div
-        className="absolute inset-0 z-[1]"
+        src={src}
         style={{
-          background:
-            'radial-gradient(ellipse at center, rgba(45, 74, 62, 0.5) 0%, rgba(45, 74, 62, 0.75) 100%)',
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          display: "block",
         }}
       />
+    </span>
+  );
+};
 
-      {/* Hero Content */}
-      <div className="relative z-[2] flex h-full flex-col items-center justify-center px-6 text-center">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-sage/30  bg-sage/10 dark:bg-sage/20 px-4 py-1.5">
-          <span className="h-2 w-2 animate-pulse rounded-full bg-sage" />
-          <span className="font-mono text-xs font-medium tracking-wide text-sage">
-            Community Archive — {totalFiles} Files Preserved
-          </span>
-        </div>
+const VIDEO_COMMUNITY =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260424_090051_64ea5059-da6b-492b-a171-aa7ecc767dc3.mp4";
+const VIDEO_ARCHIVE =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260424_093237_ff0ddc63-c068-4e29-96da-fdd0e40af133.mp4";
 
+const GRADIENT_STYLE = {
+  background: "linear-gradient(90deg, #333333 0%, #878787 50%, #333333 100%)",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  lineHeight: 1.1,
+};
+
+// Consistent spacing between all lines
+const LINE_GAP = "0.15em";
+
+// Consistent spacing between elements on Line 3
+const ELEMENT_GAP = "0.25em";
+
+export default function HeroSection() {
+  return (
+    <section className="relative h-screen w-full bg-black overflow-hidden flex flex-col items-center justify-center">
+      <div className="absolute inset-0 bg-black/90" />
+
+      <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-5xl mx-auto">
         <h1
-          className="max-w-4xl text-offwhite "
+          className="font-light tracking-[-0.01em] text-white"
           style={{
-            fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
-            fontWeight: 800,
-            letterSpacing: '-0.02em',
-            lineHeight: 1.1,
-            textShadow: '0px 4px 24px rgba(0,0,0,0.3)',
+            fontFamily: "'YDYoonche L', 'YDYoonche M', sans-serif",
+            fontSize: "clamp(2.2rem, 7vw, 6.5rem)",
           }}
         >
-          {data.device}
+          {/* Line 1: The vision */}
+          <span className="block" style={{ ...GRADIENT_STYLE }}>
+            The vision
+          </span>
+
+          {/* Line 2: of RMX3031 — EQUAL gap below Line 1 */}
+          <span
+            className="block"
+            style={{ ...GRADIENT_STYLE, marginTop: LINE_GAP }}
+          >
+            of RMX3031
+          </span>
+
+          {/* Line 3: is + VIDEO + Community + + + VIDEO + Archive — EQUAL gap below Line 2 */}
+          <span
+            className="block text-center"
+            style={{ marginTop: LINE_GAP, lineHeight: "normal" }}
+          >
+            <span
+              className="inline-block align-middle"
+              style={{ color: "#555", marginRight: ELEMENT_GAP }}
+            >
+              is
+            </span>
+
+            <span
+              className="inline-block align-middle"
+              style={{ marginRight: ELEMENT_GAP }}
+            >
+              <VideoIcon src={VIDEO_COMMUNITY} size={110} />
+            </span>
+
+            <span
+              className="inline-block align-middle"
+              style={{ marginRight: ELEMENT_GAP }}
+            >
+              Community
+            </span>
+
+            <span
+              className="inline-block align-middle"
+              style={{ color: "#555", marginRight: ELEMENT_GAP }}
+            >
+              +
+            </span>
+
+            <span
+              className="inline-block align-middle"
+              style={{ marginRight: ELEMENT_GAP }}
+            >
+              <VideoIcon src={VIDEO_ARCHIVE} size={110} />
+            </span>
+
+            <span className="inline-block align-middle">Archive</span>
+          </span>
         </h1>
 
         <p
-          className="mt-5 max-w-lg text-offwhite /80"
+          className="mt-4 max-w-xl text-center px-2"
           style={{
-            fontSize: '1.05rem',
+            fontSize: "clamp(0.95rem, 2.2vw, 1.2rem)",
+            color: "#888",
+            lineHeight: 1.4,
             fontWeight: 400,
-            lineHeight: 1.6,
-            textShadow: '0px 2px 12px rgba(0,0,0,0.25)',
           }}
         >
-          Custom ROMs, kernels, recoveries, and mods for the {data.codename} — maintained by {data.maintainer}.
+          We preserve custom ROMs, kernels, recoveries, and mods for the
+          RMX3031, ensuring the community always has access.
         </p>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
-          <a
-            href="#browse"
-            className="rounded-xl bg-offwhite  px-7 py-3 text-sm font-semibold text-forest   transition-colors duration-200 hover:bg-sage "
-          >
-            Browse Files
-          </a>
-          <a
-            href="https://github.com/xCaptaiN09/rmx3031-archive"
-            target="_blank"
-            className="rounded-xl border border-offwhite/30 bg-transparent px-7 py-3 text-sm font-semibold text-offwhite  transition-colors duration-200 hover:bg-offwhite /10"
-          >
-            GitHub Repo
-          </a>
-        </div>
+        <button
+          onClick={() =>
+            document
+              .getElementById("full-archive")
+              ?.scrollIntoView({ behavior: "smooth" })
+          }
+          className="mt-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0px_6px_32px_8px_rgba(39,243,169,0.22)] active:scale-[0.98]"
+          style={{
+            padding: "12px 28px",
+            background: "#000",
+            boxShadow: "0px 6px 24px 6px rgba(39, 243, 169, 0.15)",
+            borderRadius: 8,
+            outline: "1px solid #30463C",
+            outlineOffset: -1,
+            border: "none",
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 10,
+          }}
+        >
+          <span style={{ color: "#fff", fontSize: 14, fontWeight: 400 }}>
+            Browse Full Archive
+          </span>
+        </button>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 z-[2] -translate-x-1/2">
-        <a
-          href="#browse"
-          className="flex flex-col items-center gap-1 text-offwhite /50 transition-colors hover:text-offwhite "
-        >
-          <span className="font-mono text-[10px] uppercase tracking-widest">
-            Scroll
-          </span>
-          <ChevronDown className="h-4 w-4 animate-bounce" />
-        </a>
-      </div>
+      <style>{`
+        @font-face {
+          font-family: 'YDYoonche L';
+          src: local('Apple SD Gothic Neo Light'), local('Noto Sans KR Light'), local('Malgun Gothic Light');
+          font-weight: 300;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'YDYoonche M';
+          src: local('Apple SD Gothic Neo Medium'), local('Noto Sans KR Medium'), local('Malgun Gothic');
+          font-weight: 500;
+          font-style: normal;
+        }
+      `}</style>
     </section>
-  )
+  );
 }

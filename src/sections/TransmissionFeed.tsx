@@ -1,165 +1,252 @@
-import { Download, RefreshCw } from "lucide-react";
-import { useRef, useCallback } from "react";
-import gsap from "gsap";
+import { useState } from "react";
 import { useData } from "../hooks/use-data";
 
-interface RomFile {
-  name: string;
-  version: string;
-  android: string;
-  size: string;
-  url: string;
-  date: string;
-  changelog: string;
-  color: string;
+const LOGO_MAP: Record<string, string> = {
+  axion: "/images/axion.png",
+  lineage: "/images/lineage.png",
+  lunaris: "/images/lunaris.png",
+  rising: "/images/rising.png",
+  evolution: "/images/evolution.png",
+};
+
+const getLogoPath = (romName: string) => {
+  const lower = romName.toLowerCase();
+  for (const [key, path] of Object.entries(LOGO_MAP)) {
+    if (lower.includes(key)) return path;
+  }
+  return null;
+};
+
+const CopyIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+  </svg>
+);
+
+const CheckIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
+
+interface FlipCardProps {
+  rom: {
+    name: string;
+    version?: string;
+    android?: string;
+    date: string;
+    url: string;
+    changelog?: string;
+  };
+  index: number;
 }
 
-const colors = [
-  "#8fbc8f",
-  "#c8b89a",
-  "#7dd3fc",
-  "#fca5a5",
-  "#d8b4fe",
-  "#fbbf24",
-];
+const FlipCard = ({ rom, index }: FlipCardProps) => {
+  const [copied, setCopied] = useState(false);
+  const [flipped, setFlipped] = useState(false);
 
-function RomCard({ rom }: { rom: RomFile }) {
-  const innerRef = useRef<HTMLDivElement>(null);
-
-  const toggleCard = useCallback(() => {
-    if (!innerRef.current) return;
-    const isFlipped = innerRef.current.dataset.flipped === "true";
-
-    if (isFlipped) {
-      gsap.to(innerRef.current, {
-        rotationX: 0,
-        duration: 1,
-        ease: "elastic.out(1, 0.5)",
-      });
-      innerRef.current.dataset.flipped = "false";
-    } else {
-      gsap.to(innerRef.current, {
-        rotationX: 180,
-        duration: 1,
-        ease: "elastic.out(1, 0.5)",
-      });
-      innerRef.current.dataset.flipped = "true";
+  const handleCopy = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(rom.url);
+    } catch {
+      const input = document.createElement("input");
+      input.value = rom.url;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
     }
-  }, []);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const logoPath = getLogoPath(rom.name);
 
   return (
     <div
-      className="flip-card-wrapper h-72 sm:h-80 cursor-pointer"
-      onClick={toggleCard}
+      className="rom-card group cursor-pointer animate-fade-up-once"
+      style={{
+        perspective: "800px",
+        height: "304px",
+        animationDelay: `${index * 0.08}s`,
+      }}
+      onClick={() => setFlipped(!flipped)}
     >
-      <div
-        ref={innerRef}
-        className="flip-card-inner relative h-full w-full"
-        data-flipped="false"
-      >
-        {/* Front */}
-        <div className="flip-card-front absolute inset-0 flex flex-col justify-between rounded-3xl border border-sage/20 dark:border-white/10 bg-offwhite dark:bg-[#2a4a38]/60 dark:backdrop-blur-md dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-6 shadow-lg">
-          <div>
-            <div
-              className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl overflow-hidden"
-              style={{ backgroundColor: rom.color + "20" }}
-            >
-              {(() => {
-                const name = rom.name.toLowerCase();
-                const logo = name.includes("axion")
-                  ? "/images/axion.png"
-                  : name.includes("lineage")
-                    ? "/images/lineage.png"
-                    : name.includes("lunaris")
-                      ? "/images/lunaris.png"
-                      : name.includes("rising")
-                        ? "/images/rising.png"
-                        : name.includes("evolution")
-                          ? "/images/evolution.png"
-                          : null;
-                return logo ? (
+      <div className="relative w-full h-full">
+        {/* ── Animated border ring ── */}
+        <svg
+          className={`rom-border-svg absolute -inset-[1px] w-[calc(100%+2px)] h-[calc(100%+2px)] pointer-events-none z-20 rounded-2xl overflow-visible transition-opacity duration-300 ${
+            flipped ? "opacity-100 is-active" : "opacity-0"
+          }`}
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          style={{ transform: "scaleX(-1)" }}
+        >
+          <rect
+            x="0.5"
+            y="0.5"
+            width="99"
+            height="99"
+            rx="7"
+            ry="7"
+            fill="none"
+            stroke="#27F3A9"
+            strokeWidth="0.4"
+            strokeLinecap="round"
+            strokeDasharray="400"
+            strokeDashoffset="400"
+            className="rom-border-rect"
+          />
+        </svg>
+
+        {/* Flip container */}
+        <div
+          className={`relative w-full h-full [transform-style:preserve-3d] transition-transform ${
+            flipped
+              ? "[transform:rotateY(180deg)]"
+              : "group-hover:[transform:rotateY(180deg)]"
+          }`}
+          style={{
+            transitionDuration: "600ms",
+            transitionTimingFunction: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          }}
+        >
+          {/* ── FRONT ── */}
+          <div
+            className={`absolute inset-0 rounded-2xl p-6 flex flex-col items-center justify-center [backface-visibility:hidden] transition-opacity duration-300 ${
+              flipped
+                ? "opacity-0 pointer-events-none"
+                : "opacity-100 group-hover:opacity-0"
+            }`}
+            style={{
+              background:
+                "linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.008) 100%)",
+              border: "1px solid rgba(255,255,255,0.05)",
+            }}
+          >
+            {logoPath && (
+              <div className="mb-4 relative">
+                <div className="absolute inset-0 bg-[#27F3A9]/[0.06] blur-2xl rounded-full scale-[2] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div
+                  className="relative h-12 w-12 overflow-hidden"
+                  style={{ borderRadius: "12px" }}
+                >
                   <img
-                    src={logo}
+                    src={logoPath}
                     alt={rom.name}
-                    className="h-10 w-10 object-contain"
+                    className="h-full w-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-300"
                   />
-                ) : (
-                  <span
-                    className="text-lg font-bold"
-                    style={{ color: rom.color }}
-                  >
-                    {rom.name.charAt(0)}
-                  </span>
-                );
-              })()}
-            </div>
-            <h3 className="text-xl font-semibold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb] line-clamp-2">
+                </div>
+              </div>
+            )}
+
+            <h3
+              className="text-white font-medium text-sm text-center truncate w-full mb-1.5 heading-section"
+              title={rom.name}
+            >
               {rom.name}
             </h3>
-            <p className="mt-1 font-mono text-xs text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50">
-              {rom.version ? `v${rom.version}` : ""}{" "}
-              {rom.android ? `— Android ${rom.android}` : ""}
+
+            {rom.version && (
+              <span className="text-mono text-[10px] font-medium text-[#27F3A9]/70 bg-[#27F3A9]/5 border border-[#27F3A9]/10 px-2.5 py-0.5 rounded-full mb-1.5">
+                {rom.version}
+              </span>
+            )}
+
+            {rom.android && (
+              <span className="text-mono text-[10px] text-white/25 mb-1">
+                Android {rom.android}
+              </span>
+            )}
+
+            <p className="text-[11px] text-white/20 tracking-wide text-mono">
+              {rom.date}
             </p>
           </div>
 
-          <div className="space-y-3">
-            <div className="flex items-center justify-between border-t border-sage/10 pt-3">
-              <span className="font-mono text-xs text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/40">
-                {rom.date}
-              </span>
-              <span className="font-mono text-sm font-medium text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]">
-                {rom.size}
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5 text-sage">
-              <RefreshCw className="h-3.5 w-3.5" />
-              <span className="text-xs font-medium">Tap for details</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Back */}
-        <div className="flip-card-back absolute inset-0 flex flex-col rounded-3xl border border-sage/20 dark:border-sage/30 dark:border-sage/40 bg-forest dark:bg-[#0d2b20] p-6 shadow-sm">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-offwhite dark:text-[#e8f0eb] truncate">
+          {/* ── BACK ── */}
+          <div
+            className={`absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden] rounded-2xl p-5 flex flex-col transition-opacity duration-300 ${
+              flipped
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
+            }`}
+            style={{
+              background:
+                "linear-gradient(145deg, rgba(10,20,14,0.95) 0%, rgba(5,10,7,0.98) 100%)",
+              border: "1px solid rgba(39,243,169,0.12)",
+              boxShadow:
+                "0 0 30px rgba(39,243,169,0.04), inset 0 1px 0 rgba(255,255,255,0.03)",
+            }}
+          >
+            <h3
+              className="text-white font-medium text-sm mb-1 truncate heading-section"
+              title={rom.name}
+            >
               {rom.name}
             </h3>
-            <RefreshCw className="h-4 w-4 text-sage" />
-          </div>
 
-          <div className="mt-4 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-            <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-sage">
-              Changelog
-            </p>
-            <p className="text-xs leading-relaxed text-offwhite dark:text-[#e8f0eb]/70 whitespace-pre-wrap">
-              {rom.changelog}
-            </p>
-          </div>
+            <div className="flex items-center gap-2 mb-2">
+              {rom.version && (
+                <span className="text-mono text-[10px] text-[#27F3A9]/60">
+                  {rom.version}
+                </span>
+              )}
+              {rom.android && (
+                <span className="text-mono text-[10px] text-white/25">
+                  · Android {rom.android}
+                </span>
+              )}
+            </div>
 
-          <div className="mt-4 space-y-3">
-            <div className="flex gap-2">
-              <button
-                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-sage py-2.5 text-sm font-semibold text-forest transition-colors duration-200 hover:bg-offwhite"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  window.open(rom.url, "_blank");
-                }}
+            {rom.changelog ? (
+              <div className="flex-1 overflow-y-auto text-white/35 text-xs leading-relaxed whitespace-pre-line mb-3 pr-1 custom-scrollbar">
+                {rom.changelog}
+              </div>
+            ) : (
+              <div className="flex-1 flex items-center justify-center text-white/15 text-xs">
+                No changelog available
+              </div>
+            )}
+
+            <div className="flex items-center gap-2 mt-auto">
+              <a
+                href={rom.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex-1 text-center px-4 py-2.5 border border-[#27F3A9]/20 text-[#27F3A9] text-xs font-medium transition-all duration-300 hover:bg-[#27F3A9]/8 hover:border-[#27F3A9]/35 hover:shadow-[0_0_16px_rgba(39,243,169,0.12)]"
+                style={{ borderRadius: "10px" }}
               >
-                <Download className="h-4 w-4" />
                 Download
-              </button>
+              </a>
               <button
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-sage/20 text-sage hover:bg-sage hover:text-forest transition-colors"
-                title="Copy link"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigator.clipboard.writeText(rom.url);
-                  const btn = e.currentTarget;
-                  btn.innerHTML = '<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
-                  setTimeout(() => { btn.innerHTML = '<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'; }, 2000);
-                }}
+                onClick={handleCopy}
+                className="flex items-center justify-center px-4 py-2.5 border border-white/[0.06] text-white/25 text-xs transition-all duration-200 hover:border-[#27F3A9]/25 hover:text-[#27F3A9] hover:bg-[#27F3A9]/5"
+                style={{ borderRadius: "10px" }}
+                title={copied ? "Copied!" : "Copy link"}
               >
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                {copied ? <CheckIcon /> : <CopyIcon />}
               </button>
             </div>
           </div>
@@ -167,55 +254,57 @@ function RomCard({ rom }: { rom: RomFile }) {
       </div>
     </div>
   );
-}
+};
 
 export default function TransmissionFeed() {
-  const { data, loading } = useData();
+  const { data } = useData();
+  if (!data || !data.roms) return null;
 
-  if (loading || !data) return null;
-
-  const roms: RomFile[] = (data.roms || [])
-    .slice()
-    .sort(
-      (a: any, b: any) =>
-        new Date(b.date).getTime() - new Date(a.date).getTime(),
-    )
-    .slice(0, 8)
-    .map((rom: any, i: number) => ({
-      ...rom,
-      color: colors[i % colors.length],
-    }));
+  const latestROMs = [...data.roms]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 8);
 
   return (
-    <section id="roms" className="relative z-10 bg-forest dark:bg-[#0f2a1f] px-6 py-24 lg:px-12">
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-14">
-          <span className="font-mono text-xs font-medium uppercase tracking-widest text-sage">
-            Featured ROMs
+    <section id="featured" className="py-28 relative">
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Section header */}
+        <div className="text-center mb-16 animate-fade-up-once">
+          <span className="inline-block text-[11px] font-medium tracking-[0.2em] uppercase text-[#27F3A9]/60 mb-4 text-mono">
+            Featured
           </span>
-          <h2
-            className="mt-3 text-offwhite dark:text-[#e8f0eb]"
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.01em",
-              lineHeight: 1.15,
-            }}
-          >
-            Latest Releases
+          <h2 className="heading-section text-3xl md:text-4xl text-white tracking-tight">
+            Latest ROMs
           </h2>
-          <p className="mt-3 max-w-md text-base leading-relaxed text-offwhite dark:text-[#e8f0eb]/50">
-            Popular custom ROMs ready for download. Tap any card to view
-            changelog and download links.
+          <p className="mt-3 text-[15px] text-white/30 max-w-md mx-auto">
+            The most recent custom firmware builds, updated regularly
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {roms.map((rom, i) => (
-            <RomCard key={i} rom={rom} />
+        {/* ROM grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {latestROMs.map((rom, idx) => (
+            <FlipCard key={idx} rom={rom} index={idx} />
           ))}
         </div>
       </div>
+
+      <style>{`
+        @keyframes draw-rom-border {
+          from { stroke-dashoffset: 400; }
+          to   { stroke-dashoffset: 0; }
+        }
+
+        .rom-card:hover .rom-border-svg {
+          opacity: 1 !important;
+        }
+        .rom-card:hover .rom-border-rect {
+          animation: draw-rom-border 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .rom-border-svg.is-active .rom-border-rect {
+          animation: draw-rom-border 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+      `}</style>
     </section>
   );
 }
