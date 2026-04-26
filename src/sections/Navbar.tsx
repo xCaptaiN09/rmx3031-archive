@@ -1,41 +1,45 @@
-import { HardDrive, Menu, Moon, Sun, X } from 'lucide-react'
-import { useState } from 'react'
+import { HardDrive, Menu, Moon, Sun, X } from "lucide-react";
+import { useState } from "react";
 
 export default function Navbar() {
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [dark, setDark] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme'))
+    if (typeof window !== "undefined") {
+      return (
+        localStorage.getItem("theme") === "dark" ||
+        !localStorage.getItem("theme")
+      );
     }
-    return true
-  })
+    return true;
+  });
 
   const toggleDark = () => {
-    const next = !dark
-    setDark(next)
-    document.documentElement.classList.toggle('dark', next)
-    localStorage.setItem('theme', next ? 'dark' : 'light')
-  }
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("theme", next ? "dark" : "light");
+  };
 
-  if (typeof window !== 'undefined') {
-    document.documentElement.classList.toggle('dark', dark)
+  if (typeof window !== "undefined") {
+    document.documentElement.classList.toggle("dark", dark);
   }
 
   const navLinks = [
-    { label: 'Browse', href: '#browse' },
-    { label: 'Featured', href: '#roms' },
-    { label: 'Archive', href: '#full-archive' },
-    { label: 'Contribute', href: '#contribute' },
-  ]
+    { label: "Browse", href: "#browse" },
+    { label: "Featured", href: "#roms" },
+    { label: "Archive", href: "#full-archive" },
+    { label: "Contribute", href: "#contribute" },
+  ];
 
   return (
     <nav
       className="fixed top-4 left-1/2 z-50 w-[calc(100%-2rem)] max-w-5xl -translate-x-1/2 rounded-2xl border border-white/10 px-5 py-3"
       style={{
-        background: 'rgba(245, 245, 240, 0.08)',
-        backdropFilter: 'blur(40px) saturate(140%)',
-        WebkitBackdropFilter: 'blur(40px) saturate(140%)',
-        boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.15), 0 8px 32px rgba(0,0,0,0.15)',
+        background: "rgba(245, 245, 240, 0.08)",
+        backdropFilter: "blur(40px) saturate(140%)",
+        WebkitBackdropFilter: "blur(40px) saturate(140%)",
+        boxShadow:
+          "inset 0 1px 1px rgba(255,255,255,0.15), 0 8px 32px rgba(0,0,0,0.15)",
       }}
     >
       <div className="flex items-center justify-between">
@@ -69,7 +73,7 @@ export default function Navbar() {
           href="https://archive.org/details/rmx3031-community"
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden rounded-lg bg-forest dark:bg-[#152b23] px-4 py-1.5 text-xs font-semibold text-offwhite dark:text-[#e8f0eb] transition-colors duration-200 hover:bg-sage dark:hover:bg-sage/80 hover:text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb] md:inline-block"
+          className="hidden rounded-lg bg-forest dark:bg-[#152b23] px-4 py-1.5 text-xs font-semibold text-offwhite dark:text-[#e8f0eb] transition-colors duration-200 hover:bg-sage dark:hover:bg-sage/80 hover:text-forest dark:hover:text-[#e8f0eb] md:inline-block"
         >
           Internet Archive
         </a>
@@ -78,7 +82,11 @@ export default function Navbar() {
           className="text-offwhite dark:text-[#e8f0eb] md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {mobileOpen ? (
+            <X className="h-5 w-5" />
+          ) : (
+            <Menu className="h-5 w-5" />
+          )}
         </button>
       </div>
 
@@ -94,6 +102,18 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          {/* Dark mode toggle inside mobile menu */}
+          <button
+            onClick={() => {
+              toggleDark();
+              setMobileOpen(false);
+            }}
+            className="flex items-center gap-2 text-sm font-medium text-offwhite dark:text-[#e8f0eb]/70 transition-colors hover:text-offwhite dark:text-[#e8f0eb]"
+            aria-label="Toggle dark mode"
+          >
+            {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            <span>Toggle theme</span>
+          </button>
           <a
             href="https://archive.org/details/rmx3031-community"
             target="_blank"
@@ -105,5 +125,5 @@ export default function Navbar() {
         </div>
       )}
     </nav>
-  )
+  );
 }
