@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useData } from "../hooks/use-data";
 
-// Smooth counting animation on scroll
 function AnimatedCounter({
   target,
   duration = 2000,
@@ -22,7 +21,6 @@ function AnimatedCounter({
           const animate = (now: number) => {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
-            // Ease out cubic
             const eased = 1 - Math.pow(1 - progress, 3);
             setCount(Math.round(eased * target));
             if (progress < 1) requestAnimationFrame(animate);
@@ -52,9 +50,9 @@ export default function CommunitySection() {
   ).length;
 
   return (
-    <section id="contribute" className="py-32 relative bg-black">
+    <section id="contribute" className="py-28 relative">
       <div className="max-w-5xl mx-auto px-6 text-center">
-        {/* Muted uppercase label - matching hero's #555 aesthetic */}
+        {/* Section header — matches hero's #555 label style */}
         <span
           className="inline-block font-medium tracking-[0.2em] uppercase mb-12"
           style={{ fontSize: 11, color: "#555" }}
@@ -62,7 +60,7 @@ export default function CommunitySection() {
           Community
         </span>
 
-        {/* Main Stats - Apple style, huge weight-300 numbers, Hero silver gradient */}
+        {/* Stats — huge weight-300 numbers, hero silver gradient */}
         <div className="flex items-baseline justify-center gap-12 sm:gap-20 mb-16">
           <div className="flex flex-col items-center">
             <h3
@@ -111,31 +109,30 @@ export default function CommunitySection() {
           </div>
         </div>
 
-        {/* Always Growing - Infinity symbol with the exact Hero green glow */}
-        <div className="mb-20">
+        {/* Animated Infinity — minimal, hero-matching */}
+        <div className="mb-4">
           <div
-            className="font-light tracking-[-0.01em] leading-[1.1] inline-block mb-3"
+            className="font-light tracking-[-0.01em] leading-[1.1] inline-block animate-infinity"
             style={{
-              fontSize: "clamp(2.5rem, 6vw, 5.5rem)",
+              fontSize: "clamp(2rem, 5vw, 4rem)",
               fontFamily:
                 "'YDYoonche L', 'YDYoonche M', 'Space Grotesk', sans-serif",
               color: "#27F3A9",
-              textShadow: "0px 6px 24px rgba(39, 243, 169, 0.15)",
             }}
           >
             ∞
           </div>
-          <br />
-          <span
-            className="text-[11px] tracking-[0.15em] uppercase"
-            style={{ color: "#555" }}
-          >
-            Always Growing
-          </span>
         </div>
+        <span
+          className="text-[11px] tracking-[0.15em] uppercase"
+          style={{ color: "#555" }}
+        >
+          Always Growing
+        </span>
 
-        {/* Subtext / Attribution - matching the Hero subheading style exactly */}
+        {/* Subtext — matches hero subheading style exactly */}
         <p
+          className="mt-16 max-w-md mx-auto"
           style={{
             fontSize: "clamp(0.95rem, 2.2vw, 1.2rem)",
             color: "#888",
@@ -143,10 +140,38 @@ export default function CommunitySection() {
             fontWeight: 400,
           }}
         >
-          Maintained by <span style={{ color: "#fff" }}>{data.maintainer}</span>{" "}
-          · Open-source on GitHub
+          Maintained by <span style={{ color: "#fff" }}>{data.maintainer}</span>
+          {" · "}Open-source on{" "}
+          <a
+            href="https://github.com/xCaptaiN09/rmx3031-archive"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#27F3A9" }}
+            className="hover:opacity-80 transition-opacity duration-200"
+          >
+            GitHub
+          </a>
         </p>
       </div>
+
+      <style>{`
+        @keyframes infinity-breathe {
+          0%, 100% {
+            opacity: 0.6;
+            text-shadow: 0 0 8px rgba(39,243,169,0.2);
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            text-shadow: 0 0 20px rgba(39,243,169,0.5), 0 0 40px rgba(39,243,169,0.2);
+            transform: scale(1.04);
+          }
+        }
+
+        .animate-infinity {
+          animation: infinity-breathe 3s ease-in-out infinite;
+        }
+      `}</style>
     </section>
   );
 }
