@@ -91,7 +91,10 @@ const FlipCard = ({ rom, index, isFlipped, onFlip }: FlipCardProps) => {
         height: "304px",
         animationDelay: `${index * 0.08}s`,
       }}
-      onClick={onFlip}
+      onClick={(e) => {
+        e.stopPropagation();
+        onFlip();
+      }}
     >
       <div className="relative w-full h-full">
         {/* ── Animated border ring ── */}
