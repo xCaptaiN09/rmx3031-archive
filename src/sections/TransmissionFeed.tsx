@@ -123,12 +123,10 @@ const FlipCard = ({ rom, index, isFlipped, onFlip }: FlipCardProps) => {
           />
         </svg>
 
-        {/* Flip container */}
+        {/* Flip container — no group-hover, controlled by CSS */}
         <div
-          className={`relative w-full h-full [transform-style:preserve-3d] transition-transform ${
-            isFlipped
-              ? "[transform:rotateY(180deg)]"
-              : "group-hover:[transform:rotateY(180deg)]"
+          className={`relative w-full h-full [transform-style:preserve-3d] transition-transform rom-flip-container ${
+            isFlipped ? "rom-flip-flipped" : ""
           }`}
           style={{
             transitionDuration: "600ms",
@@ -137,11 +135,7 @@ const FlipCard = ({ rom, index, isFlipped, onFlip }: FlipCardProps) => {
         >
           {/* ── FRONT ── */}
           <div
-            className={`absolute inset-0 rounded-2xl p-6 flex flex-col items-center justify-center [backface-visibility:hidden] transition-opacity duration-300 ${
-              isFlipped
-                ? "opacity-0 pointer-events-none"
-                : "opacity-100 group-hover:opacity-0"
-            }`}
+            className="rom-front absolute inset-0 rounded-2xl p-6 flex flex-col items-center justify-center [backface-visibility:hidden] transition-opacity duration-300"
             style={{
               background:
                 "linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.008) 100%)",
@@ -190,11 +184,7 @@ const FlipCard = ({ rom, index, isFlipped, onFlip }: FlipCardProps) => {
 
           {/* ── BACK ── */}
           <div
-            className={`absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden] rounded-2xl p-5 flex flex-col transition-opacity duration-300 ${
-              isFlipped
-                ? "opacity-100 pointer-events-auto"
-                : "opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
-            }`}
+            className="rom-back absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden] rounded-2xl p-5 flex flex-col transition-opacity duration-300"
             style={{
               background:
                 "linear-gradient(145deg, rgba(10,20,14,0.95) 0%, rgba(5,10,7,0.98) 100%)",
@@ -318,15 +308,52 @@ export default function TransmissionFeed() {
           to   { stroke-dashoffset: 0; }
         }
 
+        /* ── Border animation ── */
         .rom-card:hover .rom-border-svg {
           opacity: 1 !important;
         }
         .rom-card:hover .rom-border-rect {
           animation: draw-rom-border 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
-
         .rom-border-svg.is-active .rom-border-rect {
           animation: draw-rom-border 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        /* ── Flipped state (tap/click) ── */
+        .rom-flip-container.rom-flip-flipped {
+          transform: rotateY(180deg);
+        }
+        .rom-flip-container.rom-flip-flipped .rom-front {
+          opacity: 0;
+          pointer-events: none;
+        }
+        .rom-flip-container.rom-flip-flipped .rom-back {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        /* ── Default state ── */
+        .rom-flip-container:not(.rom-flip-flipped) .rom-front {
+          opacity: 1;
+        }
+        .rom-flip-container:not(.rom-flip-flipped) .rom-back {
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        /* ── Hover flip — DESKTOP ONLY (no sticky hover on mobile) ── */
+        @media (hover: hover) and (pointer: fine) {
+          .rom-card:hover .rom-flip-container:not(.rom-flip-flipped) {
+            transform: rotateY(180deg);
+          }
+          .rom-card:hover .rom-front {
+            opacity: 0;
+            pointer-events: none;
+          }
+          .rom-card:hover .rom-back {
+            opacity: 1;
+            pointer-events: auto;
+          }
         }
       `}</style>
     </section>
