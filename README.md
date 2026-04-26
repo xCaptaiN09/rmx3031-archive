@@ -1,4 +1,3 @@
-```markdown
 <div align="center">
 
 # RMX3031 Archive
@@ -38,4 +37,3 @@ All files are hosted on Internet Archive. The site reads from `public/index.json
 ## License
 
 [MIT](LICENSE)
-```
