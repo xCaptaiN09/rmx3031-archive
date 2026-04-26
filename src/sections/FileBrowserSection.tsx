@@ -1,186 +1,334 @@
-import { useState, useEffect } from 'react'
-import { useData } from '../hooks/use-data'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
-import { Info, Calendar, HardDrive } from 'lucide-react'
+import { useEffect, useState, useRef, useCallback } from "react";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '../components/ui/accordion'
+  ChevronDown,
+  Download,
+  Copy,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { useData } from "../hooks/use-data";
 
-const categoryNames: Record<string, string> = {
-  roms: 'ROMs',
-  kernels: 'Kernels',
-  modules: 'Modules',
-  ota: 'X7 MAX',
-  ota_cn: 'GT Neo',
-  ota_cnf: 'GT Neo Flash',
-  firmware: 'Firmware',
-  sptool: 'SP Tool FW',
-  recovery: 'Recovery',
-  other: 'Other',
-}
+const TABS = [
+  { key: "roms", label: "ROMs" },
+  { key: "kernels", label: "Kernels" },
+  { key: "modules", label: "Modules" },
+  { key: "ota", label: "X7 MAX" },
+  { key: "ota_cn", label: "GT Neo" },
+  { key: "ota_cnf", label: "GT Neo Flash" },
+  { key: "firmware", label: "Firmware" },
+  { key: "sptool", label: "SP Tool" },
+  { key: "recovery", label: "Recovery" },
+  { key: "other", label: "Other" },
+];
 
 export default function FileBrowserSection() {
-  const { data, loading } = useData()
-  const updateArrows = () => { const el = document.getElementById("tabScrollContainer"); const left = document.getElementById("tabArrowLeft"); const right = document.getElementById("tabArrowRight"); if(!el||!left||!right) return; const overflow = el.scrollWidth > el.clientWidth; left.classList.toggle("hidden", !overflow || el.scrollLeft <= 0); right.classList.toggle("hidden", !overflow || el.scrollLeft >= el.scrollWidth - el.clientWidth - 1); };
-  setTimeout(updateArrows, 100);
-  const [activeTab, setActiveTab] = useState('roms')
+  const { data } = useData();
+  const [activeTab, setActiveTab] = useState("roms");
+  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+  const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
 
-  useEffect(() => {
-    const handleTabChange = (e: any) => {
-      if (e.detail) setActiveTab(e.detail);
-    };
-    window.addEventListener('change-archive-tab', handleTabChange);
-    return () => window.removeEventListener('change-archive-tab', handleTabChange);
+  // Tab scroll state
+  const tabContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkScroll = useCallback(() => {
+    const el = tabContainerRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
   }, []);
 
-  if (loading || !data) return null
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener("resize", checkScroll);
+    return () => window.removeEventListener("resize", checkScroll);
+  }, [checkScroll]);
 
-  const categories = Object.keys(data).filter((key) => Array.isArray(data[key]))
+  useEffect(() => {
+    // Recheck when active tab changes (tab might scroll)
+    const timer = setTimeout(checkScroll, 50);
+    return () => clearTimeout(timer);
+  }, [activeTab, checkScroll]);
+
+  const scrollTabs = (direction: "left" | "right") => {
+    const el = tabContainerRef.current;
+    if (!el) return;
+    const scrollAmount = el.clientWidth * 0.6;
+    el.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (TABS.some((tab) => tab.key === hash)) {
+        setActiveTab(hash);
+        setOpenAccordion(null);
+      }
+    };
+    handleHashChange();
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  useEffect(() => {
+    const handler = (e: CustomEvent) => {
+      if (e.detail && TABS.some((tab) => tab.key === e.detail)) {
+        setActiveTab(e.detail);
+        setOpenAccordion(null);
+      }
+    };
+    window.addEventListener("setFullArchiveTab", handler);
+    return () => window.removeEventListener("setFullArchiveTab", handler);
+  }, []);
+
+  const handleCopy = async (url: string, idx: number) => {
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      const input = document.createElement("input");
+      input.value = url;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
+    }
+    setCopiedIdx(idx);
+    setTimeout(() => setCopiedIdx(null), 2000);
+  };
+
+  if (!data) return null;
+
+  const currentFiles = (data[activeTab] || []) as any[];
 
   return (
-    <section id="full-archive" className="relative z-10 bg-offwhite dark:bg-[#0d1f1a] px-6 py-24 lg:px-12">
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-14">
-          <span className="font-mono text-xs font-medium uppercase tracking-widest text-sage">
-            Full Archive
+    <section id="full-archive" className="py-28 relative">
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Section header */}
+        <div className="text-center mb-16 animate-fade-up-once">
+          <span className="inline-block text-[11px] font-medium tracking-[0.2em] uppercase text-[#27F3A9]/60 mb-4 text-mono">
+            Archive
           </span>
-          <h2
-            className="mt-3 text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]"
-            style={{
-              fontSize: 'clamp(2rem, 4vw, 3rem)',
-              fontWeight: 700,
-              letterSpacing: '-0.01em',
-              lineHeight: 1.15,
-            }}
-          >
-            Explore All Files
+          <h2 className="heading-section text-3xl md:text-4xl text-white tracking-tight">
+            Full Archive
           </h2>
-          <p className="mt-3 max-w-md text-base leading-relaxed text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/60">
-            A comprehensive list of all preserved files for the {data.device}.
-            Use the tabs below to switch between categories.
+          <p className="mt-3 text-[15px] text-white/30 max-w-md mx-auto">
+            Every file preserved for the RMX3031 community
           </p>
         </div>
 
-        <Tabs value={activeTab} className="w-full" onValueChange={setActiveTab}>
-          <div className="relative mb-8">
+        {/* Tab pills with scroll arrows */}
+        <div className="relative flex items-center mb-6">
+          {/* Left arrow */}
+          {canScrollLeft && (
             <button
-              id="tabArrowLeft"
-              onClick={() => { const el = document.getElementById("tabScrollContainer"); if(el) { el.scrollBy({ left: -200, behavior: "smooth" }); updateArrows(); } }}
-              className="absolute left-0 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg border border-sage/20 dark:border-sage/30 dark:border-sage/40 bg-offwhite dark:bg-[#0d1f1a] text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50 shadow-sm transition-all hover:border-sage hover:text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb] hidden"
-            >←</button>
-            <div id="tabScrollContainer" className="overflow-x-auto custom-scrollbar pb-2 px-1" onScroll={() => updateArrows()}>
-              <TabsList className="inline-flex h-auto w-auto bg-sage/10 dark:bg-[#0a1a15] p-1">
-                {categories.map((cat) => (
-                  <TabsTrigger
-                    key={cat}
-                    value={cat}
-                    className="rounded-lg px-6 py-2.5 text-sm font-medium transition-all data-[state=active]:bg-forest data-[state=active]:dark:bg-sage data-[state=active]:text-offwhite dark:text-[#e8f0eb] dark:hover:bg-[#1a3028]"
-                  >
-                    {categoryNames[cat] || cat}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
-            <button
-              id="tabArrowRight"
-              onClick={() => { const el = document.getElementById("tabScrollContainer"); if(el) { el.scrollBy({ left: 200, behavior: "smooth" }); updateArrows(); } }}
-              className="absolute right-0 top-1/2 z-10 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg border border-sage/20 dark:border-sage/30 dark:border-sage/40 bg-offwhite dark:bg-[#0d1f1a] text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50 shadow-sm transition-all hover:border-sage hover:text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb] hidden"
-            >→</button>
+              onClick={() => scrollTabs("left")}
+              className="absolute -left-1 z-10 flex items-center justify-center w-8 h-8 bg-black/80 backdrop-blur-sm border border-white/[0.06] text-white/40 hover:text-[#27F3A9] hover:border-[#27F3A9]/20 transition-all duration-200 shrink-0"
+              style={{ borderRadius: "8px" }}
+            >
+              <ChevronLeft size="14" />
+            </button>
+          )}
+
+          {/* Scrollable tab container */}
+          <div
+            ref={tabContainerRef}
+            onScroll={checkScroll}
+            className={`flex gap-2 overflow-x-auto hide-scrollbar flex-1 px-1 ${
+              !canScrollLeft && !canScrollRight ? "justify-center" : ""
+            }`}
+          >
+            {TABS.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => {
+                  setActiveTab(tab.key);
+                  setOpenAccordion(null);
+                }}
+                className={`tab-pill shrink-0 ${activeTab === tab.key ? "tab-pill-active" : ""}`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
 
-          {categories.map((cat) => (
-            <TabsContent key={cat} value={cat} className="mt-0">
-              <div className="grid grid-cols-1 gap-4">
-                {data[cat].length === 0 ? (
-                  <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-sage/30 dark:border-sage/40 py-20 text-center">
-                    <HardDrive className="mb-4 h-12 w-12 text-sage/30" />
-                    <p className="text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/40">No files found in this category.</p>
-                  </div>
-                ) : (
-                  <Accordion type="single" collapsible className="w-full space-y-3">
-                    {[...(data[cat] || [])]
-                      .sort((a: any, b: any) => ["roms","kernels","modules","recovery","other"].includes(cat) ? new Date(b.date).getTime() - new Date(a.date).getTime() : 0)
-                      .map((file: any, i: number) => (
-                      <AccordionItem
-                        key={i}
-                        value={`${cat}-${i}`}
-                        className="overflow-hidden rounded-2xl border border-sage/20 dark:border-sage/30 dark:border-sage/40 bg-white dark:bg-[#152b23]/50 dark:bg-[#152b23]/50 px-6 transition-all hover:border-sage/40 hover:bg-white dark:bg-[#152b23]"
-                      >
-                        <div className="flex flex-col items-start justify-between py-4 sm:flex-row sm:items-center">
-                          <div className="flex-1">
-                            <h4 className="text-base font-semibold text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]">
-                              {file.name}
-                            </h4>
-                            <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/50">
-                              {file.version && (
-                                <span className="flex items-center gap-1">
-                                  <Info className="h-3 w-3" />
-                                  v{file.version}
-                                </span>
-                              )}
-                              {file.android && (
-                                <span className="rounded-full bg-sage/10 dark:bg-sage/20 px-2 py-0.5 text-sage">
-                                  Android {file.android}
-                                </span>
-                              )}
-                              {file.size && (
-                                <span className="flex items-center gap-1">
-                                  <HardDrive className="h-3 w-3" />
-                                  {file.size}
-                                </span>
-                              )}
-                              <span className="flex items-center gap-1">
-                                <Calendar className="h-3 w-3" />
-                                {file.date}
-                              </span>
-                            </div>
-                          </div>
+          {/* Right arrow */}
+          {canScrollRight && (
+            <button
+              onClick={() => scrollTabs("right")}
+              className="absolute -right-1 z-10 flex items-center justify-center w-8 h-8 bg-black/80 backdrop-blur-sm border border-white/[0.06] text-white/40 hover:text-[#27F3A9] hover:border-[#27F3A9]/20 transition-all duration-200 shrink-0"
+              style={{ borderRadius: "8px" }}
+            >
+              <ChevronRight size="14" />
+            </button>
+          )}
+        </div>
 
-                          <div className="mt-4 flex w-full items-center gap-2 sm:mt-0 sm:w-auto">
-                            <AccordionTrigger className="flex h-10 w-10 items-center justify-center rounded-xl bg-sage/10 dark:bg-sage/20 text-sage hover:bg-sage dark:hover:bg-sage/80/20 hover:no-underline" />
-                            <button
-                              onClick={() => {
-                                navigator.clipboard.writeText(file.url);
-                                const btn = document.getElementById('copy-' + i);
-                                if (btn) { btn.innerHTML = '<svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>'; setTimeout(() => { btn.innerHTML = '<svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'; }, 2000); }
-                              }}
-                              id={'copy-' + i}
-                              className="flex h-10 w-10 items-center justify-center rounded-xl bg-sage/10 dark:bg-sage/20 text-sage hover:bg-sage hover:text-forest transition-colors"
-                              title="Copy download link"
-                            >
-                              <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                            </button>
-                            <button
-                              onClick={() => window.open(file.url, '_blank')}
-                              className="flex h-10 flex-1 items-center justify-center gap-2 rounded-xl bg-forest dark:bg-[#152b23] px-6 text-xs font-semibold text-offwhite dark:text-[#e8f0eb] transition-colors hover:bg-sage dark:hover:bg-sage/80 hover:text-forest sm:flex-none"
-                            >
-                              <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                              Download
-                            </button>
+        {/* File count indicator */}
+        <div className="flex items-center justify-between mb-4 px-1">
+          <span className="text-mono text-[11px] text-white/20 tracking-wider uppercase">
+            {currentFiles.length} {currentFiles.length === 1 ? "file" : "files"}
+          </span>
+          <span className="text-mono text-[11px] text-white/10">
+            {activeTab}
+          </span>
+        </div>
+
+        {/* File list */}
+        <div className="space-y-2">
+          {currentFiles.map((file: any, idx: number) => {
+            const isOpen = openAccordion === `${activeTab}-${idx}`;
+            return (
+              <div
+                key={idx}
+                className={`file-row overflow-hidden transition-all duration-300 ${
+                  isOpen ? "border-[#27F3A9]/15" : ""
+                }`}
+                style={{
+                  background: isOpen
+                    ? "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)"
+                    : undefined,
+                }}
+              >
+                <button
+                  onClick={() =>
+                    setOpenAccordion(isOpen ? null : `${activeTab}-${idx}`)
+                  }
+                  className="w-full px-5 py-4 flex items-center justify-between text-left group/row"
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="text-mono text-[10px] text-white/15 w-6 shrink-0">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <div className="min-w-0">
+                      <span className="text-white text-[13px] font-medium block truncate">
+                        {file.name}
+                      </span>
+                      <div className="flex items-center gap-3 mt-0.5">
+                        {file.version && (
+                          <span className="text-mono text-[10px] text-[#27F3A9]/50">
+                            {file.version}
+                          </span>
+                        )}
+                        {file.android && (
+                          <span className="text-mono text-[10px] text-white/15">
+                            Android {file.android}
+                          </span>
+                        )}
+                        {file.date && (
+                          <span className="text-mono text-[10px] text-white/15">
+                            {file.date}
+                          </span>
+                        )}
+                        {file.size && (
+                          <span className="text-mono text-[10px] text-white/10">
+                            {file.size}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <ChevronDown
+                    className={`h-4 w-4 text-white/20 shrink-0 ml-3 transition-all duration-300 ${
+                      isOpen
+                        ? "rotate-180 text-[#27F3A9]/60"
+                        : "group-hover/row:text-white/40"
+                    }`}
+                  />
+                </button>
+
+                {isOpen && (
+                  <div className="px-5 pb-5 animate-fade-up-once">
+                    <div className="pl-9 pt-3 border-t border-white/[0.04] border-l-[2px] border-l-[#27F3A9]/30 space-y-3">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-[12px]">
+                        {file.size && (
+                          <div>
+                            <span className="text-white/20 block text-[10px] text-mono uppercase tracking-wider mb-0.5">
+                              Size
+                            </span>
+                            <span className="text-white/60">{file.size}</span>
+                          </div>
+                        )}
+                        <div>
+                          <span className="text-white/20 block text-[10px] text-mono uppercase tracking-wider mb-0.5">
+                            Date
+                          </span>
+                          <span className="text-white/60">{file.date}</span>
+                        </div>
+                        {file.android && (
+                          <div>
+                            <span className="text-white/20 block text-[10px] text-mono uppercase tracking-wider mb-0.5">
+                              Android
+                            </span>
+                            <span className="text-white/60">
+                              {file.android}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {file.changelog && (
+                        <div>
+                          <span className="text-white/20 block text-[10px] text-mono uppercase tracking-wider mb-1.5">
+                            Changelog
+                          </span>
+                          <div
+                            className="text-[12px] leading-relaxed whitespace-pre-line text-white/30 bg-white/[0.02] p-3 max-h-40 overflow-y-auto custom-scrollbar"
+                            style={{
+                              borderRadius: "10px",
+                              border: "1px solid rgba(255,255,255,0.04)",
+                            }}
+                          >
+                            {file.changelog}
                           </div>
                         </div>
-                        <AccordionContent className="border-t border-sage/10 py-4">
-                          <div className="rounded-xl bg-sage/5 p-4">
-                            <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-sage">
-                              Changelog / Description
-                            </p>
-                            <p className="text-sm leading-relaxed text-forest dark:text-[#e8f0eb] dark:text-[#e8f0eb]/70 whitespace-pre-wrap">
-                              {file.changelog || 'No description provided.'}
-                            </p>
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
+                      )}
+
+                      <div className="flex items-center gap-2 pt-2">
+                        <a
+                          href={file.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 border border-[#27F3A9]/20 px-4 py-2.5 text-[12px] font-medium text-[#27F3A9] transition-all duration-300 hover:bg-[#27F3A9]/8 hover:border-[#27F3A9]/35 hover:shadow-[0_0_16px_rgba(39,243,169,0.1)]"
+                          style={{ borderRadius: "10px" }}
+                        >
+                          <Download size="13" />
+                          Download
+                        </a>
+                        <button
+                          onClick={() => handleCopy(file.url, idx)}
+                          className="inline-flex items-center gap-1.5 border border-white/[0.06] px-3 py-2.5 text-[12px] text-white/30 transition-all duration-200 hover:border-[#27F3A9]/25 hover:text-[#27F3A9] hover:bg-[#27F3A9]/5"
+                          style={{ borderRadius: "10px" }}
+                          title={copiedIdx === idx ? "Copied!" : "Copy link"}
+                        >
+                          {copiedIdx === idx ? (
+                            <Check size="13" />
+                          ) : (
+                            <Copy size="13" />
+                          )}
+                          {copiedIdx === idx ? "Copied" : "Copy"}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
-            </TabsContent>
-          ))}
-        </Tabs>
+            );
+          })}
+        </div>
+
+        {currentFiles.length === 0 && (
+          <div className="text-center py-16">
+            <p className="text-white/20 text-sm">
+              No files in this category yet
+            </p>
+          </div>
+        )}
       </div>
     </section>
-  )
+  );
 }

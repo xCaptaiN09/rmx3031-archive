@@ -1,107 +1,37 @@
-import { HardDrive, ExternalLink } from 'lucide-react'
-import { useData } from '../hooks/use-data'
-
 export default function Footer() {
-  const currentYear = new Date().getFullYear()
-  const { data, loading } = useData();
-
-  if (loading || !data) return null;
-
   return (
-    <footer className="relative z-10 bg-forest dark:bg-[#152b23] px-6 py-16 lg:px-12">
-      <div className="mx-auto max-w-6xl">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
-          {/* Brand */}
-          <div>
-            <div className="flex items-center gap-2.5">
-              <HardDrive className="h-5 w-5 text-sage" />
-              <span className="text-sm font-semibold text-offwhite dark:text-[#e8f0eb]">
-                {data.codename} Archive
-              </span>
-            </div>
-            <p className="mt-3 max-w-xs text-xs leading-relaxed text-offwhite dark:text-[#e8f0eb]/40">
-              A community-driven archive for {data.device} development files.
-              Preserved on the Internet Archive for permanent access.
-            </p>
-          </div>
-
-          {/* Links */}
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-offwhite dark:text-[#e8f0eb]/60">
-              Quick Links
-            </h4>
-            <ul className="mt-4 space-y-2.5">
-              <li>
-                <a
-                  href="#browse"
-                  className="text-sm text-offwhite dark:text-[#e8f0eb]/50 transition-colors hover:text-offwhite dark:text-[#e8f0eb]"
-                >
-                  Browse Categories
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#roms"
-                  className="text-sm text-offwhite dark:text-[#e8f0eb]/50 transition-colors hover:text-offwhite dark:text-[#e8f0eb]"
-                >
-                  Featured ROMs
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#full-archive"
-                  className="text-sm text-offwhite dark:text-[#e8f0eb]/50 transition-colors hover:text-offwhite dark:text-[#e8f0eb]"
-                >
-                  Full Archive
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* External */}
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-offwhite dark:text-[#e8f0eb]/60">
-              Resources
-            </h4>
-            <ul className="mt-4 space-y-2.5">
-              <li>
-                <a
-                  href="https://archive.org/details/rmx3031-community"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-offwhite dark:text-[#e8f0eb]/50 transition-colors hover:text-offwhite dark:text-[#e8f0eb]"
-                >
-                  Internet Archive
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/xCaptaiN09/rmx3031-archive"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-offwhite dark:text-[#e8f0eb]/50 transition-colors hover:text-offwhite dark:text-[#e8f0eb]"
-                >
-                  GitHub Repository
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              </li>
-              <li>
-              </li>
-            </ul>
-          </div>
+    <footer className="relative border-t border-white/[0.04] bg-black/40 backdrop-blur-xl">
+      <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+        {/* Left */}
+        <div className="flex items-center gap-3">
+          <div className="w-1.5 h-1.5 rounded-full bg-[#27F3A9] animate-glow-pulse" />
+          <span className="text-[13px] text-white/30">
+            © {new Date().getFullYear()}{" "}
+            <span className="text-white/50">RMX3031 Archive</span>
+            {" · "}powered by community
+          </span>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-offwhite/10 pt-8 md:flex-row">
-          <p className="font-mono text-[11px] text-offwhite dark:text-[#e8f0eb]/30">
-            &copy; {currentYear} {data.device} Archive. Maintained by {data.maintainer}.
-          </p>
-          <p className="font-mono text-[11px] text-offwhite dark:text-[#e8f0eb]/30">
-            Project Codename: {data.codename}
-          </p>
+        {/* Right */}
+        <div className="flex items-center gap-6">
+          <a
+            href="https://archive.org/details/rmx3031-community"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[13px] text-white/25 hover:text-[#27F3A9] transition-all duration-200 hover:drop-shadow-[0_0_8px_rgba(39,243,169,0.3)]"
+          >
+            Internet Archive
+          </a>
+          <a
+            href="https://github.com/xCaptaiN09/rmx3031-archive"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[13px] text-white/25 hover:text-[#27F3A9] transition-all duration-200 hover:drop-shadow-[0_0_8px_rgba(39,243,169,0.3)]"
+          >
+            GitHub
+          </a>
         </div>
       </div>
     </footer>
-  )
+  );
 }

@@ -1,126 +1,137 @@
-import { HardDrive, Menu, Moon, Sun, X } from "lucide-react";
-import { useState } from "react";
+import { HardDrive, Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [dark, setDark] = useState(() => {
-    if (typeof window !== "undefined") {
-      return (
-        localStorage.getItem("theme") === "dark" ||
-        !localStorage.getItem("theme")
-      );
-    }
-    return true;
-  });
-
-  const toggleDark = () => {
-    const next = !dark;
-    setDark(next);
-    document.documentElement.classList.toggle("dark", next);
-    localStorage.setItem("theme", next ? "dark" : "light");
-  };
-
-  if (typeof window !== "undefined") {
-    document.documentElement.classList.toggle("dark", dark);
-  }
+  const [activeSection, setActiveSection] = useState("");
 
   const navLinks = [
     { label: "Browse", href: "#browse" },
-    { label: "Featured", href: "#roms" },
+    { label: "Featured", href: "#featured" },
     { label: "Archive", href: "#full-archive" },
     { label: "Contribute", href: "#contribute" },
   ];
 
+  // Track which section is in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.3, rootMargin: "-80px 0px -50% 0px" },
+    );
+
+    navLinks.forEach((link) => {
+      const el = document.querySelector(link.href);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <nav
-      className="fixed top-4 left-1/2 z-50 w-[calc(100%-2rem)] max-w-5xl -translate-x-1/2 rounded-2xl border border-white/10 px-5 py-3"
-      style={{
-        background: "rgba(245, 245, 240, 0.08)",
-        backdropFilter: "blur(40px) saturate(140%)",
-        WebkitBackdropFilter: "blur(40px) saturate(140%)",
-        boxShadow:
-          "inset 0 1px 1px rgba(255,255,255,0.15), 0 8px 32px rgba(0,0,0,0.15)",
-      }}
-    >
+    <nav className="fixed top-5 left-1/2 z-50 w-[calc(100%-2rem)] max-w-5xl -translate-x-1/2 rounded-2xl border border-white/[0.06] bg-black/50 backdrop-blur-2xl px-6 py-3 shadow-[0_8px_40px_rgba(0,0,0,0.5)]">
       <div className="flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2.5">
-          <HardDrive className="h-5 w-5 text-offwhite dark:text-[#e8f0eb]" />
-          <span className="text-sm font-semibold tracking-tight text-offwhite dark:text-[#e8f0eb]">
+        {/* Logo */}
+        <a href="#" className="flex items-center gap-2.5 group">
+          <HardDrive className="h-5 w-5 text-[#27F3A9] transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(39,243,169,0.4)]" />
+          <span className="text-sm font-semibold tracking-tight text-white heading-section">
             RMX3031
           </span>
         </a>
 
-        <div className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-sm font-medium text-offwhite dark:text-[#e8f0eb]/70 transition-colors duration-200 hover:text-offwhite dark:text-[#e8f0eb]"
-            >
-              {link.label}
-            </a>
-          ))}
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => {
+            const sectionId = link.href.replace("#", "");
+            const isActive = activeSection === sectionId;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`relative text-[13px] font-medium transition-colors duration-200 py-1 ${
+                  isActive ? "text-white" : "text-white/40 hover:text-white"
+                }`}
+              >
+                {link.label}
+                {/* Active indicator dot */}
+                <span
+                  className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#27F3A9] transition-all duration-300 ${
+                    isActive ? "opacity-100 scale-100" : "opacity-0 scale-0"
+                  }`}
+                />
+              </a>
+            );
+          })}
         </div>
 
-        <button
-          onClick={toggleDark}
-          className="hidden md:flex h-8 w-8 items-center justify-center rounded-lg border border-offwhite/20 text-offwhite/70 transition-colors hover:border-offwhite/40 hover:text-offwhite"
-          aria-label="Toggle dark mode"
-        >
-          {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-        </button>
+        {/* Internet Archive — Pill Shape */}
         <a
           href="https://archive.org/details/rmx3031-community"
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden rounded-lg bg-forest dark:bg-[#152b23] px-4 py-1.5 text-xs font-semibold text-offwhite dark:text-[#e8f0eb] transition-colors duration-200 hover:bg-sage dark:hover:bg-sage/80 hover:text-forest dark:hover:text-[#e8f0eb] md:inline-block"
+          className="hidden md:inline-flex items-center gap-2 px-4 py-1.5 text-[12px] font-medium text-[#27F3A9]/70 border border-[#27F3A9]/15 rounded-full hover:text-[#27F3A9] hover:border-[#27F3A9]/30 hover:bg-[#27F3A9]/5 transition-all duration-300"
         >
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+            <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+            <path d="M10 9H8" />
+            <path d="M16 13H8" />
+            <path d="M16 17H8" />
+          </svg>
           Internet Archive
         </a>
 
+        {/* Mobile Menu Toggle */}
         <button
-          className="text-offwhite dark:text-[#e8f0eb] md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden p-2 text-white/50 hover:text-white transition-colors"
         >
-          {mobileOpen ? (
-            <X className="h-5 w-5" />
-          ) : (
-            <Menu className="h-5 w-5" />
-          )}
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
+      {/* Mobile Dropdown */}
       {mobileOpen && (
-        <div className="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4 md:hidden">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-sm font-medium text-offwhite dark:text-[#e8f0eb]/70 transition-colors hover:text-offwhite dark:text-[#e8f0eb]"
-              onClick={() => setMobileOpen(false)}
-            >
-              {link.label}
-            </a>
-          ))}
-          {/* Dark mode toggle inside mobile menu */}
-          <button
-            onClick={() => {
-              toggleDark();
-              setMobileOpen(false);
-            }}
-            className="flex items-center gap-2 text-sm font-medium text-offwhite dark:text-[#e8f0eb]/70 transition-colors hover:text-offwhite dark:text-[#e8f0eb]"
-            aria-label="Toggle dark mode"
-          >
-            {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            <span>Toggle theme</span>
-          </button>
+        <div className="md:hidden mt-3 pt-3 border-t border-white/[0.04] flex flex-col gap-1">
+          {navLinks.map((link) => {
+            const sectionId = link.href.replace("#", "");
+            const isActive = activeSection === sectionId;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className={`px-4 py-2.5 text-[13px] font-medium transition-colors rounded-lg ${
+                  isActive
+                    ? "text-[#27F3A9] bg-[#27F3A9]/5"
+                    : "text-white/50 hover:text-white"
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
           <a
             href="https://archive.org/details/rmx3031-community"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 inline-block rounded-lg bg-forest dark:bg-[#152b23] px-4 py-2 text-center text-xs font-semibold text-offwhite dark:text-[#e8f0eb]"
+            className="px-4 py-2.5 text-[13px] font-medium text-[#27F3A9]/70 hover:text-[#27F3A9] transition-colors"
           >
-            Internet Archive
+            Internet Archive →
           </a>
         </div>
       )}
