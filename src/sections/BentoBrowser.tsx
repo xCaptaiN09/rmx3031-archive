@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useData } from "../hooks/use-data";
 
 const IconAndroid = () => (
@@ -92,6 +92,18 @@ export default function BentoBrowser() {
   const { data } = useData();
   const [tappedCard, setTappedCard] = useState<string | null>(null);
 
+  // Deselect when clicking outside cards
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".cat-card")) {
+        setTappedCard(null);
+      }
+    };
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, []);
+
   if (!data) return null;
 
   return (
@@ -119,7 +131,7 @@ export default function BentoBrowser() {
             return (
               <div
                 key={key}
-                className={`cat-card group relative rounded-2xl p-8 flex flex-col items-center text-center cursor-default overflow-hidden transition-all duration-300 animate-fade-up-once`}
+                className="cat-card group relative rounded-2xl p-8 flex flex-col items-center text-center cursor-default overflow-hidden transition-all duration-300 animate-fade-up-once"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",

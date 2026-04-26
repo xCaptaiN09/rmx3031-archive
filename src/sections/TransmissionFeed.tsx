@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useData } from "../hooks/use-data";
 
 const LOGO_MAP: Record<string, string> = {
@@ -58,11 +58,12 @@ interface FlipCardProps {
     changelog?: string;
   };
   index: number;
+  isFlipped: boolean;
+  onFlip: () => void;
 }
 
-const FlipCard = ({ rom, index }: FlipCardProps) => {
+const FlipCard = ({ rom, index, isFlipped, onFlip }: FlipCardProps) => {
   const [copied, setCopied] = useState(false);
-  const [flipped, setFlipped] = useState(false);
 
   const handleCopy = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -90,13 +91,13 @@ const FlipCard = ({ rom, index }: FlipCardProps) => {
         height: "304px",
         animationDelay: `${index * 0.08}s`,
       }}
-      onClick={() => setFlipped(!flipped)}
+      onClick={onFlip}
     >
       <div className="relative w-full h-full">
         {/* ── Animated border ring ── */}
         <svg
           className={`rom-border-svg absolute -inset-[1px] w-[calc(100%+2px)] h-[calc(100%+2px)] pointer-events-none z-20 rounded-2xl overflow-visible transition-opacity duration-300 ${
-            flipped ? "opacity-100 is-active" : "opacity-0"
+            isFlipped ? "opacity-100 is-active" : "opacity-0"
           }`}
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
@@ -122,7 +123,7 @@ const FlipCard = ({ rom, index }: FlipCardProps) => {
         {/* Flip container */}
         <div
           className={`relative w-full h-full [transform-style:preserve-3d] transition-transform ${
-            flipped
+            isFlipped
               ? "[transform:rotateY(180deg)]"
               : "group-hover:[transform:rotateY(180deg)]"
           }`}
@@ -134,7 +135,7 @@ const FlipCard = ({ rom, index }: FlipCardProps) => {
           {/* ── FRONT ── */}
           <div
             className={`absolute inset-0 rounded-2xl p-6 flex flex-col items-center justify-center [backface-visibility:hidden] transition-opacity duration-300 ${
-              flipped
+              isFlipped
                 ? "opacity-0 pointer-events-none"
                 : "opacity-100 group-hover:opacity-0"
             }`}
@@ -187,7 +188,7 @@ const FlipCard = ({ rom, index }: FlipCardProps) => {
           {/* ── BACK ── */}
           <div
             className={`absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden] rounded-2xl p-5 flex flex-col transition-opacity duration-300 ${
-              flipped
+              isFlipped
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
             }`}
@@ -258,6 +259,20 @@ const FlipCard = ({ rom, index }: FlipCardProps) => {
 
 export default function TransmissionFeed() {
   const { data } = useData();
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
+
+  // Un-flip when clicking outside any card
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".rom-card")) {
+        setFlippedCard(null);
+      }
+    };
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, []);
+
   if (!data || !data.roms) return null;
 
   const latestROMs = [...data.roms]
@@ -283,7 +298,13 @@ export default function TransmissionFeed() {
         {/* ROM grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {latestROMs.map((rom, idx) => (
-            <FlipCard key={idx} rom={rom} index={idx} />
+            <FlipCard
+              key={idx}
+              rom={rom}
+              index={idx}
+              isFlipped={flippedCard === idx}
+              onFlip={() => setFlippedCard(flippedCard === idx ? null : idx)}
+            />
           ))}
         </div>
       </div>
