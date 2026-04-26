@@ -102,7 +102,7 @@ export default function FileBrowserSection() {
                 ) : (
                   <Accordion type="single" collapsible className="w-full space-y-3">
                     {[...(data[cat] || [])]
-                      .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                      .sort((a: any, b: any) => ["roms","kernels","modules","recovery","other"].includes(cat) ? new Date(b.date).getTime() - new Date(a.date).getTime() : 0)
                       .map((file: any, i: number) => (
                       <AccordionItem
                         key={i}
