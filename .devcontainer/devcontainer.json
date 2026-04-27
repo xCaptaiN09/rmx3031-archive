@@ -1,0 +1,13 @@
+{
+  "name": "RMX3031 Archive",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "postCreateCommand": "pip install internetarchive",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "remoteEnv": {
+    "IA_ACCESS_KEY": "${localEnv:IA_ACCESS_KEY}",
+    "IA_SECRET_KEY": "${localEnv:IA_SECRET_KEY}",
+    "GH_TOKEN": "${localEnv:GH_TOKEN}"
+  }
+}
