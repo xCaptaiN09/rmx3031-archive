@@ -380,7 +380,7 @@
       "date": "2026-03-31",
       "size": "5.31GB",
       "url": "https://archive.org/download/rmx3350-flash-a07/RMX3350-A07-Toolbox.zip",
-      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3350 GT Neo Flash Edition."
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3350 GT Neo Flash Edition. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
     },
     {
       "name": "A16 (Compact) Toolbox",
@@ -388,7 +388,7 @@
       "date": "2026-03-31",
       "size": "4.34GB",
       "url": "https://archive.org/download/rmx3350-flash-a16-compact/RMX3350-A16-Compact-Toolbox-pkg.zip",
-      "changelog": "Three-in-one package. See download link for details."
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. Compact variant with smaller size. RMX3350 GT Neo Flash Edition."
     },
     {
       "name": "A16 Toolbox",
@@ -396,7 +396,7 @@
       "date": "2026-03-31",
       "size": "5.45GB",
       "url": "https://archive.org/download/rmx3350-flash-a16/RMX3350-A16-Toolbox.zip",
-      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3350 GT Neo Flash Edition."
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3350 GT Neo Flash Edition. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
     },
     {
       "name": "C15 Toolbox",
@@ -428,7 +428,7 @@
       "date": "2026-05-06",
       "size": "6.80GB",
       "url": "https://archive.org/download/rmx3350-flash-f12/RMX3350-F12-Toolbox.zip",
-      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3350 GT Neo Flash Edition."
+      "changelog": "Three-in-one package includes TWRP, Fastboot and SP Flash Tool. RMX3350 GT Neo Flash Edition. Sequential upgrade path: A22 > C12 > F13 > F24 (no data wipe needed). Cross-version upgrades/downgrades require data format."
     }
   ],
   "firmware": [
