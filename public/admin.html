@@ -1484,7 +1484,9 @@
                     const file = await res.json();
                     indexJsonSha = file.sha;
                     indexData = JSON.parse(
-                        atob(file.content.replace(/\n/g, "")),
+                        decodeURIComponent(
+                            escape(atob(file.content.replace(/\n/g, ""))),
+                        ),
                     );
                 } catch (e) {
                     showToast(e.message, "error");
@@ -1520,14 +1522,14 @@
                 el.innerHTML = tabs
                     .map(
                         (key) => `
-      <div class="tab-item ${key === selectedTabKey ? "selected" : ""}" onclick="selectTab('${key}')">
-        <div class="tab-item-info">
-          <div class="tab-item-name">${DEFAULT_NAMES[key] || key}</div>
-          <div class="tab-item-key">${key}</div>
-        </div>
-        <span class="tab-count ${indexData[key].length > 0 ? "has-data" : ""}">${indexData[key].length} files</span>
-      </div>
-    `,
+              <div class="tab-item ${key === selectedTabKey ? "selected" : ""}" onclick="selectTab('${key}')">
+                <div class="tab-item-info">
+                  <div class="tab-item-name">${DEFAULT_NAMES[key] || key}</div>
+                  <div class="tab-item-key">${key}</div>
+                </div>
+                <span class="tab-count ${indexData[key].length > 0 ? "has-data" : ""}">${indexData[key].length} files</span>
+              </div>
+            `,
                     )
                     .join("");
             }
@@ -1899,10 +1901,10 @@
                 nav.innerHTML = tabs
                     .map(
                         (key) => `
-      <button class="sub-nav-btn ${key === currentEntryTab ? "active" : ""}" onclick="setEntryTab('${key}')">
-        ${DEFAULT_NAMES[key] || key} (${indexData[key].length})
-      </button>
-    `,
+              <button class="sub-nav-btn ${key === currentEntryTab ? "active" : ""}" onclick="setEntryTab('${key}')">
+                ${DEFAULT_NAMES[key] || key} (${indexData[key].length})
+              </button>
+            `,
                     )
                     .join("");
                 renderEntryList();
@@ -1932,17 +1934,17 @@
                     sorted
                         .map(
                             (e) => `
-      <div class="entry-item">
-        <div class="entry-info">
-          <div class="entry-name">${e.name || "—"}</div>
-          <div class="entry-meta">${e.version ? "v" + e.version + " · " : ""}${e.date || ""} ${e.size ? "· " + e.size : ""}</div>
-        </div>
-        <div class="entry-actions">
-          <button class="btn-icon" title="Edit" onclick="openEditModal('${currentEntryTab}', ${e._orig})">✏️</button>
-          <button class="btn-icon del" title="Delete" onclick="openDeleteEntryModal('${currentEntryTab}', ${e._orig}, '${(e.name || "").replace(/'/g, "\\'")}')">🗑️</button>
-        </div>
-      </div>
-    `,
+              <div class="entry-item">
+                <div class="entry-info">
+                  <div class="entry-name">${e.name || "—"}</div>
+                  <div class="entry-meta">${e.version ? "v" + e.version + " · " : ""}${e.date || ""} ${e.size ? "· " + e.size : ""}</div>
+                </div>
+                <div class="entry-actions">
+                  <button class="btn-icon" title="Edit" onclick="openEditModal('${currentEntryTab}', ${e._orig})">✏️</button>
+                  <button class="btn-icon del" title="Delete" onclick="openDeleteEntryModal('${currentEntryTab}', ${e._orig}, '${(e.name || "").replace(/'/g, "\\'")}')">🗑️</button>
+                </div>
+              </div>
+            `,
                         )
                         .join("") +
                     "</div>";
