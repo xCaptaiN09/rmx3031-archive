@@ -83,6 +83,15 @@
       "url": "https://archive.org/download/rmx3031-lineageos-23-2-may/lineage-nogms.zip",
       "changelog": "May Security Patch. Fixed Bottom Speaker for Cupida. Misc Improvements. By ManshuTyagi. Vanilla build (no Google Apps).",
       "android": "16"
+    },
+    {
+      "name": "Evolution X 11.7 (Unofficial)",
+      "version": "11.7",
+      "date": "2026-05-07",
+      "size": "3.9GB",
+      "url": "https://archive.org/download/rmx3031-evolutionx-11-7/EvolutionX-11.7-20260507-op6893.zip",
+      "changelog": "Improved udfps behaviour. Migrated bt and thermal service to aidl. Updated blobs to latest stock. Resolved most opluscam crashes. Synced with latest rom changes. May security patches. Userdebug, signed, vanilla kernel. By Liwhy.",
+      "android": "16"
     }
   ],
   "kernels": [
