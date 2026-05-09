@@ -186,7 +186,7 @@ export default function FileBrowserSection() {
           <span className="text-mono text-[11px] text-white/20 tracking-wider uppercase">
             {currentFiles.length} {currentFiles.length === 1 ? "file" : "files"}
           </span>
-          <span className="text-mono text-[11px] text-white/10">
+          <span className="text-mono text-[11px] text-white/20">
             {activeTab}
           </span>
         </div>
@@ -199,7 +199,7 @@ export default function FileBrowserSection() {
               <div
                 key={idx}
                 className={`file-row overflow-hidden transition-all duration-300 ${
-                  isOpen ? "border-[#27F3A9]/15" : ""
+                  isOpen ? "border-[#27F3A9]/25" : ""
                 }`}
                 style={{
                   background: isOpen
@@ -214,7 +214,7 @@ export default function FileBrowserSection() {
                   className="w-full px-5 py-4 flex items-center justify-between text-left group/row"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-mono text-[10px] text-white/15 w-6 shrink-0">
+                    <span className="text-mono text-[10px] text-white/25 w-6 shrink-0">
                       {String(idx + 1).padStart(2, "0")}
                     </span>
                     <div className="min-w-0">
@@ -228,17 +228,17 @@ export default function FileBrowserSection() {
                           </span>
                         )}
                         {file.android && (
-                          <span className="text-mono text-[10px] text-white/15">
+                          <span className="text-mono text-[10px] text-white/30">
                             Android {file.android}
                           </span>
                         )}
                         {file.date && (
-                          <span className="text-mono text-[10px] text-white/15">
+                          <span className="text-mono text-[10px] text-white/30">
                             {file.date}
                           </span>
                         )}
                         {file.size && (
-                          <span className="text-mono text-[10px] text-white/10">
+                          <span className="text-mono text-[10px] text-white/25">
                             {file.size}
                           </span>
                         )}
@@ -246,7 +246,7 @@ export default function FileBrowserSection() {
                     </div>
                   </div>
                   <ChevronDown
-                    className={`h-4 w-4 text-white/20 shrink-0 ml-3 transition-all duration-300 ${
+                    className={`h-4 w-4 text-white/30 shrink-0 ml-3 transition-all duration-300 ${
                       isOpen
                         ? "rotate-180 text-[#27F3A9]/60"
                         : "group-hover/row:text-white/40"
