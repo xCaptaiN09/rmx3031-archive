@@ -135,7 +135,7 @@ export default function BentoBrowser() {
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
-                  border: "1px solid rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
                   animationDelay: `${idx * 0.1}s`,
                 }}
                 onClick={() => setTappedCard(isActive ? null : key)}

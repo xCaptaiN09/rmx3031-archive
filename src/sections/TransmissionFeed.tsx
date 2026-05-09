@@ -139,7 +139,7 @@ const FlipCard = ({ rom, index, isFlipped, onFlip }: FlipCardProps) => {
             style={{
               background:
                 "linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.008) 100%)",
-              border: "1px solid rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.08)",
             }}
           >
             {logoPath && (

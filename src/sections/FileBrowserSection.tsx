@@ -296,7 +296,7 @@ export default function FileBrowserSection() {
                             className="text-[12px] leading-relaxed whitespace-pre-line text-white/30 bg-white/[0.02] p-3 max-h-40 overflow-y-auto custom-scrollbar"
                             style={{
                               borderRadius: "10px",
-                              border: "1px solid rgba(255,255,255,0.04)",
+                              border: "1px solid rgba(255,255,255,0.08)",
                             }}
                           >
                             {file.changelog}
