@@ -139,6 +139,7 @@ export default function FileBrowserSection() {
           {/* Left arrow */}
           {canScrollLeft && (
             <button
+              onMouseDown={(e) => e.currentTarget.blur()}
               onClick={() => scrollTabs("left")}
               className="absolute -left-1 z-10 flex items-center justify-center w-8 h-8 bg-black/80 backdrop-blur-sm border border-white/[0.06] text-white/40 hover:text-[#27F3A9] hover:border-[#27F3A9]/20 transition-all duration-200 shrink-0"
               style={{ borderRadius: "8px" }}
@@ -172,6 +173,7 @@ export default function FileBrowserSection() {
           {/* Right arrow */}
           {canScrollRight && (
             <button
+              onMouseDown={(e) => e.currentTarget.blur()}
               onClick={() => scrollTabs("right")}
               className="absolute -right-1 z-10 flex items-center justify-center w-8 h-8 bg-black/80 backdrop-blur-sm border border-white/[0.06] text-white/40 hover:text-[#27F3A9] hover:border-[#27F3A9]/20 transition-all duration-200 shrink-0"
               style={{ borderRadius: "8px" }}
@@ -208,6 +210,7 @@ export default function FileBrowserSection() {
                 }}
               >
                 <button
+                  onMouseDown={(e) => e.currentTarget.blur()}
                   onClick={() =>
                     setOpenAccordion(isOpen ? null : `${activeTab}-${idx}`)
                   }
@@ -313,6 +316,7 @@ export default function FileBrowserSection() {
                           Download
                         </a>
                         <button
+                          onMouseDown={(e) => e.currentTarget.blur()}
                           onClick={() => handleCopy(file.url, idx)}
                           className="inline-flex items-center gap-1.5 border border-white/[0.06] px-3 py-2.5 text-[12px] text-white/30 transition-all duration-200 hover:border-[#27F3A9]/25 hover:text-[#27F3A9] hover:bg-[#27F3A9]/5"
                           style={{ borderRadius: "10px" }}
