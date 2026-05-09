@@ -13,8 +13,8 @@
     --surface-1: #050a07;
     --surface-2: #0a120d;
     --surface-3: #0f1a14;
-    --border-subtle: rgba(255, 255, 255, 0.04);
-    --border-medium: rgba(255, 255, 255, 0.08);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-medium: rgba(255, 255, 255, 0.14);
     --border-accent: rgba(39, 243, 169, 0.2);
     --text-primary: #f0f4f2;
     --text-secondary: #8a9b91;
