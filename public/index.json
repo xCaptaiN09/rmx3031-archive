@@ -120,8 +120,7 @@
       "changelog": "COS 16 kernel . KernelSU Next . LSPosed working . SuSFS v1.5.5. SELinux: Enforcing. Flash SUSFS-FOR-KERNELSU module (required for better stealth/root hiding). Added UDFPS support."
     },
     {
-      "name": "COS 16 Kernel (No Root)",
-      "version": "",
+      "name": "COS/OOS 16 Kernel (No Root)",
       "date": "2026-03-24",
       "size": "21MB",
       "url": "https://archive.org/download/rmx3031-kernel-realme_ui/Realme_UI_NoRoot_RMX3031.zip",
