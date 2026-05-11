@@ -92,6 +92,15 @@
       "url": "https://archive.org/download/rmx3031-evolutionx-11-7/EvolutionX-11.7-20260507-op6893.zip",
       "changelog": "Improved udfps behaviour. Migrated bt and thermal service to aidl. Updated blobs to latest stock. Resolved most opluscam crashes. Synced with latest rom changes. May security patches. Userdebug, signed, vanilla kernel. By Liwhy.",
       "android": "16"
+    },
+    {
+      "name": "PixelOS (Unofficial)",
+      "version": "16.2",
+      "date": "2026-05-11",
+      "size": "2.0GB",
+      "url": "https://archive.org/download/rmx3031-community/PixelOS_op6893-16.2-20260511-162.zip",
+      "changelog": "Initial A16 Release . by ManshuTyagi & liwhy1",
+      "android": "16"
     }
   ],
   "kernels": [
