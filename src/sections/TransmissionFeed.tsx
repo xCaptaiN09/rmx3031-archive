@@ -8,6 +8,8 @@ const LOGO_MAP: Record<string, string> = {
   rising: "/images/rising.png",
   evolution: "/images/evolution.png",
   pixelos: "/images/pixelos.png",
+  oxygenos: "/images/oxygenos.png",
+  coloros: "/images/coloros.png",
 };
 
 const getLogoPath = (romName: string) => {
