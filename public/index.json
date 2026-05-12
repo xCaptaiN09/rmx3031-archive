@@ -110,6 +110,15 @@
       "url": "https://archive.org/download/rmx3031-oxygenos-16/OxygenOS_16_RMX3031.zip",
       "changelog": "Fastboot package. Extract, boot to fastboot, run flash.bat (Win) or ./flash.sh (Linux). Phone auto-reboots to TWRP. Sideload COS16/OOS16 kernel via ADB, format data, reboot.",
       "android": "16"
+    },
+    {
+      "name": "ColorOS 16",
+      "version": "16",
+      "date": "2026-05-12",
+      "size": "4.7 GB",
+      "url": "https://archive.org/download/rmx3031-coloros-16/ColorOS_16_RMX3031.zip",
+      "changelog": "Fastboot package. Extract, boot to fastboot, run flash.bat (Win) or ./flash.sh (Linux). Phone auto-reboots to TWRP. Sideload COS16/OOS16 kernel via ADB, format data, reboot",
+      "android": "16"
     }
   ],
   "kernels": [
