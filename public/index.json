@@ -101,6 +101,15 @@
       "url": "https://archive.org/download/rmx3031-community/PixelOS_op6893-16.2-20260511-162.zip",
       "changelog": "Initial A16 Release . by ManshuTyagi & liwhy1",
       "android": "16"
+    },
+    {
+      "name": "OxygenOS",
+      "version": "16",
+      "date": "2026-05-12",
+      "size": "5.3 GB",
+      "url": "https://archive.org/download/rmx3031-oxygenos-16/OxygenOS_16_RMX3031.zip",
+      "changelog": "Fastboot package. Extract, boot to fastboot, run flash.bat (Win) or ./flash.sh (Linux). Phone auto-reboots to TWRP. Sideload COS16/OOS16 kernel via ADB, format data, reboot.",
+      "android": "16"
     }
   ],
   "kernels": [
