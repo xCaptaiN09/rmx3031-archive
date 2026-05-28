@@ -126,7 +126,7 @@
       "date": "2026-05-26",
       "size": "3.3GB",
       "url": "https://archive.org/download/rmx3031-lunaris-aosp-3.10/Lunaris-AOSP-op6893-OFFICIAL-3.10-GMS-2026052610.zip",
-      "changelog": ". Merge new Lineage changes\n. Improve QS pulldown animation in split QS\n. Update dynamic bar color tokens\n. Replace quickspace OOS clock color polling with static split color\n. Fix volume slider fill not hiding at zero volume\n. Fix slider widget inner slider corner radius when set rounded\n. Fix dynamic bar collapse event\n. Align dynamic bar expanded cards to top center\n. Add haptics in QS widget sliders\n. Disable split notification shade when split QS on in landscape (temp)\n. Rework more custom clocks\n. Add weather support in some clocks\n. Fix dynamic bar extended media text color in lightmode\n. Add left/right swipes gesture in split QS\n. Fix always-on haptics mode triggering visual pulse\n. Fix shake gestures ringer mode not working\n. Replace white flashbang during screen wakeup in lightmode with proper scrim\n. Use directional swipe for split QS (WIP)\n. Enable Material 3 for document UI\n. Make live wallpapers optional with flag (enabled default)\n. GPhotos optional with flag (enabled default)\n. Add 3 new clocks",
+      "changelog": "- Initial Official release\n- Switched to Motorola Dolby\n- Added screen off UDFPS\n- Enabled statusbar and ambient mode burn-in Protection\n- Fixed camera cutout ring allignment\n- Added oneplus camera\n- Added display color profiles\n- Fixed connected but not charging message",
       "android": "16"
     }
   ],
