@@ -7,7 +7,7 @@ export default function Footer() {
           <div className="w-1.5 h-1.5 rounded-full bg-[#27F3A9] animate-glow-pulse" />
           <span className="text-[13px] text-white/30">
             © {new Date().getFullYear()}{" "}
-            <span className="text-white/50">RMX3031 Archive</span>
+            <span className="text-white/50">OP6893 Archive</span>
             {" · "}powered by community
           </span>
         </div>

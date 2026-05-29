@@ -130,7 +130,7 @@ export default function FileBrowserSection() {
             Full Archive
           </h2>
           <p className="mt-3 text-[15px] text-white/30 max-w-md mx-auto">
-            Every file preserved for the RMX3031 community
+            Every file preserved for the OP6893 community
           </p>
         </div>
 
