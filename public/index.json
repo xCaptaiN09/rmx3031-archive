@@ -128,6 +128,15 @@
       "url": "https://archive.org/download/rmx3031-lunaris-aosp-3.10/Lunaris-AOSP-op6893-OFFICIAL-3.10-GMS-2026052610.zip",
       "changelog": "- Initial Official release\n- Switched to Motorola Dolby\n- Added screen off UDFPS\n- Enabled statusbar and ambient mode burn-in Protection\n- Fixed camera cutout ring allignment\n- Added oneplus camera\n- Added display color profiles\n- Fixed connected but not charging message",
       "android": "16"
+    },
+    {
+      "name": "Evolution X 11.7 (Unofficial) II",
+      "version": "11.7",
+      "date": "2026-05-28",
+      "size": "3.9GB",
+      "url": "https://archive.org/download/rmx3031-evolution-x-11.7/Evolution-X-op6893-11.7-A16-QPR2-20260528.zip",
+      "changelog": "- Fixed wpa3 wifi & hotspot issues\n- Added a more consistent fp brightness patch\n- Cleaned up overlays\n- Removed dead powerhint entries\n- Resolved some sepolicy denials\n- Minor improvements\n- Synced with latest rom changes\n- May security patches",
+      "android": "16"
     }
   ],
   "kernels": [
