@@ -136,7 +136,7 @@ export default function HeroSection() {
           }}
         >
           We preserve custom ROMs, kernels, recoveries, and mods for the
-          OP6893, ensuring the community always has access.
+          Realme X7 max & Oneplus Nord 2, ensuring the community always has access.
         </p>
 
         <button

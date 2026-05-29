@@ -118,7 +118,7 @@ export default function BentoBrowser() {
             Browse by category
           </h2>
           <p className="mt-3 text-[15px] text-white/30 max-w-md mx-auto">
-            Explore our curated collection of custom software for the OP6893
+            Explore our curated collection of custom software for the Realme X7 max & Oneplus Nord 2
           </p>
         </div>
 
