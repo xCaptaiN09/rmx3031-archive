@@ -40,7 +40,7 @@ export default function Navbar() {
         <a href="#" className="flex items-center gap-2.5 group">
           <HardDrive className="h-5 w-5 text-[#27F3A9] transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(39,243,169,0.4)]" />
           <span className="text-sm font-semibold tracking-tight text-white heading-section">
-            RMX3031
+            OP6893
           </span>
         </a>
 

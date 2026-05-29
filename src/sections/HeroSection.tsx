@@ -79,7 +79,7 @@ export default function HeroSection() {
             className="block"
             style={{ ...GRADIENT_STYLE, marginTop: LINE_GAP }}
           >
-            of RMX3031
+            of OP6893
           </span>
 
           {/* Line 3: is + VIDEO + Community + + + VIDEO + Archive — EQUAL gap below Line 2 */}
@@ -136,7 +136,7 @@ export default function HeroSection() {
           }}
         >
           We preserve custom ROMs, kernels, recoveries, and mods for the
-          RMX3031, ensuring the community always has access.
+          OP6893, ensuring the community always has access.
         </p>
 
         <button
