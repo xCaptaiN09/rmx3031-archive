@@ -509,6 +509,14 @@
       "size": "57MB",
       "url": "https://archive.org/download/rmx3031-firmware/RMX3031_RUI4_F.13_FW_ONLY.zip",
       "changelog": "RUI4 F.13 firmware only package for RMX3031"
+    },
+    {
+      "name": "OOS 13 F.57 Restore Brom Firmware (Denniz)",
+      "version": "F.57",
+      "date": "2026-06-07",
+      "size": "57MB",
+      "url": "https://archive.org/download/rmx3031-firmware-f-57-restore-brom/13.0-F.57-Denniz_Restore_Brom_Firmware.zip",
+      "changelog": "Restore Brom + OxygenOS 13 F.57 firmware for OnePlus Nord 2 (DN2103) . Flash this firmware before installing custom ROMs . By ManshuTyagi."
     }
   ],
   "sptool": [
