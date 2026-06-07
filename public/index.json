@@ -137,6 +137,15 @@
       "url": "https://archive.org/download/rmx3031-evolution-x-11.7/Evolution-X-op6893-11.7-A16-QPR2-20260528.zip",
       "changelog": "- Fixed wpa3 wifi & hotspot issues\n- Added a more consistent fp brightness patch\n- Cleaned up overlays\n- Removed dead powerhint entries\n- Resolved some sepolicy denials\n- Minor improvements\n- Synced with latest rom changes\n- May security patches",
       "android": "16"
+    },
+    {
+      "name": "Axion AOSP 2.7",
+      "version": "2.7",
+      "date": "2026-06-07",
+      "size": "2.8GB",
+      "url": "https://archive.org/download/rmx3031-axion-aosp-2-7-20260606/axion-2.7-PROXIMA_BETA-20260606-UNOFFICIAL-CORE-op6893.zip",
+      "changelog": "Axion AOSP 2.7 Proxima BETA. Updated powerhints. Resolved libperfmgr & sepolicy issues. Disabled 6GHz Wi-Fi support via RRO. Configured SoftAP SAE support. Oplus Camera by @liwhy1. Revanced Apps. Non-rooted build. Dirty flash only over prior zatvio builds. By zatvio.",
+      "android": "16"
     }
   ],
   "kernels": [
