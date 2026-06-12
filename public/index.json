@@ -155,6 +155,15 @@
       "url": "https://archive.org/download/rmx3031-lineage-23.2-unofficial-iv/lineage-23.2-20260609-UNOFFICIAL-gms-op6893.zip",
       "changelog": "June Security Patch. Fixed WPA3 WiFi & hotspot issues. Misc Improvements. GMS build (includes Google Apps). By ManshuTyagi.",
       "android": "16"
+    },
+    {
+      "name": "LineageOS 23.2 Unofficial IV (Vanilla)",
+      "version": "23.2",
+      "date": "2026-06-09",
+      "size": "1.1GB",
+      "url": "https://archive.org/download/rmx3031-lineage-23.2-unofficial-iv/lineage-23.2-20260609-UNOFFICIAL-op6893.zip",
+      "changelog": "June Security Patch. Fixed WPA3 WiFi & hotspot issues. Misc Improvements. Vanilla build (no Google Apps). By ManshuTyagi.",
+      "android": "16"
     }
   ],
   "kernels": [
