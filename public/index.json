@@ -150,7 +150,7 @@
     {
       "name": "LineageOS 23.2 Unofficial IV (GMS)",
       "version": "23.2",
-      "date": "2026-06-12",
+      "date": "2026-06-09",
       "size": "1.4GB",
       "url": "https://archive.org/download/rmx3031-lineage-23.2-unofficial-iv/lineage-23.2-20260609-UNOFFICIAL-gms-op6893.zip",
       "changelog": "June Security Patch. Fixed WPA3 WiFi & hotspot issues. Misc Improvements. GMS build (includes Google Apps). By ManshuTyagi.",
