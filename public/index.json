@@ -146,6 +146,15 @@
       "url": "https://archive.org/download/rmx3031-axion-aosp-2-7-20260606/axion-2.7-PROXIMA_BETA-20260606-UNOFFICIAL-CORE-op6893.zip",
       "changelog": "Axion AOSP 2.7 Proxima BETA. Updated powerhints. Resolved libperfmgr & sepolicy issues. Disabled 6GHz Wi-Fi support via RRO. Configured SoftAP SAE support. Oplus Camera by @liwhy1. Revanced Apps. Non-rooted build. Dirty flash only over prior zatvio builds. By zatvio.",
       "android": "16"
+    },
+    {
+      "name": "LineageOS 23.2 Unofficial IV (GMS)",
+      "version": "23.2",
+      "date": "2026-06-12",
+      "size": "1.4GB",
+      "url": "https://archive.org/download/rmx3031-lineage-23.2-unofficial-iv/lineage-23.2-20260609-UNOFFICIAL-gms-op6893.zip",
+      "changelog": "June Security Patch. Fixed WPA3 WiFi & hotspot issues. Misc Improvements. GMS build (includes Google Apps). By ManshuTyagi.",
+      "android": "16"
     }
   ],
   "kernels": [
