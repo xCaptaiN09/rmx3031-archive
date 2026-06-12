@@ -164,6 +164,15 @@
       "url": "https://archive.org/download/rmx3031-lineage-23.2-unofficial-iv/lineage-23.2-20260609-UNOFFICIAL-op6893.zip",
       "changelog": "June Security Patch. Fixed WPA3 WiFi & hotspot issues. Misc Improvements. Vanilla build (no Google Apps). By ManshuTyagi.",
       "android": "16"
+    },
+    {
+      "name": "Evolution X 11.8 (Unofficial)",
+      "version": "11.8",
+      "date": "2026-06-10",
+      "size": "3.9GB",
+      "url": "https://archive.org/download/rmx3031-evolution-x-11-8t/Evolution-X-op6893-11.8-A16-QPR2-20260610.zip",
+      "changelog": "Fixed NFC unavailable issue. Synced with latest rom changes. June security patches. Userdebug, signed, vanilla kernel. By Liwhy.",
+      "android": "16"
     }
   ],
   "kernels": [
