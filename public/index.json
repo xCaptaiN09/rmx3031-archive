@@ -198,7 +198,7 @@
       "date": "2026-03-24",
       "size": "21MB",
       "url": "https://archive.org/download/ksu-next-op6893-cos16/KSU_Next_OP6893_COS16.zip",
-      "changelog": "COS 16 kernel . KernelSU Next . LSPosed working . SELinux: Enforcing. Flash SUSFS-FOR-KERNELSU module (required for better stealth/root hiding). Added UDFPS support."
+      "changelog": "COS 16 kernel . susfs v.1.5.5 . KernelSU Next . LSPosed working . SELinux: Enforcing. Flash SUSFS-FOR-KERNELSU module (required for better stealth/root hiding). Added UDFPS support."
     },
     {
       "name": "COS/OOS 16 Kernel (No Root)",
