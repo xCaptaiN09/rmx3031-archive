@@ -262,6 +262,14 @@
       "size": "35MB",
       "url": "https://archive.org/download/rmx3031-kernels/v4.19.325-ksun-v12602-susfs-v1.5.5.zip",
       "changelog": "Linux 4.19.325 with KernelSU Next and SuSFS v1.5.5 and Nethunter"
+    },
+    {
+      "name": "KSU Next OP6893 (COS16/OOS16)",
+      "version": "3.2.0",
+      "date": "2026-06-16",
+      "size": "21",
+      "url": "https://archive.org/download/rmx3031-susfs-2.1.0/KSUN_OP6893_COS16.zip",
+      "changelog": "KernelSU Next . SUSFS v.2.1.0 . RUI/COS/OOS 16 kernel . LSPosed working . SELinux: Enforcing."
     }
   ],
   "modules": [
