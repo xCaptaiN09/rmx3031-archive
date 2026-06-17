@@ -270,6 +270,14 @@
       "size": "21",
       "url": "https://archive.org/download/rmx3031-susfs-2.1.0/KSUN_OP6893_COS16.zip",
       "changelog": "KernelSU Next . SUSFS v.2.1.0 . RUI/COS/OOS 16 kernel . LSPosed working . SELinux: Enforcing."
+    },
+    {
+      "name": "KSU Next OP6893 (AOSP)",
+      "version": "3.2.0",
+      "date": "2026-06-17",
+      "size": "21MB",
+      "url": "https://archive.org/download/rmx3031-susfs-2.1.0/KSUN_OP6893_AOSP.zip",
+      "changelog": "KernelSU Next . SUSFS v.2.1.0 . AOSP kernel . LSPosed working . SELinux: Enforcing."
     }
   ],
   "modules": [
