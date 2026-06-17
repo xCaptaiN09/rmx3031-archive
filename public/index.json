@@ -267,9 +267,9 @@
       "name": "KSU Next OP6893 (COS16/OOS16)",
       "version": "3.2.0",
       "date": "2026-06-16",
-      "size": "21",
+      "size": "21MB",
       "url": "https://archive.org/download/rmx3031-susfs-2.1.0/KSUN_OP6893_COS16.zip",
-      "changelog": "KernelSU Next . SUSFS v.2.1.0 . RUI/COS/OOS 16 kernel . LSPosed working . SELinux: Enforcing."
+      "changelog": "KernelSU Next . SUSFS v.2.1.0 . RUI/COS/OOS 16 kernel . LSPosed working . SELinux: Enforcing . By xCaptaiN09"
     },
     {
       "name": "KSU Next OP6893 (AOSP)",
