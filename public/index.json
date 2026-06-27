@@ -576,6 +576,14 @@
       "size": "57MB",
       "url": "https://archive.org/download/rmx3031-firmware-f-57-restore-brom/13.0-F.57-Denniz_Restore_Brom_Firmware.zip",
       "changelog": "Restore Brom + OxygenOS 13 F.57 firmware for OnePlus Nord 2 (DN2103) . Flash this firmware before installing custom ROMs . By ManshuTyagi."
+    },
+    {
+      "name": "X7 MAX F12",
+      "version": "F12",
+      "date": "2026-06-27",
+      "size": "6.1GB",
+      "url": "https://archive.org/download/rmx3031-ota-f12/X7-MAX-F12.tar",
+      "changelog": "Realme X7 Max F12 firmware . TWRP Flashable"
     }
   ],
   "sptool": [
