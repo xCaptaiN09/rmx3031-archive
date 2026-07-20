@@ -302,6 +302,14 @@
       "size": "21",
       "url": "https://archive.org/download/rmx3031-susfs-2.2.0-manualhook-v1/KSUN-Manual-Hook-AOSP-v2.zip",
       "changelog": "KernelSU Next . SUSFS v.2.2.0 . Manual Hook . AOSP kernel . LSPosed working . SELinux: Enforcing . By xCaptaiN09"
+    },
+    {
+      "name": "KSU Next OP6893 Manual-Hook II (COS/OOS)",
+      "version": "3.3.0",
+      "date": "2026-07-13",
+      "size": "21MB",
+      "url": "https://archive.org/download/rmx3031-susfs-2.2.0-manualhook-v1/KSUN-Manual-Hook-COS-OOS-v2.zip",
+      "changelog": "KernelSU Next . SUSFS v.2.2.0 . Manual Hook . COS/OOS kernel . LSPosed working . SELinux: Enforcing . By xCaptaiN09"
     }
   ],
   "modules": [
