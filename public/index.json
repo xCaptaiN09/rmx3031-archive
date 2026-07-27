@@ -173,6 +173,15 @@
       "url": "https://archive.org/download/rmx3031-evolution-x-11-8t/Evolution-X-op6893-11.8-A16-QPR2-20260610.zip",
       "changelog": "Fixed NFC unavailable issue. Synced with latest rom changes. June security patches. Userdebug, signed, vanilla kernel. By Liwhy.",
       "android": "16"
+    },
+    {
+      "name": "Lunaris AOSP 3.12",
+      "version": "3.12",
+      "date": "2026-07-27",
+      "size": "3.2GB",
+      "url": "https://archive.org/download/lunaris-aosp-3-12-op6893/Lunaris-AOSP-op6893-OFFICIAL-3.12-GMS-2026072421.zip",
+      "changelog": "- by Rakshan",
+      "android": "16"
     }
   ],
   "kernels": [
