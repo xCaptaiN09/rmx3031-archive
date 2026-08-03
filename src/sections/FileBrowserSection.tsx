@@ -1,19 +1,11 @@
-import { useEffect, useState, useRef, useCallback } from "react";
-import {
-  ChevronDown,
-  Download,
-  Copy,
-  Check,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { useEffect, useState } from "react";
 import { useData } from "../hooks/use-data";
 
 const TABS = [
   { key: "roms", label: "ROMs" },
   { key: "kernels", label: "Kernels" },
   { key: "modules", label: "Modules" },
-  { key: "ota", label: "X7 MAX" },
+  { key: "ota", label: "X7 Max" },
   { key: "ota_cn", label: "GT Neo" },
   { key: "ota_cnf", label: "GT Neo Flash" },
   { key: "firmware", label: "Firmware" },
@@ -22,65 +14,31 @@ const TABS = [
   { key: "other", label: "Other" },
 ];
 
-export default function FileBrowserSection() {
+export default function ArchiveSection() {
   const { data } = useData();
   const [activeTab, setActiveTab] = useState("roms");
-  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+  const [openRow, setOpenRow] = useState<string | null>(null);
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
 
-  // Tab scroll state
-  const tabContainerRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-
-  const checkScroll = useCallback(() => {
-    const el = tabContainerRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 4);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-  }, []);
-
   useEffect(() => {
-    checkScroll();
-    window.addEventListener("resize", checkScroll);
-    return () => window.removeEventListener("resize", checkScroll);
-  }, [checkScroll]);
-
-  useEffect(() => {
-    // Recheck when active tab changes (tab might scroll)
-    const timer = setTimeout(checkScroll, 50);
-    return () => clearTimeout(timer);
-  }, [activeTab, checkScroll]);
-
-  const scrollTabs = (direction: "left" | "right") => {
-    const el = tabContainerRef.current;
-    if (!el) return;
-    const scrollAmount = el.clientWidth * 0.6;
-    el.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-  };
-
-  useEffect(() => {
-    const handleHashChange = () => {
+    const handleHash = () => {
       const hash = window.location.hash.replace("#", "");
-      if (TABS.some((tab) => tab.key === hash)) {
+      if (TABS.some((t) => t.key === hash)) {
         setActiveTab(hash);
-        setOpenAccordion(null);
+        setOpenRow(null);
       }
     };
-    handleHashChange();
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
   }, []);
 
   useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent).detail;
-      if (detail && TABS.some((tab) => tab.key === detail)) {
+      if (detail && TABS.some((t) => t.key === detail)) {
         setActiveTab(detail);
-        setOpenAccordion(null);
+        setOpenRow(null);
       }
     };
     window.addEventListener("setFullArchiveTab", handler);
@@ -104,14 +62,8 @@ export default function FileBrowserSection() {
 
   if (!data) return null;
 
-  const SORTED_TABS = new Set([
-    "roms",
-    "kernels",
-    "modules",
-    "recovery",
-    "other",
-  ]);
-  const currentFiles = SORTED_TABS.has(activeTab)
+  const SORTED = new Set(["roms", "kernels", "modules", "recovery", "other"]);
+  const files = SORTED.has(activeTab)
     ? [...(data[activeTab] || [])].sort(
         (a: any, b: any) =>
           new Date(b.date).getTime() - new Date(a.date).getTime(),
@@ -119,217 +71,119 @@ export default function FileBrowserSection() {
     : ((data[activeTab] || []) as any[]);
 
   return (
-    <section id="full-archive" className="py-28 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Section header */}
-        <div className="text-center mb-16 animate-fade-up-once">
-          <span className="inline-block text-[11px] font-medium tracking-[0.2em] uppercase text-[#27F3A9]/60 mb-4 text-mono">
-            Archive
+    <section id="archive" className="py-24 md:py-32">
+      <div className="max-w-6xl mx-auto px-5">
+        <div className="flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-dim mb-10">
+          <span>
+            <span className="text-flame">( 03 )</span> Archive
           </span>
-          <h2 className="heading-section text-3xl md:text-4xl text-white tracking-tight">
-            Full Archive
-          </h2>
-          <p className="mt-3 text-[15px] text-white/30 max-w-md mx-auto">
-            Every file preserved for the OP6893 community
-          </p>
+          <span>{files.length} files</span>
         </div>
 
-        {/* Tab pills with scroll arrows */}
-        <div className="relative flex items-center mb-6">
-          {/* Left arrow */}
-          {canScrollLeft && (
+        {/* Tabs */}
+        <div className="flex gap-8 overflow-x-auto hide-scrollbar border-b border-line mb-2">
+          {TABS.map((tab) => (
             <button
-              onMouseDown={(e) => e.currentTarget.blur()}
-              onClick={() => scrollTabs("left")}
-              className="absolute -left-1 z-10 flex items-center justify-center w-8 h-8 bg-black/80 backdrop-blur-sm border border-white/[0.06] text-white/40 hover:text-[#27F3A9] hover:border-[#27F3A9]/20 transition-all duration-200 shrink-0"
-              style={{ borderRadius: "8px" }}
+              key={tab.key}
+              onClick={() => {
+                setActiveTab(tab.key);
+                setOpenRow(null);
+              }}
+              className={`shrink-0 pb-3 pt-1 font-mono text-[10px] uppercase tracking-[0.3em] transition-colors border-b-2 -mb-px ${
+                activeTab === tab.key
+                  ? "text-flame border-flame"
+                  : "text-mute border-transparent hover:text-ink"
+              }`}
             >
-              <ChevronLeft size="14" />
+              {tab.label}
             </button>
-          )}
-
-          {/* Scrollable tab container */}
-          <div
-            ref={tabContainerRef}
-            onScroll={checkScroll}
-            className={`flex gap-2 overflow-x-auto hide-scrollbar flex-1 px-1 ${
-              !canScrollLeft && !canScrollRight ? "justify-center" : ""
-            }`}
-          >
-            {TABS.map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => {
-                  setActiveTab(tab.key);
-                  setOpenAccordion(null);
-                }}
-                className={`tab-pill shrink-0 ${activeTab === tab.key ? "tab-pill-active" : ""}`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Right arrow */}
-          {canScrollRight && (
-            <button
-              onMouseDown={(e) => e.currentTarget.blur()}
-              onClick={() => scrollTabs("right")}
-              className="absolute -right-1 z-10 flex items-center justify-center w-8 h-8 bg-black/80 backdrop-blur-sm border border-white/[0.06] text-white/40 hover:text-[#27F3A9] hover:border-[#27F3A9]/20 transition-all duration-200 shrink-0"
-              style={{ borderRadius: "8px" }}
-            >
-              <ChevronRight size="14" />
-            </button>
-          )}
+          ))}
         </div>
 
-        {/* File count indicator */}
-        <div className="flex items-center justify-between mb-4 px-1">
-          <span className="text-mono text-[11px] text-white/20 tracking-wider uppercase">
-            {currentFiles.length} {currentFiles.length === 1 ? "file" : "files"}
-          </span>
-          <span className="text-mono text-[11px] text-white/20">
-            {activeTab}
-          </span>
+        {/* Column header */}
+        <div className="hidden md:grid grid-cols-[3rem_1fr_5rem_7rem_5rem_2rem] gap-3 px-2 py-3 border-b border-line font-mono text-[9px] uppercase tracking-[0.25em] text-dim">
+          <span>N°</span>
+          <span>File</span>
+          <span>Android</span>
+          <span>Date</span>
+          <span>Size</span>
+          <span />
         </div>
 
-        {/* File list */}
-        <div className="space-y-2">
-          {currentFiles.map((file: any, idx: number) => {
-            const isOpen = openAccordion === `${activeTab}-${idx}`;
+        {/* Rows */}
+        <div>
+          {files.map((file: any, idx: number) => {
+            const isOpen = openRow === `${activeTab}-${idx}`;
             return (
-              <div
-                key={idx}
-                className={`file-row overflow-hidden transition-all duration-300 ${
-                  isOpen ? "border-[#27F3A9]/25" : ""
-                }`}
-                style={{
-                  background: isOpen
-                    ? "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)"
-                    : undefined,
-                }}
-              >
+              <div key={idx} className="border-b border-line">
                 <button
-                  onMouseDown={(e) => e.currentTarget.blur()}
                   onClick={() =>
-                    setOpenAccordion(isOpen ? null : `${activeTab}-${idx}`)
+                    setOpenRow(isOpen ? null : `${activeTab}-${idx}`)
                   }
-                  className="w-full px-5 py-4 flex items-center justify-between text-left group/row"
+                  className="w-full grid grid-cols-[2.5rem_1fr_2rem] md:grid-cols-[3rem_1fr_5rem_7rem_5rem_2rem] items-center gap-3 px-2 py-4 text-left hover:bg-soot transition-colors"
                 >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-mono text-[10px] text-white/25 w-6 shrink-0">
-                      {String(idx + 1).padStart(2, "0")}
+                  <span className="font-mono text-[10px] text-dim">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-grotesk text-sm font-medium text-ink truncate">
+                      {file.name}
                     </span>
-                    <div className="min-w-0">
-                      <span className="text-white text-[13px] font-medium block truncate">
-                        {file.name}
-                      </span>
-                      <div className="flex items-center gap-3 mt-0.5">
-                        {file.version && (
-                          <span className="text-mono text-[10px] text-[#27F3A9]/50">
-                            {file.version}
-                          </span>
-                        )}
-                        {file.android && (
-                          <span className="text-mono text-[10px] text-white/30">
-                            Android {file.android}
-                          </span>
-                        )}
-                        {file.date && (
-                          <span className="text-mono text-[10px] text-white/30">
-                            {file.date}
-                          </span>
-                        )}
-                        {file.size && (
-                          <span className="text-mono text-[10px] text-white/25">
-                            {file.size}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <ChevronDown
-                    className={`h-4 w-4 text-white/30 shrink-0 ml-3 transition-all duration-300 ${
-                      isOpen
-                        ? "rotate-180 text-[#27F3A9]/60"
-                        : "group-hover/row:text-white/40"
+                    <span className="md:hidden block mt-0.5 font-mono text-[10px] text-dim">
+                      {[
+                        file.version && `v${file.version}`,
+                        file.android && `A${file.android}`,
+                        file.date,
+                        file.size,
+                      ]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </span>
+                  </span>
+                  {file.android && (
+                    <span className="hidden md:block font-mono text-[10px] text-mute">
+                      {file.android}
+                    </span>
+                  )}
+                  <span className="hidden md:block font-mono text-[10px] text-dim">
+                    {file.date}
+                  </span>
+                  <span className="hidden md:block font-mono text-[10px] text-dim">
+                    {file.size}
+                  </span>
+                  <span
+                    className={`font-mono text-base text-dim justify-self-end transition-transform duration-300 ${
+                      isOpen ? "rotate-45 text-flame" : ""
                     }`}
-                  />
+                  >
+                    +
+                  </span>
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-5 animate-fade-up-once">
-                    <div className="pl-9 pt-3 border-t border-white/[0.04] border-l-[2px] border-l-[#27F3A9]/30 space-y-3">
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-[12px]">
-                        {file.size && (
-                          <div>
-                            <span className="text-white/20 block text-[10px] text-mono uppercase tracking-wider mb-0.5">
-                              Size
-                            </span>
-                            <span className="text-white/60">{file.size}</span>
-                          </div>
-                        )}
-                        <div>
-                          <span className="text-white/20 block text-[10px] text-mono uppercase tracking-wider mb-0.5">
-                            Date
-                          </span>
-                          <span className="text-white/60">{file.date}</span>
-                        </div>
-                        {file.android && (
-                          <div>
-                            <span className="text-white/20 block text-[10px] text-mono uppercase tracking-wider mb-0.5">
-                              Android
-                            </span>
-                            <span className="text-white/60">
-                              {file.android}
-                            </span>
-                          </div>
-                        )}
+                  <div className="px-2 pb-6 md:pl-[3.5rem]">
+                    {file.changelog && (
+                      <div className="border-l border-flame/40 pl-4 py-1 max-h-48 overflow-y-auto custom-scrollbar">
+                        <p className="font-mono text-[11px] leading-relaxed text-mute whitespace-pre-line">
+                          {file.changelog}
+                        </p>
                       </div>
-
-                      {file.changelog && (
-                        <div>
-                          <span className="text-white/20 block text-[10px] text-mono uppercase tracking-wider mb-1.5">
-                            Changelog
-                          </span>
-                          <div
-                            className="text-[12px] leading-relaxed whitespace-pre-line text-white/30 bg-white/[0.02] p-3 max-h-40 overflow-y-auto custom-scrollbar"
-                            style={{
-                              borderRadius: "10px",
-                              border: "1px solid rgba(255,255,255,0.08)",
-                            }}
-                          >
-                            {file.changelog}
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="flex items-center gap-2 pt-2">
-                        <a
-                          href={file.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 border border-[#27F3A9]/20 px-4 py-2.5 text-[12px] font-medium text-[#27F3A9] transition-all duration-300 hover:bg-[#27F3A9]/8 hover:border-[#27F3A9]/35 hover:shadow-[0_0_16px_rgba(39,243,169,0.1)]"
-                          style={{ borderRadius: "10px" }}
-                        >
-                          <Download size="13" />
-                          Download
-                        </a>
-                        <button
-                          onMouseDown={(e) => e.currentTarget.blur()}
-                          onClick={() => handleCopy(file.url, idx)}
-                          className="inline-flex items-center gap-1.5 border border-white/[0.06] px-3 py-2.5 text-[12px] text-white/30 transition-all duration-200 hover:border-[#27F3A9]/25 hover:text-[#27F3A9] hover:bg-[#27F3A9]/5"
-                          style={{ borderRadius: "10px" }}
-                          title={copiedIdx === idx ? "Copied!" : "Copy link"}
-                        >
-                          {copiedIdx === idx ? (
-                            <Check size="13" />
-                          ) : (
-                            <Copy size="13" />
-                          )}
-                          {copiedIdx === idx ? "Copied" : "Copy"}
-                        </button>
-                      </div>
+                    )}
+                    <div className="flex flex-wrap gap-3 mt-4">
+                      <a
+                        href={file.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono text-[10px] uppercase tracking-[0.25em] border border-line px-4 py-2 text-ink hover:bg-ink hover:text-coal transition-colors"
+                      >
+                        Download ↗
+                      </a>
+                      <button
+                        onClick={() => handleCopy(file.url, idx)}
+                        className="font-mono text-[10px] uppercase tracking-[0.25em] border border-line px-4 py-2 text-mute hover:text-ink hover:border-ink transition-colors"
+                      >
+                        {copiedIdx === idx ? "Copied ✓" : "Copy link"}
+                      </button>
                     </div>
                   </div>
                 )}
@@ -338,11 +192,9 @@ export default function FileBrowserSection() {
           })}
         </div>
 
-        {currentFiles.length === 0 && (
-          <div className="text-center py-16">
-            <p className="text-white/20 text-sm">
-              No files in this category yet
-            </p>
+        {files.length === 0 && (
+          <div className="py-16 text-center font-mono text-[11px] uppercase tracking-[0.25em] text-dim">
+            No files in this category yet
           </div>
         )}
       </div>

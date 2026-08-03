@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useData } from "../hooks/use-data";
+import DotMatrix from "../components/DotMatrix";
 
 function AnimatedCounter({
   target,
-  duration = 2000,
+  duration = 1800,
 }: {
   target: number;
   duration?: number;
 }) {
   const [count, setCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
 
   useEffect(() => {
@@ -18,14 +19,13 @@ function AnimatedCounter({
         if (entry.isIntersecting && !started.current) {
           started.current = true;
           const start = performance.now();
-          const animate = (now: number) => {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
+          const tick = (now: number) => {
+            const progress = Math.min((now - start) / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
             setCount(Math.round(eased * target));
-            if (progress < 1) requestAnimationFrame(animate);
+            if (progress < 1) requestAnimationFrame(tick);
           };
-          requestAnimationFrame(animate);
+          requestAnimationFrame(tick);
         }
       },
       { threshold: 0.3 },
@@ -34,144 +34,108 @@ function AnimatedCounter({
     return () => observer.disconnect();
   }, [target, duration]);
 
-  return <div ref={ref}>{count}</div>;
+  return <span ref={ref}>{count}</span>;
 }
 
-export default function CommunitySection() {
+export default function AboutSection() {
   const { data } = useData();
+  const [figHover, setFigHover] = useState(false);
+
   if (!data) return null;
 
   const totalFiles = Object.values(data)
     .filter(Array.isArray)
     .reduce((acc, curr) => acc + curr.length, 0);
 
-  const tabsCount = Object.keys(data).filter((k) =>
-    Array.isArray(data[k]),
+  const categories = Object.keys(data).filter((k) =>
+    Array.isArray((data as any)[k]),
   ).length;
 
   return (
-    <section id="contribute" className="py-28 relative">
-      <div className="max-w-5xl mx-auto px-6 text-center">
-        {/* Section header — matches hero's #555 label style */}
-        <span
-          className="inline-block font-medium tracking-[0.2em] uppercase mb-12"
-          style={{ fontSize: 11, color: "#555" }}
-        >
-          Community
-        </span>
-
-        {/* Stats — huge weight-300 numbers, hero silver gradient */}
-        <div className="flex items-baseline justify-center gap-12 sm:gap-20 mb-16">
-          <div className="flex flex-col items-center">
-            <h3
-              className="font-light tracking-[-0.01em] leading-[1.1] mb-3"
-              style={{
-                fontSize: "clamp(2.5rem, 6vw, 5.5rem)",
-                fontFamily:
-                  "'YDYoonche L', 'YDYoonche M', 'Space Grotesk', sans-serif",
-                background:
-                  "linear-gradient(90deg, #333333 0%, #878787 50%, #333333 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              <AnimatedCounter target={totalFiles} />
-            </h3>
-            <span
-              className="text-[11px] tracking-[0.15em] uppercase"
-              style={{ color: "#555" }}
-            >
-              Files Preserved
-            </span>
-          </div>
-
-          <div className="flex flex-col items-center">
-            <h3
-              className="font-light tracking-[-0.01em] leading-[1.1] mb-3"
-              style={{
-                fontSize: "clamp(2.5rem, 6vw, 5.5rem)",
-                fontFamily:
-                  "'YDYoonche L', 'YDYoonche M', 'Space Grotesk', sans-serif",
-                background:
-                  "linear-gradient(90deg, #333333 0%, #878787 50%, #333333 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              <AnimatedCounter target={tabsCount} />
-            </h3>
-            <span
-              className="text-[11px] tracking-[0.15em] uppercase"
-              style={{ color: "#555" }}
-            >
-              Categories
-            </span>
-          </div>
+    <section id="about" className="py-24 md:py-32">
+      <div className="max-w-6xl mx-auto px-5">
+        <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-dim mb-10">
+          <span className="text-flame">( 04 )</span> About
         </div>
 
-        {/* Animated Infinity — minimal, hero-matching */}
-        <div className="mb-4">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
+          <div>
+            <h2 className="font-grotesk text-2xl md:text-4xl font-medium leading-snug text-ink tracking-tight">
+              An open archive preserving custom software for the OP6893 family —
+              because great hardware deserves to{" "}
+              <span className="font-serif italic text-flame">outlive</span> its
+              support window.
+            </h2>
+            <p className="mt-8 font-mono text-[11px] leading-relaxed tracking-[0.1em] text-mute uppercase">
+              Maintained by{" "}
+              <a
+                href="https://github.com/xCaptaiN09"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-ink underline underline-offset-4 decoration-line hover:text-flame hover:decoration-flame transition-colors"
+              >
+                {data.maintainer}
+              </a>{" "}
+              · Hosted on Internet Archive · Rebuilt by Cloudflare in ~60s
+            </p>
+
+            <div className="mt-10 grid grid-cols-3 divide-x divide-line border border-line">
+              <div className="p-4 md:p-6 text-center">
+                <div className="font-grotesk text-2xl md:text-4xl font-bold text-ink">
+                  <AnimatedCounter target={totalFiles} />
+                </div>
+                <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.25em] text-dim">
+                  Files
+                </div>
+              </div>
+              <div className="p-4 md:p-6 text-center">
+                <div className="font-grotesk text-2xl md:text-4xl font-bold text-ink">
+                  <AnimatedCounter target={categories} />
+                </div>
+                <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.25em] text-dim">
+                  Categories
+                </div>
+              </div>
+              <div className="p-4 md:p-6 text-center">
+                <div className="font-grotesk text-2xl md:text-4xl font-bold text-flame">
+                  ∞
+                </div>
+                <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.25em] text-dim">
+                  Growing
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div
-            className="font-light tracking-[-0.01em] leading-[1.1] inline-block animate-infinity"
-            style={{
-              fontSize: "clamp(2rem, 5vw, 4rem)",
-              fontFamily:
-                "'YDYoonche L', 'YDYoonche M', 'Space Grotesk', sans-serif",
-              color: "#27F3A9",
-            }}
+            onMouseEnter={() => setFigHover(true)}
+            onMouseLeave={() => setFigHover(false)}
           >
-            ∞
+            <div className="border border-line p-3 transition-colors duration-700 hover:border-line-accent/30">
+              <div className="relative aspect-[4/3] overflow-hidden bg-coal opacity-80">
+                <DotMatrix text="MT6893" spacing={4} maxDot={1.5} />
+                <div
+                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                    figHover ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <DotMatrix
+                    text="MT6893"
+                    spacing={4}
+                    maxDot={1.5}
+                    color="255, 77, 0"
+                    className="[filter:drop-shadow(0_0_14px_rgba(255,77,0,0.35))]"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-between mt-2 font-mono text-[9px] uppercase tracking-[0.25em] text-dim">
+              <span>Fig. 01 — MT6893 · Cupida · Denniz</span>
+              <span>Halftone / 1-bit</span>
+            </div>
           </div>
         </div>
-        <span
-          className="text-[11px] tracking-[0.15em] uppercase"
-          style={{ color: "#555" }}
-        >
-          Always Growing
-        </span>
-
-        {/* Subtext — matches hero subheading style exactly */}
-        <p
-          className="mt-16 max-w-md mx-auto"
-          style={{
-            fontSize: "clamp(0.95rem, 2.2vw, 1.2rem)",
-            color: "#888",
-            lineHeight: 1.4,
-            fontWeight: 400,
-          }}
-        >
-          Maintained by <span style={{ color: "#fff" }}>{data.maintainer}</span>
-          {" · "}Open-source on{" "}
-          <a
-            href="https://github.com/xCaptaiN09/rmx3031-archive"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: "#27F3A9" }}
-            className="hover:opacity-80 transition-opacity duration-200"
-          >
-            GitHub
-          </a>
-        </p>
       </div>
-
-      <style>{`
-        @keyframes infinity-breathe {
-          0%, 100% {
-            opacity: 0.6;
-            text-shadow: 0 0 8px rgba(39,243,169,0.2);
-            transform: scale(1);
-          }
-          50% {
-            opacity: 1;
-            text-shadow: 0 0 20px rgba(39,243,169,0.5), 0 0 40px rgba(39,243,169,0.2);
-            transform: scale(1.04);
-          }
-        }
-
-        .animate-infinity {
-          animation: infinity-breathe 3s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   );
 }

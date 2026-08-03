@@ -1,35 +1,32 @@
 export default function Footer() {
   return (
-    <footer className="relative border-t border-white/[0.04] bg-black/40 backdrop-blur-xl">
-      <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
-        {/* Left */}
-        <div className="flex items-center gap-3">
-          <div className="w-1.5 h-1.5 rounded-full bg-[#27F3A9] animate-glow-pulse" />
-          <span className="text-[13px] text-white/30">
-            © {new Date().getFullYear()}{" "}
-            <span className="text-white/50">OP6893 Archive</span>
-            {" · "}powered by community
-          </span>
-        </div>
-
-        {/* Right */}
-        <div className="flex items-center gap-6">
+    <footer className="border-t border-line">
+      <div className="max-w-6xl mx-auto px-5 py-6 flex flex-col md:flex-row items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-dim">
+        <span>© {new Date().getFullYear()} OP6893 Archive</span>
+        <span className="hidden md:inline">Powered by community</span>
+        <span className="flex items-center gap-6">
           <a
             href="https://archive.org/details/rmx3031-community"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[13px] text-white/25 hover:text-[#27F3A9] transition-all duration-200 hover:drop-shadow-[0_0_8px_rgba(39,243,169,0.3)]"
+            className="nav-link"
           >
-            Internet Archive
+            Internet Archive ↗
           </a>
           <a
             href="https://github.com/xCaptaiN09/rmx3031-archive"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[13px] text-white/25 hover:text-[#27F3A9] transition-all duration-200 hover:drop-shadow-[0_0_8px_rgba(39,243,169,0.3)]"
+            className="nav-link"
           >
-            GitHub
+            GitHub ↗
           </a>
+        </span>
+      </div>
+
+      <div className="overflow-hidden select-none" aria-hidden>
+        <div className="font-grotesk font-bold text-stroke stroke-hover text-[17vw] leading-[0.8] text-center -mb-[3vw] tracking-tight">
+          OP6893
         </div>
       </div>
     </footer>

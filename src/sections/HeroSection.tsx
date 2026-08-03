@@ -1,186 +1,127 @@
-import { useRef, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useData } from "../hooks/use-data";
+import DotField from "../components/DotField";
 
-type VideoIconProps = {
-  src: string;
-  size?: number;
-};
-
-const VideoIcon = ({ src, size = 72 }: VideoIconProps) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+function RevealLine({
+  text,
+  delay = 0,
+  charClassName = "",
+}: {
+  text: string;
+  delay?: number;
+  charClassName?: string;
+}) {
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    videoRef.current?.play().catch(() => {});
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setMounted(true);
+      return;
+    }
+    const raf = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
-    <span
-      className="inline-block align-middle rounded-full overflow-hidden"
-      style={{
-        width: `clamp(48px, 10vw, ${size}px)`,
-        height: `clamp(48px, 10vw, ${size}px)`,
-      }}
-    >
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        src={src}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          display: "block",
-        }}
-      />
+    <span className="block" aria-label={text}>
+      {text.split("").map((ch, i) => (
+        <span
+          key={i}
+          aria-hidden
+          className={`inline-block transition-all duration-700 ease-out ${charClassName}`}
+          style={{
+            opacity: mounted ? 1 : 0,
+            filter: mounted ? "blur(0px)" : "blur(10px)",
+            transform: mounted ? "translateY(0)" : "translateY(0.12em)",
+            transitionDelay: `${delay + i * 50}ms`,
+          }}
+        >
+          {ch}
+        </span>
+      ))}
     </span>
   );
-};
-
-const VIDEO_COMMUNITY =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260424_090051_64ea5059-da6b-492b-a171-aa7ecc767dc3.mp4";
-const VIDEO_ARCHIVE =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260424_093237_ff0ddc63-c068-4e29-96da-fdd0e40af133.mp4";
-
-const GRADIENT_STYLE = {
-  background: "linear-gradient(90deg, #333333 0%, #878787 50%, #333333 100%)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  lineHeight: 1.1,
-};
-
-// Consistent spacing between all lines
-const LINE_GAP = "0.15em";
-
-// Consistent spacing between elements on Line 3
-const ELEMENT_GAP = "0.25em";
+}
 
 export default function HeroSection() {
+  const { data } = useData();
+
+  const totalFiles = data
+    ? Object.values(data)
+        .filter(Array.isArray)
+        .reduce((acc, curr) => acc + curr.length, 0)
+    : 0;
+
   return (
-    <section className="relative h-screen w-full bg-black overflow-hidden flex flex-col items-center justify-center">
-      <div className="absolute inset-0 bg-black/90" />
+    <section className="relative min-h-screen flex flex-col">
+      <DotField />
 
-      <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-5xl mx-auto">
-        <h1
-          className="font-light tracking-[-0.01em] text-white"
-          style={{
-            fontFamily: "'YDYoonche L', 'YDYoonche M', sans-serif",
-            fontSize: "clamp(2.2rem, 7vw, 6.5rem)",
-          }}
-        >
-          {/* Line 1: The vision */}
-          <span className="block" style={{ ...GRADIENT_STYLE }}>
-            The vision
-          </span>
-
-          {/* Line 2: of RMX3031 — EQUAL gap below Line 1 */}
-          <span
-            className="block"
-            style={{ ...GRADIENT_STYLE, marginTop: LINE_GAP }}
-          >
-            of OP6893
-          </span>
-
-          {/* Line 3: is + VIDEO + Community + + + VIDEO + Archive — EQUAL gap below Line 2 */}
-          <span
-            className="block text-center"
-            style={{ marginTop: LINE_GAP, lineHeight: "normal" }}
-          >
-            <span
-              className="inline-block align-middle"
-              style={{ color: "#555", marginRight: ELEMENT_GAP }}
-            >
-              is
-            </span>
-
-            <span
-              className="inline-block align-middle"
-              style={{ marginRight: ELEMENT_GAP }}
-            >
-              <VideoIcon src={VIDEO_COMMUNITY} size={110} />
-            </span>
-
-            <span
-              className="inline-block align-middle"
-              style={{ marginRight: ELEMENT_GAP }}
-            >
-              Community
-            </span>
-
-            <span
-              className="inline-block align-middle"
-              style={{ color: "#555", marginRight: ELEMENT_GAP }}
-            >
-              +
-            </span>
-
-            <span
-              className="inline-block align-middle"
-              style={{ marginRight: ELEMENT_GAP }}
-            >
-              <VideoIcon src={VIDEO_ARCHIVE} size={110} />
-            </span>
-
-            <span className="inline-block align-middle">Archive</span>
-          </span>
-        </h1>
-
-        <p
-          className="mt-4 max-w-xl text-center px-2"
-          style={{
-            fontSize: "clamp(0.95rem, 2.2vw, 1.2rem)",
-            color: "#888",
-            lineHeight: 1.4,
-            fontWeight: 400,
-          }}
-        >
-          We preserve custom ROMs, kernels, recoveries, and mods for the
-          Realme X7 max & Oneplus Nord 2, ensuring the community always has access.
-        </p>
-
-        <button
-          onClick={() =>
-            document
-              .getElementById("full-archive")
-              ?.scrollIntoView({ behavior: "smooth" })
-          }
-          className="mt-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0px_6px_32px_8px_rgba(39,243,169,0.22)] active:scale-[0.98]"
-          style={{
-            padding: "12px 28px",
-            background: "#000",
-            boxShadow: "0px 6px 24px 6px rgba(39, 243, 169, 0.15)",
-            borderRadius: 8,
-            outline: "1px solid #30463C",
-            outlineOffset: -1,
-            border: "none",
-            cursor: "pointer",
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 10,
-          }}
-        >
-          <span style={{ color: "#fff", fontSize: 14, fontWeight: 400 }}>
-            Browse Full Archive
-          </span>
-        </button>
+      <div className="relative z-10 flex justify-between px-5 pt-20 font-mono text-[10px] uppercase tracking-[0.25em] text-dim">
+        <span>( RMX3031 / DN2101 )</span>
+        <span className="hidden sm:inline">( Community Archive )</span>
+        <span>( Est. 2026 )</span>
       </div>
 
-      <style>{`
-        @font-face {
-          font-family: 'YDYoonche L';
-          src: local('Apple SD Gothic Neo Light'), local('Noto Sans KR Light'), local('Malgun Gothic Light');
-          font-weight: 300;
-          font-style: normal;
-        }
-        @font-face {
-          font-family: 'YDYoonche M';
-          src: local('Apple SD Gothic Neo Medium'), local('Noto Sans KR Medium'), local('Malgun Gothic');
-          font-weight: 500;
-          font-style: normal;
-        }
-      `}</style>
+      <div className="relative z-10 flex-1 flex items-center justify-center px-4">
+        <div id="hero-copy" className="flex flex-col items-center text-center">
+          <h1 className="font-grotesk font-bold leading-[0.9] tracking-[-0.04em] text-[clamp(3.5rem,13vw,12rem)]">
+            <span className="block text-ink">
+              <RevealLine text="OP6893" delay={150} />
+            </span>
+            <span className="block text-flame">
+              <RevealLine
+                text="ARCHIVE"
+                delay={550}
+                charClassName="glow-flame"
+              />
+            </span>
+          </h1>
+          <p className="mt-8 max-w-md font-mono text-[11px] leading-relaxed tracking-[0.15em] uppercase text-mute">
+            Preserving custom ROMs, kernels & recoveries for the Realme X7 Max
+            and OnePlus Nord 2 —{" "}
+            <span className="font-serif italic normal-case tracking-normal text-ink text-sm">
+              every file, forever.
+            </span>
+          </p>
+          <div className="mt-10 font-mono text-[10px] uppercase tracking-[0.3em] text-dim animate-cue">
+            Scroll ↓
+          </div>
+        </div>
+      </div>
+
+      <div className="relative z-10 border-t border-line grid grid-cols-2 md:grid-cols-4 divide-x divide-line bg-coal/80 backdrop-blur-sm">
+        <div className="px-5 py-4">
+          <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-dim mb-1">
+            Device
+          </div>
+          <div className="font-mono text-[11px] text-ink">
+            Realme X7 Max / OnePlus Nord 2
+          </div>
+        </div>
+        <div className="px-5 py-4">
+          <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-dim mb-1">
+            Codename
+          </div>
+          <div className="font-mono text-[11px] text-ink">OP6893</div>
+        </div>
+        <div className="px-5 py-4">
+          <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-dim mb-1">
+            Preserved
+          </div>
+          <div className="font-mono text-[11px] text-ink">
+            {totalFiles} files
+          </div>
+        </div>
+        <div className="px-5 py-4">
+          <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-dim mb-1">
+            Status
+          </div>
+          <div className="font-mono text-[11px] text-ink flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-flame animate-pulse" />
+            Active
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
