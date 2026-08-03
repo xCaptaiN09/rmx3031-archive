@@ -180,7 +180,7 @@
       "date": "2026-07-27",
       "size": "3.2GB",
       "url": "https://archive.org/download/lunaris-aosp-3-12-op6893/Lunaris-AOSP-op6893-OFFICIAL-3.12-GMS-2026072421.zip",
-      "changelog": "- by Rakshan",
+      "changelog": "- Gapps build\n- Dolby Atmos\n- by Rakhshan",
       "android": "16"
     }
   ],
