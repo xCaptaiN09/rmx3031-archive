@@ -182,6 +182,15 @@
       "url": "https://archive.org/download/lunaris-aosp-3-12-op6893/Lunaris-AOSP-op6893-OFFICIAL-3.12-GMS-2026072421.zip",
       "changelog": "- Gapps build\n- Dolby Atmos\n- by Rakhshan",
       "android": "16"
+    },
+    {
+      "name": "InfinityX v3.12 (Unofficial)",
+      "version": "3.12",
+      "date": "2026-08-04",
+      "size": "2.6GB",
+      "url": "https://archive.org/download/op6893-infinityx-3.12/Project_Infinity-X-3.12-op6893-02.08.2026-GAPPS-UNOFFICIAL.zip",
+      "changelog": "- Initial release\n- Gapps | userbuild\n- SELinux: Enforcing\n- Signed with release keys\n- Sony Dolby Atmos (OnePlus UI)\n- Credits: liwhy1 & ManshuTyagi for trees\n- Build By Rakhshan",
+      "android": "16"
     }
   ],
   "kernels": [
