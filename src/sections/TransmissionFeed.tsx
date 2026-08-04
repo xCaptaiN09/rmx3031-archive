@@ -10,10 +10,13 @@ const LOGO_MAP: Record<string, string> = {
   pixelos: "/images/pixelos.png",
   oxygenos: "/images/oxygenos.png",
   coloros: "/images/coloros.png",
+  infinityx: "/images/InfinityX.png",
 };
 
+const normalize = (s: string) => s.toLowerCase().replace(/[\s._-]/g, "");
+
 const getLogoPath = (romName: string) => {
-  const lower = romName.toLowerCase();
+  const lower = normalize(romName);
   for (const [key, path] of Object.entries(LOGO_MAP)) {
     if (lower.includes(key)) return path;
   }
