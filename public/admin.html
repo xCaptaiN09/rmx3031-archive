@@ -3,29 +3,29 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>RMX3031 Archive Admin</title>
+        <title>OP6893® — ADMIN</title>
         <link
-            href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
             rel="stylesheet"
         />
         <style>
             :root {
-                --accent: #27f3a9;
-                --accent-dim: rgba(39, 243, 169, 0.08);
-                --accent-muted: rgba(39, 243, 169, 0.15);
-                --accent-border: rgba(39, 243, 169, 0.2);
-                --bg: #000;
-                --surface: rgba(255, 255, 255, 0.03);
-                --surface2: rgba(255, 255, 255, 0.05);
-                --surface3: rgba(255, 255, 255, 0.01);
-                --border: rgba(255, 255, 255, 0.06);
-                --border-medium: rgba(255, 255, 255, 0.1);
-                --text: #f0f4f2;
-                --text-secondary: #8a9b91;
-                --text-tertiary: #4a5f53;
+                --accent: #ff4d00;
+                --accent-dim: rgba(255, 77, 0, 0.08);
+                --accent-muted: rgba(255, 77, 0, 0.15);
+                --accent-border: rgba(255, 77, 0, 0.3);
+                --bg: #0a0a0a;
+                --surface: #121211;
+                --surface2: #18181b;
+                --surface3: #0f0f0f;
+                --border: rgba(232, 230, 224, 0.14);
+                --border-medium: rgba(232, 230, 224, 0.22);
+                --text: #e8e6e0;
+                --text-secondary: #8a8880;
+                --text-tertiary: #57554f;
                 --red: #ef4444;
                 --red-dim: rgba(239, 68, 68, 0.1);
-                --red-border: rgba(239, 68, 68, 0.2);
+                --red-border: rgba(239, 68, 68, 0.25);
                 --yellow: #fbbf24;
             }
             * {
@@ -39,30 +39,42 @@
             body {
                 background: var(--bg);
                 color: var(--text);
-                font-family:
-                    "DM Sans",
-                    -apple-system,
-                    sans-serif;
+                font-family: "Space Mono", monospace;
+                font-size: 13px;
                 min-height: 100vh;
                 -webkit-font-smoothing: antialiased;
             }
+            ::selection {
+                background: var(--accent);
+                color: var(--bg);
+            }
+            ::-webkit-scrollbar {
+                width: 4px;
+                height: 4px;
+            }
+            ::-webkit-scrollbar-track {
+                background: var(--bg);
+            }
+            ::-webkit-scrollbar-thumb {
+                background: var(--text-tertiary);
+            }
 
             .heading-section {
-                font-family: "Space Grotesk", "DM Sans", sans-serif;
+                font-family: "Space Grotesk", sans-serif;
                 font-weight: 500;
                 letter-spacing: -0.01em;
                 line-height: 1.2;
             }
             .text-mono {
-                font-family: "JetBrains Mono", monospace;
+                font-family: "Space Mono", monospace;
             }
 
-            /* ── Navbar ── */
+            /* Navbar */
             .navbar {
                 position: sticky;
                 top: 0;
                 z-index: 50;
-                background: rgba(0, 0, 0, 0.6);
+                background: rgba(10, 10, 10, 0.9);
                 backdrop-filter: blur(20px);
                 border-bottom: 1px solid var(--border);
                 padding: 12px 24px;
@@ -73,53 +85,51 @@
             .navbar-brand {
                 display: flex;
                 align-items: center;
-                gap: 8px;
+                gap: 10px;
                 text-decoration: none;
             }
             .navbar-logo {
-                width: 18px;
-                height: 18px;
+                width: 16px;
+                height: 16px;
                 color: var(--accent);
             }
             .navbar-title {
-                font-family: "Space Grotesk", sans-serif;
-                font-size: 14px;
-                font-weight: 600;
-                color: #fff;
-                letter-spacing: -0.01em;
+                font-family: "Space Mono", sans-serif;
+                font-size: 11px;
+                font-weight: 700;
+                color: var(--text);
+                letter-spacing: 0.2em;
             }
             .navbar-badge {
-                font-family: "JetBrains Mono", monospace;
-                font-size: 10px;
+                font-family: "Space Mono", monospace;
+                font-size: 9px;
                 color: var(--accent);
                 background: var(--accent-dim);
                 border: 1px solid var(--accent-border);
                 padding: 2px 8px;
-                border-radius: 4px;
-                letter-spacing: 0.5px;
+                border-radius: 0;
+                letter-spacing: 0.2em;
             }
 
-            /* ── Container ── */
+            /* Container / header */
             .container {
-                max-width: 780px;
+                max-width: 800px;
                 margin: 0 auto;
-                padding: 40px 20px 80px;
+                padding: 48px 20px 96px;
                 position: relative;
                 z-index: 1;
             }
-
-            /* ── Header ── */
             header {
                 margin-bottom: 32px;
             }
             .header-label {
                 display: inline-flex;
                 align-items: center;
-                gap: 6px;
-                font-family: "JetBrains Mono", monospace;
+                gap: 8px;
+                font-family: "Space Mono", monospace;
                 font-size: 10px;
                 color: var(--accent);
-                letter-spacing: 1.5px;
+                letter-spacing: 0.3em;
                 text-transform: uppercase;
                 margin-bottom: 12px;
             }
@@ -142,31 +152,26 @@
             }
             .header-title {
                 font-family: "Space Grotesk", sans-serif;
-                font-size: 28px;
-                font-weight: 500;
-                letter-spacing: -0.5px;
+                font-size: 32px;
+                font-weight: 700;
+                letter-spacing: -0.02em;
                 line-height: 1.1;
-                background: linear-gradient(
-                    90deg,
-                    #333 0%,
-                    #878787 50%,
-                    #333 100%
-                );
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
+                color: var(--text);
             }
             .header-subtitle {
                 margin-top: 8px;
-                font-family: "JetBrains Mono", monospace;
-                font-size: 11px;
+                font-family: "Space Mono", monospace;
+                font-size: 10px;
                 color: var(--text-tertiary);
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
             }
 
-            /* ── Token Card ── */
+            /* Token card */
             .token-card {
                 background: var(--surface);
                 border: 1px solid var(--border);
-                border-radius: 12px;
+                border-radius: 0;
                 padding: 16px 20px;
                 margin-bottom: 24px;
                 display: flex;
@@ -176,16 +181,18 @@
                 transition: border-color 0.3s;
             }
             .token-card.connected {
-                border-color: rgba(39, 243, 169, 0.15);
+                border-color: var(--accent-border);
             }
             .status-pill {
                 display: flex;
                 align-items: center;
-                gap: 6px;
-                font-family: "JetBrains Mono", monospace;
-                font-size: 11px;
+                gap: 8px;
+                font-family: "Space Mono", monospace;
+                font-size: 10px;
                 color: var(--text-tertiary);
                 white-space: nowrap;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
             }
             .dot {
                 width: 6px;
@@ -196,7 +203,7 @@
             }
             .dot.green {
                 background: var(--accent);
-                box-shadow: 0 0 6px rgba(39, 243, 169, 0.5);
+                box-shadow: 0 0 6px rgba(255, 77, 0, 0.5);
             }
             .dot.red {
                 background: var(--red);
@@ -208,38 +215,44 @@
                 min-width: 200px;
             }
 
-            /* ── Nav Tabs ── */
+            /* Nav tabs — underline style */
             .nav-tabs {
                 display: flex;
-                gap: 2px;
+                gap: 0;
                 margin-bottom: 28px;
-                background: var(--surface);
-                padding: 3px;
-                border-radius: 10px;
-                border: 1px solid var(--border);
+                background: transparent;
+                padding: 0;
+                border-radius: 0;
+                border: none;
+                border-bottom: 1px solid var(--border);
             }
             .nav-tab {
                 flex: 1;
-                padding: 10px 16px;
+                padding: 12px 16px;
                 border: none;
+                border-bottom: 2px solid transparent;
+                margin-bottom: -1px;
                 background: transparent;
                 color: var(--text-tertiary);
-                font-family: "DM Sans", sans-serif;
-                font-size: 13px;
-                font-weight: 500;
+                font-family: "Space Mono", monospace;
+                font-size: 10px;
+                font-weight: 400;
+                letter-spacing: 0.25em;
+                text-transform: uppercase;
                 cursor: pointer;
-                border-radius: 8px;
+                border-radius: 0;
                 transition: all 0.25s ease;
             }
             .nav-tab:hover {
-                color: var(--text-secondary);
-                background: var(--surface2);
+                color: var(--text);
+                background: transparent;
             }
             .nav-tab.active {
-                background: var(--accent);
-                color: #000;
-                font-weight: 600;
-                box-shadow: 0 2px 12px rgba(39, 243, 169, 0.2);
+                background: transparent;
+                color: var(--accent);
+                border-bottom-color: var(--accent);
+                font-weight: 400;
+                box-shadow: none;
             }
 
             .panel {
@@ -249,23 +262,21 @@
                 display: block;
             }
 
-            /* ── Cards ── */
+            /* Cards */
             .card {
                 background: var(--surface);
                 border: 1px solid var(--border);
-                border-radius: 14px;
+                border-radius: 0;
                 padding: 24px;
                 margin-bottom: 20px;
                 position: relative;
                 overflow: hidden;
                 animation: fadeUp 0.4s ease both;
-                transition:
-                    border-color 0.3s,
-                    box-shadow 0.3s;
+                transition: border-color 0.3s;
             }
             .card:hover {
                 border-color: var(--border-medium);
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                box-shadow: none;
             }
             @keyframes fadeUp {
                 from {
@@ -278,15 +289,15 @@
                 }
             }
             .card-title {
-                font-family: "JetBrains Mono", monospace;
-                font-size: 10px;
+                font-family: "Space Mono", monospace;
+                font-size: 9px;
                 color: var(--text-tertiary);
-                letter-spacing: 1.5px;
+                letter-spacing: 0.3em;
                 text-transform: uppercase;
                 margin-bottom: 16px;
             }
 
-            /* ── Forms ── */
+            /* Forms */
             .form-grid {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
@@ -301,10 +312,10 @@
                 grid-column: 1 / -1;
             }
             label {
-                font-family: "JetBrains Mono", monospace;
-                font-size: 10px;
+                font-family: "Space Mono", monospace;
+                font-size: 9px;
                 color: var(--text-tertiary);
-                letter-spacing: 1px;
+                letter-spacing: 0.25em;
                 text-transform: uppercase;
             }
             label .req {
@@ -313,24 +324,22 @@
             input,
             select,
             textarea {
-                background: var(--surface2);
+                background: var(--bg);
                 border: 1px solid var(--border);
-                border-radius: 8px;
+                border-radius: 0;
                 color: var(--text);
-                font-family: "DM Sans", sans-serif;
-                font-size: 14px;
+                font-family: "Space Mono", monospace;
+                font-size: 12px;
                 padding: 10px 12px;
                 outline: none;
                 width: 100%;
-                transition:
-                    border-color 0.2s,
-                    box-shadow 0.2s;
+                transition: border-color 0.2s;
             }
             input:focus,
             select:focus,
             textarea:focus {
                 border-color: var(--accent-border);
-                box-shadow: 0 0 0 3px rgba(39, 243, 169, 0.08);
+                box-shadow: none;
             }
             input:disabled {
                 opacity: 0.4;
@@ -340,8 +349,8 @@
                 color-scheme: dark;
             }
             select option {
-                background: #0a0a0a;
-                color: #f0f4f2;
+                background: var(--surface);
+                color: var(--text);
                 padding: 8px;
             }
             textarea {
@@ -351,10 +360,10 @@
             input::placeholder,
             textarea::placeholder {
                 color: var(--text-tertiary);
-                font-size: 13px;
+                font-size: 11px;
             }
 
-            /* ── URL Section ── */
+            /* URL section */
             .url-section {
                 display: flex;
                 flex-direction: column;
@@ -372,11 +381,11 @@
                 gap: 8px;
             }
             .url-preview {
-                background: var(--surface3);
+                background: var(--bg);
                 border: 1px solid var(--border);
-                border-radius: 8px;
+                border-radius: 0;
                 padding: 10px 12px;
-                font-family: "JetBrains Mono", monospace;
+                font-family: "Space Mono", monospace;
                 font-size: 11px;
                 color: var(--accent);
                 word-break: break-all;
@@ -387,17 +396,18 @@
                 flex: 1;
                 min-width: 120px;
                 text-align: center;
-                padding: 6px 12px;
+                padding: 8px 12px;
                 border: 1px solid var(--border);
-                border-radius: 6px;
+                border-radius: 0;
                 background: transparent;
                 color: var(--text-tertiary);
-                font-family: "JetBrains Mono", monospace;
-                font-size: 10px;
+                font-family: "Space Mono", monospace;
+                font-size: 9px;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
                 cursor: pointer;
                 transition: all 0.2s;
                 white-space: nowrap;
-                letter-spacing: 0.5px;
             }
             .mode-btn.active {
                 background: var(--accent-dim);
@@ -417,34 +427,36 @@
                 display: none;
             }
 
-            /* ── JSON Preview ── */
+            /* JSON preview */
             .json-preview {
-                background: rgba(0, 0, 0, 0.4);
+                background: var(--bg);
                 border: 1px solid var(--border);
-                border-radius: 8px;
+                border-radius: 0;
                 padding: 14px;
-                font-family: "JetBrains Mono", monospace;
-                font-size: 12px;
+                font-family: "Space Mono", monospace;
+                font-size: 11px;
                 color: var(--text-secondary);
                 white-space: pre;
                 overflow-x: auto;
                 line-height: 1.6;
             }
             .json-key {
-                color: #6a9fd8;
+                color: var(--text-tertiary);
             }
             .json-str {
                 color: var(--accent);
             }
 
-            /* ── Buttons ── */
+            /* Buttons */
             .btn {
                 padding: 10px 20px;
                 border: none;
-                border-radius: 10px;
-                font-family: "DM Sans", sans-serif;
-                font-size: 13px;
-                font-weight: 600;
+                border-radius: 0;
+                font-family: "Space Mono", monospace;
+                font-size: 10px;
+                font-weight: 500;
+                letter-spacing: 0.25em;
+                text-transform: uppercase;
                 cursor: pointer;
                 white-space: nowrap;
                 position: relative;
@@ -464,11 +476,11 @@
             }
             .btn-primary {
                 background: var(--accent);
-                color: #000;
-                box-shadow: 0 4px 14px rgba(39, 243, 169, 0.15);
+                color: var(--bg);
+                box-shadow: none;
             }
             .btn-primary:hover {
-                box-shadow: 0 6px 20px rgba(39, 243, 169, 0.25);
+                box-shadow: 0 4px 20px rgba(255, 77, 0, 0.25);
             }
             .btn-primary:disabled {
                 background: var(--text-tertiary);
@@ -476,30 +488,32 @@
                 opacity: 0.5;
                 transform: none;
                 box-shadow: none;
-                color: #000;
+                color: var(--bg);
             }
             .btn-secondary {
-                background: var(--surface2);
+                background: transparent;
                 color: var(--text-secondary);
                 border: 1px solid var(--border);
             }
             .btn-secondary:hover {
-                border-color: var(--accent-border);
-                color: var(--accent);
+                border-color: var(--border-medium);
+                color: var(--text);
             }
             .btn-blue {
-                background: #3b82f6;
-                color: #fff;
-                box-shadow: 0 4px 14px rgba(59, 130, 246, 0.2);
+                background: transparent;
+                color: var(--text);
+                border: 1px solid var(--border);
+                box-shadow: none;
             }
             .btn-blue:hover {
-                box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+                background: var(--text);
+                color: var(--bg);
+                box-shadow: none;
             }
             .btn-blue:disabled {
                 opacity: 0.5;
                 cursor: not-allowed;
                 transform: none;
-                box-shadow: none;
             }
             .btn-red {
                 background: var(--red-dim);
@@ -517,21 +531,19 @@
                 background: var(--red);
                 color: #fff;
                 flex: 1;
-                box-shadow: 0 4px 14px rgba(239, 68, 68, 0.2);
+                box-shadow: none;
             }
             .btn-danger:hover {
                 background: #dc2626;
-                box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
             }
             .btn-danger:disabled {
                 background: var(--text-tertiary);
                 cursor: not-allowed;
                 transform: none;
-                box-shadow: none;
             }
             .btn-sm {
                 padding: 8px 14px;
-                font-size: 12px;
+                font-size: 9px;
             }
             .btn-row {
                 display: flex;
@@ -545,7 +557,7 @@
                 margin: 18px 0;
             }
 
-            /* ── Tab List ── */
+            /* Tab list */
             .tab-list {
                 display: flex;
                 flex-direction: column;
@@ -555,21 +567,21 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                background: var(--surface2);
+                background: var(--bg);
                 border: 1px solid var(--border);
-                border-radius: 10px;
+                border-radius: 0;
                 padding: 12px 16px;
                 cursor: pointer;
                 transition: all 0.25s ease;
             }
             .tab-item:hover {
-                border-color: var(--accent-border);
+                border-color: var(--border-medium);
                 transform: translateX(3px);
             }
             .tab-item.selected {
                 border-color: var(--accent-border);
                 background: var(--accent-dim);
-                box-shadow: 0 0 16px rgba(39, 243, 169, 0.06);
+                box-shadow: none;
             }
             .tab-item-info {
                 display: flex;
@@ -577,32 +589,34 @@
                 gap: 3px;
             }
             .tab-item-name {
+                font-family: "Space Grotesk", sans-serif;
                 font-size: 14px;
-                font-weight: 600;
+                font-weight: 500;
                 color: var(--text);
             }
             .tab-item-key {
-                font-family: "JetBrains Mono", monospace;
-                font-size: 11px;
+                font-family: "Space Mono", monospace;
+                font-size: 10px;
                 color: var(--text-tertiary);
             }
             .tab-count {
-                font-family: "JetBrains Mono", monospace;
-                font-size: 11px;
+                font-family: "Space Mono", monospace;
+                font-size: 10px;
                 background: var(--accent-dim);
                 color: var(--accent);
+                border: 1px solid var(--accent-border);
                 padding: 3px 8px;
-                border-radius: 20px;
+                border-radius: 0;
             }
             .tab-count.has-data {
-                background: rgba(39, 243, 169, 0.12);
+                background: var(--accent-dim);
             }
 
-            /* ── Delete Section ── */
+            /* Delete section */
             .delete-section {
                 background: var(--red-dim);
                 border: 1px solid var(--red-border);
-                border-radius: 10px;
+                border-radius: 0;
                 padding: 18px;
                 margin-top: 16px;
                 display: none;
@@ -616,29 +630,30 @@
                 gap: 10px;
                 background: rgba(251, 191, 36, 0.08);
                 border: 1px solid rgba(251, 191, 36, 0.2);
-                border-radius: 8px;
+                border-radius: 0;
                 padding: 12px 14px;
                 margin-bottom: 14px;
-                font-size: 13px;
+                font-size: 12px;
                 line-height: 1.5;
                 color: var(--yellow);
             }
             .delete-warning-icon {
-                font-size: 16px;
+                font-size: 14px;
                 flex-shrink: 0;
                 margin-top: 1px;
+                filter: grayscale(1) brightness(1.5);
             }
             .delete-safe-msg {
-                font-size: 13px;
+                font-size: 12px;
                 color: var(--text-tertiary);
                 margin-bottom: 14px;
             }
 
-            /* ── Modal ── */
+            /* Modal */
             .modal-overlay {
                 position: fixed;
                 inset: 0;
-                background: rgba(0, 0, 0, 0.8);
+                background: rgba(0, 0, 0, 0.85);
                 backdrop-filter: blur(4px);
                 z-index: 100;
                 display: flex;
@@ -654,9 +669,9 @@
                 pointer-events: all;
             }
             .modal {
-                background: #0a0a0a;
+                background: var(--surface);
                 border: 1px solid var(--border-medium);
-                border-radius: 14px;
+                border-radius: 0;
                 padding: 28px;
                 max-width: 420px;
                 width: 100%;
@@ -668,7 +683,7 @@
             }
             .modal-title {
                 font-family: "Space Grotesk", sans-serif;
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 600;
                 margin-bottom: 6px;
                 color: var(--red);
@@ -677,7 +692,7 @@
                 color: var(--accent);
             }
             .modal-desc {
-                font-size: 13px;
+                font-size: 12px;
                 color: var(--text-tertiary);
                 margin-bottom: 20px;
                 line-height: 1.5;
@@ -685,16 +700,16 @@
             .modal-warning {
                 background: var(--red-dim);
                 border: 1px solid var(--red-border);
-                border-radius: 8px;
+                border-radius: 0;
                 padding: 12px 14px;
                 margin-bottom: 16px;
-                font-size: 13px;
+                font-size: 12px;
                 color: #fca5a5;
                 line-height: 1.5;
             }
             .modal-confirm-label {
-                font-family: "JetBrains Mono", monospace;
-                font-size: 12px;
+                font-family: "Space Mono", monospace;
+                font-size: 11px;
                 color: var(--text-tertiary);
                 margin-bottom: 8px;
             }
@@ -708,7 +723,7 @@
             }
             .modal-input:focus {
                 border-color: var(--red) !important;
-                box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+                box-shadow: none !important;
             }
             .modal-btn-row {
                 display: flex;
@@ -728,14 +743,14 @@
             .modal-edit input,
             .modal-edit textarea,
             .modal-edit select {
-                font-size: 13px;
+                font-size: 12px;
                 padding: 8px 10px;
             }
             .modal-edit textarea {
                 min-height: 60px;
             }
 
-            /* ── Entry List ── */
+            /* Entry list */
             .entry-list {
                 display: flex;
                 flex-direction: column;
@@ -746,9 +761,9 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                background: var(--surface2);
+                background: var(--bg);
                 border: 1px solid var(--border);
-                border-radius: 8px;
+                border-radius: 0;
                 padding: 10px 14px;
                 gap: 10px;
                 transition: border-color 0.2s;
@@ -761,15 +776,16 @@
                 min-width: 0;
             }
             .entry-name {
+                font-family: "Space Grotesk", sans-serif;
                 font-size: 13px;
-                font-weight: 600;
+                font-weight: 500;
                 color: var(--text);
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
             .entry-meta {
-                font-family: "JetBrains Mono", monospace;
+                font-family: "Space Mono", monospace;
                 font-size: 10px;
                 color: var(--text-tertiary);
                 margin-top: 2px;
@@ -783,11 +799,11 @@
                 width: 30px;
                 height: 30px;
                 border: 1px solid var(--border);
-                border-radius: 6px;
+                border-radius: 0;
                 background: transparent;
                 color: var(--text-tertiary);
                 cursor: pointer;
-                font-size: 14px;
+                font-size: 13px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -796,15 +812,14 @@
             .btn-icon:hover {
                 border-color: var(--accent-border);
                 color: var(--accent);
-                transform: scale(1.1);
+                transform: scale(1.05);
             }
             .btn-icon.del:hover {
                 border-color: var(--red-border);
                 color: var(--red);
-                transform: scale(1.1);
             }
 
-            /* ── Sub Nav ── */
+            /* Sub nav */
             .sub-nav {
                 display: flex;
                 gap: 6px;
@@ -814,16 +829,18 @@
             .sub-nav-btn {
                 padding: 6px 14px;
                 border: 1px solid var(--border);
-                border-radius: 6px;
+                border-radius: 0;
                 background: transparent;
                 color: var(--text-tertiary);
-                font-family: "JetBrains Mono", monospace;
-                font-size: 11px;
+                font-family: "Space Mono", monospace;
+                font-size: 10px;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
                 cursor: pointer;
                 transition: all 0.2s;
             }
             .sub-nav-btn:hover {
-                color: var(--text-secondary);
+                color: var(--text);
                 border-color: var(--border-medium);
             }
             .sub-nav-btn.active {
@@ -832,15 +849,15 @@
                 color: var(--accent);
             }
 
-            /* ── Duplicate Warning ── */
+            /* Duplicate warning */
             .dup-warning {
                 background: rgba(251, 191, 36, 0.08);
                 border: 1px solid rgba(251, 191, 36, 0.2);
-                border-radius: 8px;
+                border-radius: 0;
                 padding: 10px 14px;
-                font-size: 12px;
+                font-size: 11px;
                 color: var(--yellow);
-                font-family: "JetBrains Mono", monospace;
+                font-family: "Space Mono", monospace;
                 margin-top: 6px;
                 display: none;
                 line-height: 1.5;
@@ -849,7 +866,7 @@
                 display: block;
             }
 
-            /* ── Misc ── */
+            /* Misc */
             .spinner {
                 width: 14px;
                 height: 14px;
@@ -869,14 +886,14 @@
                 align-items: center;
                 gap: 10px;
                 color: var(--text-tertiary);
-                font-family: "JetBrains Mono", monospace;
-                font-size: 12px;
+                font-family: "Space Mono", monospace;
+                font-size: 11px;
                 padding: 16px 0;
             }
             .hint {
                 font-size: 10px;
                 color: var(--text-tertiary);
-                font-family: "JetBrains Mono", monospace;
+                font-family: "Space Mono", monospace;
                 margin-top: 4px;
             }
             #android-group {
@@ -887,12 +904,12 @@
                 position: fixed;
                 bottom: 24px;
                 right: 24px;
-                background: #0a0a0a;
+                background: var(--surface);
                 border: 1px solid var(--border-medium);
-                border-radius: 10px;
+                border-radius: 0;
                 padding: 13px 18px;
-                font-size: 13px;
-                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                font-family: "Space Mono", monospace;
                 z-index: 200;
                 transform: translateY(100px);
                 opacity: 0;
@@ -906,11 +923,11 @@
                 opacity: 1;
             }
             .toast.success {
-                border-color: rgba(39, 243, 169, 0.3);
+                border-color: var(--accent-border);
                 color: var(--accent);
             }
             .toast.error {
-                border-color: rgba(239, 68, 68, 0.3);
+                border-color: var(--red-border);
                 color: var(--red);
             }
             .toast.loading {
@@ -1167,7 +1184,7 @@
                             class="delete-warning"
                             style="display: none"
                         >
-                            <span class="delete-warning-icon">⚠️</span>
+                            <span class="delete-warning-icon">!</span>
                             <div>
                                 <strong>This tab contains files.</strong><br />
                                 <span id="deleteWarningText"></span>
@@ -1591,7 +1608,7 @@
                     }
                 }
                 if (found) {
-                    warn.textContent = `⚠️ This URL already exists in "${DEFAULT_NAMES[found.tab] || found.tab}" as "${found.name}"`;
+                    warn.textContent = `! This URL already exists in "${DEFAULT_NAMES[found.tab] || found.tab}" as "${found.name}"`;
                     warn.classList.add("visible");
                 } else {
                     warn.classList.remove("visible");
@@ -1826,7 +1843,7 @@
                 const warn = document.getElementById("modalWarning");
                 if (count > 0) {
                     warn.style.display = "block";
-                    warn.textContent = `⚠️ This tab contains ${count} file entr${count === 1 ? "y" : "ies"}. All entries will be permanently removed.`;
+                    warn.textContent = `! This tab contains ${count} file entr${count === 1 ? "y" : "ies"}. All entries will be permanently removed.`;
                 } else {
                     warn.style.display = "none";
                 }
@@ -1940,8 +1957,8 @@
                   <div class="entry-meta">${e.version ? "v" + e.version + " · " : ""}${e.date || ""} ${e.size ? "· " + e.size : ""}</div>
                 </div>
                 <div class="entry-actions">
-                  <button class="btn-icon" title="Edit" onclick="openEditModal('${currentEntryTab}', ${e._orig})">✏️</button>
-                  <button class="btn-icon del" title="Delete" onclick="openDeleteEntryModal('${currentEntryTab}', ${e._orig}, '${(e.name || "").replace(/'/g, "\\'")}')">🗑️</button>
+                  <button class="btn-icon" title="Edit" onclick="openEditModal('${currentEntryTab}', ${e._orig})">✎</button>
+                  <button class="btn-icon del" title="Delete" onclick="openDeleteEntryModal('${currentEntryTab}', ${e._orig}, '${(e.name || "").replace(/'/g, "\\'")}')">✕</button>
                 </div>
               </div>
             `,
