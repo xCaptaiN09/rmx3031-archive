@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useData } from "../hooks/use-data";
 import DotField from "../components/DotField";
+import { EncryptedText } from "../components/EncryptedText";
 
 function RevealLine({
   text,
@@ -59,7 +60,7 @@ export default function HeroSection() {
       <div className="relative z-10 flex justify-between px-5 pt-20 font-mono text-[10px] uppercase tracking-[0.25em] text-dim">
         <span>( RMX3031 / DN2101 )</span>
         <span className="hidden sm:inline">( Community Archive )</span>
-        <span>( Est. 2026 )</span>
+        <span>( Est. 2024 )</span>
       </div>
 
       <div className="relative z-10 flex-1 flex items-center justify-center px-4">
@@ -76,12 +77,14 @@ export default function HeroSection() {
               />
             </span>
           </h1>
-          <p className="mt-8 max-w-md font-mono text-[11px] leading-relaxed tracking-[0.15em] uppercase text-mute">
-            Preserving custom ROMs, kernels & recoveries for the Realme X7 Max
-            and OnePlus Nord 2 —{" "}
-            <span className="font-serif italic normal-case tracking-normal text-ink text-sm">
-              every file, forever.
-            </span>
+          <p className="mt-8 max-w-md font-mono text-[11px] leading-relaxed tracking-[0.15em] uppercase">
+            <EncryptedText
+              text="Preserving custom ROMs, kernels & recoveries for the Realme X7 Max and OnePlus Nord 2 — every file, forever."
+              revealDelayMs={30}
+              flipDelayMs={80}
+              encryptedClassName="text-dim"
+              revealedClassName="text-mute"
+            />
           </p>
           <div className="mt-10 font-mono text-[10px] uppercase tracking-[0.3em] text-dim animate-cue">
             Scroll ↓
