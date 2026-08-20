@@ -74,7 +74,7 @@ export function EncryptedText({
 
       if (now - lastFlip >= flipDelayMs && revealed < text.length) {
         setScramble((prev) =>
-          prev.map((ch, i) =>
+          prev.map((_, i) =>
             i < revealed
               ? text[i]
               : text[i] === " "
