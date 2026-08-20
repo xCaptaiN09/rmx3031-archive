@@ -26,7 +26,7 @@ export default function Footer() {
         </span>
       </div>
 
-      <div className="overflow-hidden select-none aspect-[3/1]" aria-hidden>
+      <div className="overflow-hidden select-none" aria-hidden>
         <TextHoverEffect text="OP6893" />
       </div>
     </footer>

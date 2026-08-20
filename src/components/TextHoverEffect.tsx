@@ -1,116 +1,131 @@
 import { useEffect, useRef, useState } from "react";
 
 export function TextHoverEffect({ text }: { text: string }) {
-  const svgRef = useRef<SVGSVGElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [w, setW] = useState(0);
   const [hovered, setHovered] = useState(false);
-  const [maskPos, setMaskPos] = useState({ cx: 50, cy: 50 });
-  const [mounted, setMounted] = useState(false);
+  const hoveredRef = useRef(false);
+  const target = useRef({ x: 0, y: 0 });
+  const [pos, setPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    const raf = requestAnimationFrame(() => setMounted(true));
+    const measure = () => setW(wrapRef.current?.clientWidth ?? 0);
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  useEffect(() => {
+    let raf = 0;
+    const loop = () => {
+      setPos((p) => {
+        const nx = p.x + (target.current.x - p.x) * 0.12;
+        const ny = p.y + (target.current.y - p.y) * 0.12;
+        if (
+          !hoveredRef.current &&
+          Math.abs(nx - p.x) < 0.5 &&
+          Math.abs(ny - p.y) < 0.5
+        )
+          return p;
+        return { x: nx, y: ny };
+      });
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!svgRef.current) return;
-    const rect = svgRef.current.getBoundingClientRect();
-    const cx = ((e.clientX - rect.left) / rect.width) * 100;
-    const cy = ((e.clientY - rect.top) / rect.height) * 100;
-    setMaskPos({ cx, cy });
+  const setHover = (v: boolean) => {
+    hoveredRef.current = v;
+    setHovered(v);
+  };
+
+  const onMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    target.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  };
+
+  if (w === 0) return <div ref={wrapRef} className="w-full" />;
+
+  const fontSize = w * 0.17;
+  const height = fontSize * 0.78;
+
+  const textStyle: React.CSSProperties = {
+    fontFamily: "'Space Grotesk', sans-serif",
+    fontWeight: 700,
+    fontSize,
+    letterSpacing: "-0.02em",
+    fill: "transparent",
   };
 
   return (
-    <svg
-      ref={svgRef}
-      width="100%"
-      height="100%"
-      viewBox="0 0 300 100"
-      xmlns="http://www.w3.org/2000/svg"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onMouseMove={handleMouseMove}
-      className="select-none cursor-pointer"
-      preserveAspectRatio="xMidYMid meet"
-    >
-      <defs>
-        <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#ff4d00" />
-          <stop offset="50%" stopColor="#ff6b35" />
-          <stop offset="100%" stopColor="#ff4d00" />
-        </linearGradient>
+    <div ref={wrapRef} className="w-full">
+      <svg
+        width="100%"
+        height={height}
+        viewBox={`0 0 ${w} ${height}`}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onMouseMove={onMove}
+        className="block select-none"
+      >
+        <defs>
+          <radialGradient
+            id="footerReveal"
+            gradientUnits="userSpaceOnUse"
+            cx={pos.x}
+            cy={pos.y}
+            r={w * 0.18}
+          >
+            <stop offset="0%" stopColor="#fff" />
+            <stop offset="100%" stopColor="#000" />
+          </radialGradient>
+          <mask id="footerMask">
+            <rect width={w} height={height} fill="url(#footerReveal)" />
+          </mask>
+          <linearGradient id="footerFlame" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ff4d00" />
+            <stop offset="50%" stopColor="#ff6b35" />
+            <stop offset="100%" stopColor="#ff4d00" />
+          </linearGradient>
+        </defs>
 
-        <radialGradient
-          id="revealMask"
-          cx={`${maskPos.cx}%`}
-          cy={`${maskPos.cy}%`}
-          r="30%"
-          gradientUnits="userSpaceOnUse"
+        {/* Base hairline outline */}
+        <text
+          x="50%"
+          y={fontSize * 0.02}
+          textAnchor="middle"
+          dominantBaseline="hanging"
+          strokeWidth={1}
+          stroke="rgba(232, 230, 224, 0.22)"
+          style={{
+            ...textStyle,
+            opacity: hovered ? 0.35 : 1,
+            transition: "opacity 0.3s ease",
+          }}
         >
-          <stop offset="0%" stopColor="white" />
-          <stop offset="100%" stopColor="black" />
-        </radialGradient>
+          {text}
+        </text>
 
-        <mask id="textMask">
-          <rect width="100%" height="100%" fill="url(#revealMask)" />
-        </mask>
-      </defs>
-
-      {/* Base outline - always visible */}
-      <text
-        x="50%"
-        y="50%"
-        textAnchor="middle"
-        dominantBaseline="middle"
-        strokeWidth="1"
-        className="fill-transparent font-grotesk font-bold"
-        style={{
-          stroke: "rgba(232, 230, 224, 0.22)",
-          fontSize: "80px",
-          opacity: hovered ? 0.3 : 1,
-          transition: "opacity 0.3s ease",
-        }}
-      >
-        {text}
-      </text>
-
-      {/* Animated stroke draw on mount */}
-      <text
-        x="50%"
-        y="50%"
-        textAnchor="middle"
-        dominantBaseline="middle"
-        strokeWidth="1"
-        className="fill-transparent font-grotesk font-bold"
-        style={{
-          stroke: "rgba(232, 230, 224, 0.22)",
-          fontSize: "80px",
-          strokeDasharray: mounted ? 0 : 1000,
-          strokeDashoffset: mounted ? 0 : 1000,
-          transition:
-            "stroke-dasharray 4s ease-in-out, stroke-dashoffset 4s ease-in-out",
-        }}
-      >
-        {text}
-      </text>
-
-      {/* Gradient reveal on hover */}
-      <text
-        x="50%"
-        y="50%"
-        textAnchor="middle"
-        dominantBaseline="middle"
-        strokeWidth="1"
-        stroke="url(#textGradient)"
-        mask="url(#textMask)"
-        className="fill-transparent font-grotesk font-bold"
-        style={{
-          fontSize: "80px",
-          opacity: hovered ? 1 : 0,
-          transition: "opacity 0.3s ease",
-        }}
-      >
-        {text}
-      </text>
-    </svg>
+        {/* Cursor-following flame reveal */}
+        <text
+          x="50%"
+          y={fontSize * 0.02}
+          textAnchor="middle"
+          dominantBaseline="hanging"
+          strokeWidth={1}
+          stroke="url(#footerFlame)"
+          mask="url(#footerMask)"
+          style={{
+            ...textStyle,
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.3s ease",
+            filter: "drop-shadow(0 0 18px rgba(255, 77, 0, 0.35))",
+          }}
+        >
+          {text}
+        </text>
+      </svg>
+    </div>
   );
 }
