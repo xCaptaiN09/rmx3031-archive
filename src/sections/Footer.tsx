@@ -1,3 +1,5 @@
+import { TextHoverEffect } from "../components/TextHoverEffect";
+
 export default function Footer() {
   return (
     <footer className="border-t border-line">
@@ -24,10 +26,8 @@ export default function Footer() {
         </span>
       </div>
 
-      <div className="overflow-hidden select-none" aria-hidden>
-        <div className="font-grotesk font-bold text-stroke stroke-hover text-[17vw] leading-[0.8] text-center -mb-[3vw] tracking-tight">
-          OP6893
-        </div>
+      <div className="overflow-hidden select-none aspect-[3/1]" aria-hidden>
+        <TextHoverEffect text="OP6893" />
       </div>
     </footer>
   );
