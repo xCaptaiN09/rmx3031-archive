@@ -57,7 +57,7 @@ export function EncryptedText({
 
     const initial = text
       .split("")
-      .map((ch) => (ch === " " ? " " : randomChar(charset)));
+      .map((char) => char === " " ? " " : randomChar(charset));
     setScramble(initial);
     setRevealCount(0);
 
