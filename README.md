@@ -1,6 +1,7 @@
 <div align="center">
 
 # RMX3031 Archive
+### ⚫🟠
 
 **Community archive for Realme X7 Max (RMX3031), GT Neo Flash (RMX3350), and OnePlus Nord 2 5G (Denniz) — ROMs, kernels, firmware, and more.**
 
