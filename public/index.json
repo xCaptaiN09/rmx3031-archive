@@ -191,6 +191,15 @@
       "url": "https://archive.org/download/op6893-infinityx-3.12/Project_Infinity-X-3.12-op6893-02.08.2026-GAPPS-UNOFFICIAL.zip",
       "changelog": "- Initial release\n- Gapps | userbuild\n- SELinux: Enforcing\n- Signed with release keys\n- Sony Dolby Atmos (OnePlus UI)\n- Credits: liwhy1 & ManshuTyagi for trees\n- Build By Rakhshan",
       "android": "16"
+    },
+    {
+      "name": "LineageOS 23.2 Unofficial V (Vanilla)",
+      "version": "v23.2",
+      "date": "2026-08-14",
+      "size": "1.1GB",
+      "url": "https://archive.org/download/lineageos-23.2-20260814-unofficial-op6893/lineage-23.2-20260814-UNOFFICIAL-op6893.zip",
+      "changelog": "August Security Patch . Misc Improvements. Vanilla build . By ManshuTyagi.",
+      "android": "16"
     }
   ],
   "kernels": [
