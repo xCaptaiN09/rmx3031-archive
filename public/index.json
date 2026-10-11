@@ -200,6 +200,15 @@
       "url": "https://archive.org/download/lineageos-23.2-20260814-unofficial-op6893/lineage-23.2-20260814-UNOFFICIAL-op6893.zip",
       "changelog": "August Security Patch . Misc Improvements. Vanilla build . By ManshuTyagi.",
       "android": "16"
+    },
+    {
+      "name": "LineageOS 23.2 Unofficial V (GMS)",
+      "version": "v23.2",
+      "date": "2026-08-14",
+      "size": "1.4GB",
+      "url": "https://archive.org/download/lineageos-23.2-20260814-unofficial-op6893/lineage-23.2-20260814-UNOFFICIAL-gms-op6893.zip",
+      "changelog": "August Security Patch . Misc Improvements . GMS build (includes Google Apps). By ManshuTyagi.",
+      "android": "16"
     }
   ],
   "kernels": [
