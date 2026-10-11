@@ -361,7 +361,7 @@
       "date": "2026-10-05",
       "size": "22MB",
       "url": "https://archive.org/download/rmx3031-kernels-20261011/KSU-NEXT-PERF.zip",
-      "changelog": "Performance Boosted Kernel . KernelSU Next . SUSFS v.2.2.0 . Manual Hook . AOSP kernel . LSPosed working . SELinux: Enforcing . By xCaptaiN09"
+      "changelog": "Performance Boosted Kernel . version:4 . KernelSU Next . SUSFS v.2.2.0 . Manual Hook . AOSP kernel . LSPosed working . SELinux: Enforcing . By xCaptaiN09"
     },
     {
       "name": "KSU Next (RUI)",
