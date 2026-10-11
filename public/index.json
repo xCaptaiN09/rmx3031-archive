@@ -336,6 +336,14 @@
       "size": "20MB",
       "url": "https://archive.org/download/rmx3031-susfs-2.2.0-inline-Hook/ReSukiSU_OP6893.zip",
       "changelog": "ResukiSU . SUSFS v.2.2.0 . Inline Hook . AOSP kernel . LSPosed working . SELinux: Enforcing . By soulspark666"
+    },
+    {
+      "name": "KSU Next Performance (AOSP)",
+      "version": "v3.4.1",
+      "date": "2026-10-05",
+      "size": "22MB",
+      "url": "https://archive.org/download/rmx3031-kernels-20261011/KSU-NEXT-PERF.zip",
+      "changelog": "Performance Boosted Kernel . KernelSU Next . SUSFS v.2.2.0 . Manual Hook . AOSP kernel . LSPosed working . SELinux: Enforcing . By xCaptaiN09"
     }
   ],
   "modules": [
