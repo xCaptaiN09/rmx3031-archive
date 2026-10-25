@@ -236,6 +236,15 @@
       "url": "https://archive.org/download/evolutionx-17.0-20261024-op6893-12.3-unofficial/EvolutionX-17.0-20261024-op6893-12.3-Unofficial.zip",
       "changelog": "Changelog:\n• Updated to latest Evolution X source\n• October 2026 security patches merged\n• Fixed Bluetooth audio routing\n• Signed Oplus camera\n• Author: liwhy1",
       "android": "17"
+    },
+    {
+      "name": "OxygenOS 16 STABLE (RMX3031)",
+      "version": "16",
+      "date": "2026-10-25",
+      "size": "4.6GB",
+      "url": "https://archive.org/download/oos16-rmx3031-stable/OOS_16.7z",
+      "changelog": "Changelog:\n• Initial stable release\n• Extreme system debloating\n• OxygenOS 16 interface\n• Device-specific integration\n• Pre-rooted with KernelSU Next\n• Known bugs: none reported\n• Author: x1_osz\n• Credits: @liwhy1, @Atrick11, @xCaptain_09, @CYBER6756, @ManshuTyagi",
+      "android": "16"
     }
   ],
   "kernels": [
