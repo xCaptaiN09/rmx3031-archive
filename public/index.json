@@ -227,6 +227,15 @@
       "url": "https://archive.org/download/lineage-24.0-20261023-unofficial-op6893/lineage-24.0-20261023-UNOFFICIAL-op6893.zip",
       "changelog": "Changelog:\n• Updated to latest LineageOS source\n• Latest security patches merged\n• Fixed Bluetooth audio routing\n• Author: liwhy1",
       "android": "17"
+    },
+    {
+      "name": "Evolution X 17.0 UNOFFICIAL",
+      "version": "17.0",
+      "date": "2026-10-22",
+      "size": "4.0GB",
+      "url": "https://archive.org/download/evolutionx-17.0-20261024-op6893-12.3-unofficial/EvolutionX-17.0-20261024-op6893-12.3-Unofficial.zip",
+      "changelog": "Changelog:\n• Updated to latest Evolution X source\n• October 2026 security patches merged\n• Fixed Bluetooth audio routing\n• Signed Oplus camera\n• Author: liwhy1",
+      "android": "17"
     }
   ],
   "kernels": [
