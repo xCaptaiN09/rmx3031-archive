@@ -218,6 +218,15 @@
       "url": "https://archive.org/download/coloros-17-beta-rmx3031/Cos_17_RMX3031.zip",
       "changelog": "Fastboot package. Extract, boot to fastboot, run flash.bat (Win) or ./flash.sh (Linux). Phone auto-reboots to TWRP. Sideload COS16/OOS16 kernel via ADB, format data, reboot.",
       "android": "17"
+    },
+    {
+      "name": "LineageOS 24.0 UNOFFICIAL",
+      "version": "24.0",
+      "date": "2026-10-21",
+      "size": "1.2GB",
+      "url": "https://archive.org/download/lineage-24.0-20261023-unofficial-op6893/lineage-24.0-20261023-UNOFFICIAL-op6893.zip",
+      "changelog": "Changelog:\n• Updated to latest LineageOS source\n• Latest security patches merged\n• Fixed Bluetooth audio routing\n• Author: liwhy1",
+      "android": "17"
     }
   ],
   "kernels": [
