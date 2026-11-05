@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MT6893 — Shared silicon</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        background: #0a0a0a;
+        --hairline-plate: #0a0a0a;
+        --hairline-hi: #e8e6e0;
+        --hairline-edge: #8a8880;
+        --hairline-mid: #57554f;
+        --hairline-lo: #302f2b;
+      }
+      html,
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      #stage {
+        width: 100%;
+      }
+      text {
+        fill: #8a8880;
+        font-family: "Courier New", monospace;
+        text-anchor: middle;
+        pointer-events: none;
+      }
+      .chip-maker {
+        font-size: 4.7px;
+        letter-spacing: 1.3px;
+      }
+      .chip-name {
+        fill: #e8e6e0;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.7px;
+      }
+      [data-current] {
+        --hl-hi: #ff4d00;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #stage > svg * {
+          transition: none;
+        }
+      }
+    </style>
+    <script src="./kernel.js" defer></script>
+    <script src="./host.js" defer></script>
+    <script src="./silicon.js" defer></script>
+  </head>
+  <body>
+    <div
+      id="stage"
+      role="img"
+      aria-label="An MT6893 chip with 32 peripheral connectors and circuit traces carrying animated signals near the cursor."
+    ></div>
+  </body>
+</html>
