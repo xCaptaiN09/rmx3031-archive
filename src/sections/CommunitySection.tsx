@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useData } from "../hooks/use-data";
-import DotMatrix from "../components/DotMatrix";
+import ChipIllustration from "../components/ChipIllustration";
 
 function AnimatedCounter({
   target,
@@ -39,7 +39,6 @@ function AnimatedCounter({
 
 export default function AboutSection() {
   const { data } = useData();
-  const [figHover, setFigHover] = useState(false);
 
   if (!data) return null;
 
@@ -47,9 +46,7 @@ export default function AboutSection() {
     .filter(Array.isArray)
     .reduce((acc, curr) => acc + curr.length, 0);
 
-  const categories = Object.keys(data).filter((k) =>
-    Array.isArray((data as any)[k]),
-  ).length;
+  const categories = Object.values(data).filter(Array.isArray).length;
 
   return (
     <section id="about" className="py-24 md:py-32">
@@ -107,33 +104,7 @@ export default function AboutSection() {
             </div>
           </div>
 
-          <div
-            onMouseEnter={() => setFigHover(true)}
-            onMouseLeave={() => setFigHover(false)}
-          >
-            <div className="border border-line p-3 transition-colors duration-700 hover:border-line-accent/30">
-              <div className="relative aspect-[4/3] overflow-hidden bg-coal opacity-80">
-                <DotMatrix text="MT6893" spacing={4} maxDot={1.5} />
-                <div
-                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                    figHover ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  <DotMatrix
-                    text="MT6893"
-                    spacing={4}
-                    maxDot={1.5}
-                    color="255, 77, 0"
-                    className="[filter:drop-shadow(0_0_14px_rgba(255,77,0,0.35))]"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-between mt-2 font-mono text-[9px] uppercase tracking-[0.25em] text-dim">
-              <span>Fig. 01 — MT6893 · Cupida · Denniz</span>
-              <span>Halftone / 1-bit</span>
-            </div>
-          </div>
+          <ChipIllustration />
         </div>
       </div>
     </section>

@@ -1,4 +1,5 @@
-import { useState, useEffect, createContext, useContext } from 'react';
+import { useState, useEffect, createContext, useContext } from "react";
+import type { CategoryKey } from "../lib/archive";
 
 export interface Entry {
   name: string;
@@ -10,12 +11,11 @@ export interface Entry {
   changelog: string;
 }
 
-export interface SiteData {
+export type SiteData = {
   device: string;
   codename: string;
   maintainer: string;
-  [key: string]: any; // For categories like roms, kernels, etc.
-}
+} & Partial<Record<CategoryKey, Entry[]>>;
 
 interface DataContextType {
   data: SiteData | null;
@@ -29,15 +29,17 @@ const DataContext = createContext<DataContextType>({
   error: null,
 });
 
-export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [data, setData] = useState<SiteData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/index.json')
+    fetch("/index.json")
       .then((res) => {
-        if (!res.ok) throw new Error('Failed to load data');
+        if (!res.ok) throw new Error("Failed to load data");
         return res.json();
       })
       .then((json) => {

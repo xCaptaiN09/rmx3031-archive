@@ -1,0 +1,52 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="96"
+  height="96"
+  viewBox="0 0 96 96"
+  role="img"
+  aria-labelledby="title"
+>
+  <title id="title">ColorOS 17</title>
+  <defs>
+    <linearGradient id="surface" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#292232" />
+      <stop offset="1" stop-color="#0e0b12" />
+    </linearGradient>
+    <linearGradient id="flow" x1="0" y1="1" x2="1" y2="0">
+      <stop stop-color="#ff756c" />
+      <stop offset=".5" stop-color="#f3bded" />
+      <stop offset="1" stop-color="#b2c4ff" />
+    </linearGradient>
+  </defs>
+  <rect width="96" height="96" rx="18" fill="url(#surface)" />
+  <path
+    d="M-12 38C8-5 61 1 109 20M-10 47C10 4 62 10 110 29"
+    fill="none"
+    stroke="url(#flow)"
+    stroke-width="6"
+    opacity=".28"
+  />
+  <text
+    x="48"
+    y="66"
+    text-anchor="middle"
+    fill="url(#flow)"
+    font-family="Arial, sans-serif"
+    font-size="57"
+    font-weight="600"
+    letter-spacing="-5"
+  >
+    17
+  </text>
+  <text
+    x="48"
+    y="84"
+    text-anchor="middle"
+    fill="#eee8f3"
+    font-family="Arial, sans-serif"
+    font-size="11"
+    letter-spacing=".3"
+  >
+    ColorOS
+  </text>
+</svg>

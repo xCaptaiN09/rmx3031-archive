@@ -1,5 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useData } from "../hooks/use-data";
+import type { Entry } from "../hooks/use-data";
+import {
+  formatArchiveDate,
+  formatVersion,
+  normalizeSearch,
+} from "../lib/archive";
 
 const LOGO_MAP: Record<string, string> = {
   axion: "/images/axion.png",
@@ -13,33 +19,44 @@ const LOGO_MAP: Record<string, string> = {
   infinityx: "/images/InfinityX.png",
 };
 
-const normalize = (s: string) => s.toLowerCase().replace(/[\s._-]/g, "");
-
-const getLogoPath = (romName: string) => {
-  const lower = normalize(romName);
+const getLogoPath = (rom: Entry) => {
+  const lower = normalizeSearch(rom.name);
+  if (
+    lower.includes("coloros17") ||
+    (lower.includes("coloros") && /^v?17$/i.test(rom.version?.trim() || ""))
+  ) {
+    return "/images/coloros17.svg";
+  }
   for (const [key, path] of Object.entries(LOGO_MAP)) {
     if (lower.includes(key)) return path;
   }
   return null;
 };
 
-function RomCell({ rom }: { rom: any }) {
+function RomCell({ rom }: { rom: Entry }) {
   const [copied, setCopied] = useState(false);
-  const logoPath = getLogoPath(rom.name);
+  const [copyError, setCopyError] = useState(false);
+  const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const logoPath = getLogoPath(rom);
+
+  useEffect(
+    () => () => {
+      if (copyTimer.current !== null) clearTimeout(copyTimer.current);
+    },
+    [],
+  );
 
   const handleCopy = async () => {
+    setCopyError(false);
     try {
       await navigator.clipboard.writeText(rom.url);
+      setCopied(true);
+      if (copyTimer.current !== null) clearTimeout(copyTimer.current);
+      copyTimer.current = setTimeout(() => setCopied(false), 2000);
     } catch {
-      const input = document.createElement("input");
-      input.value = rom.url;
-      document.body.appendChild(input);
-      input.select();
-      document.execCommand("copy");
-      document.body.removeChild(input);
+      setCopied(false);
+      setCopyError(true);
     }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -49,6 +66,9 @@ function RomCell({ rom }: { rom: any }) {
           <img
             src={logoPath}
             alt={rom.name}
+            width={40}
+            height={40}
+            loading="lazy"
             className="w-10 h-10 object-cover grayscale group-hover:grayscale-0 transition-all duration-500 border border-line bg-soot"
           />
         ) : (
@@ -58,7 +78,7 @@ function RomCell({ rom }: { rom: any }) {
         )}
         {rom.version && (
           <span className="font-mono text-[10px] text-flame">
-            v{rom.version}
+            {formatVersion(rom.version)}
           </span>
         )}
       </div>
@@ -67,9 +87,9 @@ function RomCell({ rom }: { rom: any }) {
         {rom.name}
       </h3>
 
-      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[10px] uppercase tracking-[0.15em] text-dim">
+      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[10px] uppercase tracking-[0.15em] text-mute">
         {rom.android && <span>A{rom.android}</span>}
-        <span>{rom.date}</span>
+        <time dateTime={rom.date}>{formatArchiveDate(rom.date)}</time>
         {rom.size && <span>{rom.size}</span>}
       </div>
 
@@ -83,12 +103,18 @@ function RomCell({ rom }: { rom: any }) {
           Download ↗
         </a>
         <button
+          type="button"
           onClick={handleCopy}
-          className="font-mono text-[10px] uppercase tracking-[0.25em] text-dim hover:text-ink transition-colors"
+          className="font-mono text-[10px] uppercase tracking-[0.25em] text-mute hover:text-ink transition-colors"
         >
           {copied ? "Copied ✓" : "Copy link"}
         </button>
       </div>
+      {copyError && (
+        <p role="status" className="mt-3 font-mono text-[11px] text-flame">
+          Could not copy. Use the download link to copy its address.
+        </p>
+      )}
     </div>
   );
 }
@@ -98,7 +124,7 @@ export default function LatestSection() {
   if (!data || !data.roms) return null;
 
   const latestROMs = [...data.roms]
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .sort((a, b) => b.date.localeCompare(a.date))
     .slice(0, 8);
 
   return (
@@ -113,7 +139,7 @@ export default function LatestSection() {
 
         <div className="grid md:grid-cols-2 gap-px bg-line border border-line">
           {latestROMs.map((rom, idx) => (
-            <RomCell key={idx} rom={rom} />
+            <RomCell key={`${rom.url}:${idx}`} rom={rom} />
           ))}
         </div>
       </div>

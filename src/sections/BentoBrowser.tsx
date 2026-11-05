@@ -19,7 +19,7 @@ const CATEGORIES = [
     label: "Recoveries",
     desc: "TWRP & custom recovery images",
   },
-];
+] as const;
 
 export default function IndexSection() {
   const { data } = useData();
