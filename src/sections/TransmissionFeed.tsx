@@ -69,7 +69,7 @@ function RomCell({ rom }: { rom: Entry }) {
             width={40}
             height={40}
             loading="lazy"
-            className="w-10 h-10 object-cover grayscale group-hover:grayscale-0 transition-all duration-500 border border-line bg-soot"
+            className="w-10 h-10 object-cover transition-all duration-500 border border-line bg-soot"
           />
         ) : (
           <span className="font-mono text-[10px] text-dim border border-line px-2 py-1">
