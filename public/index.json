@@ -439,6 +439,14 @@
       "size": "20MB",
       "url": "https://archive.org/download/rmx3031-kernels-20261011/BakaSU-MGLRU-OP6893.zip",
       "changelog": "ResukiSU . MGLRU Memory management . SUSFS v.2.2.0 . Inline Hook . AOSP kernel . LSPosed working . SELinux: Enforcing . By soulspark666"
+    },
+    {
+      "name": "KernelSU Next RUI",
+      "version": "3.4.2",
+      "date": "2026-11-17",
+      "size": "22MB",
+      "url": "https://archive.org/download/rmx3031-kernel-ksun-rui-v6/KSU-Next-RUI.zip",
+      "changelog": "KernelSU Next . SUSFS v.2.4.0 . Manual Hook . COS/OOS/RUI kernel . SELinux: Enforcing . KPM Disabled. \nBy xCaptaiN09"
     }
   ],
   "modules": [
