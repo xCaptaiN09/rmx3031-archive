@@ -447,6 +447,14 @@
       "size": "22MB",
       "url": "https://archive.org/download/rmx3031-kernel-ksun-rui-v6/KSU-Next-RUI.zip",
       "changelog": "KernelSU Next . SUSFS v.2.4.0 . Manual Hook . COS/OOS/RUI kernel . SELinux: Enforcing . KPM Disabled. \nBy xCaptaiN09"
+    },
+    {
+      "name": "KernelSU Next AOSP",
+      "version": "3.4.2",
+      "date": "2026-11-18",
+      "size": "22MB",
+      "url": "https://archive.org/download/rmx3031-kernel-ksun-aosp-v6/KSU-Next-AOSP.zip",
+      "changelog": "KernelSU Next . SUSFS v.2.4.0 . Manual Hook . AOSP kernel . SELinux: Enforcing . KPM Disabled.\nBy xCaptaiN09"
     }
   ],
   "modules": [
